@@ -1,15 +1,11 @@
-import 'package:epsilon_app/features/pre_launch/landing_screen.dart';
+//
+import 'package:epsilon_app/features/pre_launch/epsilon_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:epsilon_app/core/styling/colors/app_theme.dart';
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    // statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    systemStatusBarContrastEnforced: false,
-    systemNavigationBarColor: Color(0xFFF1F1F1),
-    systemNavigationBarIconBrightness: Brightness.dark,
-  ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setStatusBarAndNavigationBarColor(ThemeMode.light);
   runApp(const MyApp());
 }
 
@@ -18,24 +14,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        // appBarTheme: const AppBarTheme(
-        //   systemOverlayStyle: SystemUiOverlayStyle(
-        //     // Status bar color
-        //     statusBarColor: Colors.transparent,
-
-        //     // Status bar brightness (optional)
-        //     statusBarIconBrightness:
-        //         Brightness.dark, // For Android (dark icons)
-        //     statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        //   ),
-        // ),
-      ),
-      home: const LandingScreen(),
-    );
+    return const EpsilonApp();
   }
 }
