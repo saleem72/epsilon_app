@@ -15,55 +15,51 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.navbar,
       // appBar: AppBar(),
       body: Container(
         color: AppColors.neutral95,
         child: Column(
           children: [
             AppNavBar(title: Translator.translation(context).login),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppTextField(
-                label: Translator.translation(context).user_name,
-                hint: Translator.translation(context).user_name_hint,
-                icon: AppIcons.user,
-                onChange: (value) {},
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: LabledValidateTextFIeld(
+                        label: Translator.translation(context).user_name,
+                        hint: Translator.translation(context).user_name_hint,
+                        errorMessage: Translator.translation(context)
+                            .user_name_validation,
+                        icon: AppIcons.user,
+                        onChange: (value) {},
+                        onHasFocus: () {
+                          print('user name has focus');
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: LabledValidateTextFIeld(
+                        label: Translator.translation(context).password,
+                        hint: Translator.translation(context).password_hint,
+                        icon: AppIcons.lock,
+                        isSecure: true,
+                        onChange: (value) {},
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    GradientButton(
+                      onPressed: () {},
+                      label: Translator.translation(context).ok_button,
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppTextField(
-                label: Translator.translation(context).password,
-                hint: Translator.translation(context).password_hint,
-                icon: AppIcons.lock,
-                isSecure: true,
-                onChange: (value) {},
-              ),
-            ),
-            const SizedBox(height: 30),
-            GradientButton(
-              onPressed: () {},
-              label: Translator.translation(context).ok_button,
-            )
-
-            // Container(
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(80.0),
-            //     gradient: AppColors.gradient,
-            //   ),
-            //   alignment: Alignment.center,
-            //   // constraints: const BoxConstraints(
-            //   //   minWidth: 88.0,
-            //   //   minHeight: 36.0,
-            //   // ),
-            //   child: const Text(
-            //     'OK',
-            //     textAlign: TextAlign.center,
-            //   ),
-            // )
           ],
         ),
       ),

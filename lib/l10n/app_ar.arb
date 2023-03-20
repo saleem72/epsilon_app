@@ -5,5 +5,6 @@
     "user_name_hint": "أدخل اسم المستخدم",
     "password": "كلمة المرور",
     "password_hint": "أدخل كلمة المرور",
-    "ok_button": "ادخال"
+    "ok_button": "ادخال",
+    "user_name_validation": "اسم المستخدم يجب أن يحوي قيمة"
 }
