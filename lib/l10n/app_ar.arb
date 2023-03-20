@@ -1,3 +1,9 @@
 {
-    "app_name": "ابسيلون"
+    "app_name": "ابسيلون",
+    "login": "تسجيل الدخول",
+    "user_name": "اسم المستخدم",
+    "user_name_hint": "أدخل اسم المستخدم",
+    "password": "كلمة المرور",
+    "password_hint": "أدخل كلمة المرور",
+    "ok_button": "ادخال"
 }

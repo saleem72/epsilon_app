@@ -1,6 +1,7 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../core/styling/assets/assets.dart';
 import '../../core/styling/colors/app_colors.dart';
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
   _initAnimation() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 3000),
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           widget.onFinish();
@@ -48,8 +49,8 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(
         parent: _animationController,
         curve: const Interval(
-          0.0,
-          0.4,
+          0.3,
+          0.5,
           curve: Curves.easeIn,
         ),
       ),
@@ -59,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(
         parent: _animationController,
         curve: const Interval(
-          0.2,
+          0.4,
           0.6,
           curve: Curves.easeIn,
         ),
@@ -70,13 +71,23 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(
         parent: _animationController,
         curve: const Interval(
-          0.4,
-          0.8,
+          0.5,
+          0.7,
           curve: Curves.easeIn,
         ),
       ),
     );
-    _animationController.forward();
+
+    // if (SchedulerBinding.instance.schedulerPhase ==
+    //     SchedulerPhase.persistentCallbacks) {
+
+    // }
+
+    // SchedulerBinding.instance
+    //     .addPostFrameCallback((_) => _animationController.forward());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _animationController.forward();
+    });
   }
 
   @override

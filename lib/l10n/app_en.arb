@@ -1,3 +1,9 @@
 {
-    "app_name": "Epsilon"
+    "app_name": "Epsilon",
+    "login": "Login",
+    "user_name": "User name",
+    "user_name_hint": "enter user name",
+    "password": "Password",
+    "password_hint": "enter password",
+    "ok_button": "Ok"
 }

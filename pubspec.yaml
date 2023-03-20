@@ -66,6 +66,9 @@ dependencies:
   connectivity_plus: ^3.0.3
   internet_connection_checker: ^1.0.0+1
 
+  # Validation
+  formz: ^0.5.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

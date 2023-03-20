@@ -26,12 +26,10 @@ final ColorScheme appLightColorScheme = ColorScheme(
   primaryContainer: AppColors.primaryDark.toMaterialColor().shade900,
   onPrimaryContainer: AppColors.primaryDark.toMaterialColor().shade100,
   inversePrimary: AppColors.primaryDark.toMaterialColor().shade800,
-
   secondary: AppColors.primaryLight.toMaterialColor().shade400,
   onSecondary: Colors.white,
   secondaryContainer: AppColors.primaryLight.toMaterialColor().shade900,
   onSecondaryContainer: AppColors.primaryLight.toMaterialColor().shade100,
-
   tertiary: AppColors.tertiary.toMaterialColor().shade400,
   onTertiary: Colors.white,
   tertiaryContainer: AppColors.tertiary.toMaterialColor().shade900,
@@ -45,18 +43,19 @@ final ColorScheme appLightColorScheme = ColorScheme(
   onBackground: AppColors.neutral10,
   inverseSurface: AppColors.neutral20,
   onInverseSurface: AppColors.neutral95,
-
   surfaceVariant: AppColors.neutralVarient.toMaterialColor().shade900,
   onSurfaceVariant: AppColors.neutralVarient.toMaterialColor().shade300,
   surface: AppColors.neutralVarient.toMaterialColor().shade900,
   onSurface: AppColors.neutralVarient.toMaterialColor().shade300,
   outline: AppColors.neutralVarient.toMaterialColor().shade500,
   surfaceTint: AppColors.primaryDark.toMaterialColor().shade400,
+  shadow: Colors.black,
 );
 
 ThemeData appLightTheme = ThemeData(
   colorScheme: appLightColorScheme,
   scaffoldBackgroundColor: AppColors.neutral90,
+  fontFamily: 'Tajawal',
 );
 
 

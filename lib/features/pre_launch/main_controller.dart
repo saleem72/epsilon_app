@@ -1,6 +1,7 @@
 //
 
 import 'package:epsilon_app/core/localization/language_constants.dart';
+import 'package:epsilon_app/features/auth/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainController extends StatelessWidget {
@@ -8,11 +9,6 @@ class MainController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Translator.translation(context).app_name),
-      ),
-      body: Column(),
-    );
+    return const LoginScreen();
   }
 }

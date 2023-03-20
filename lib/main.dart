@@ -5,7 +5,7 @@ import 'package:epsilon_app/core/styling/colors/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setStatusBarAndNavigationBarColor(ThemeMode.light);
+  setStatusBarAndNavigationBarColor(ThemeMode.dark);
   runApp(const MyApp());
 }
 

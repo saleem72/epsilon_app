@@ -10,11 +10,13 @@ class AppColors {
   static const Color textLight = Colors.white;
   static const Color textDark = Colors.black;
   static const Color secondary = Color(0xFFAEAAAE);
+  static const Color gradientStart = Color(0xFF0083AB);
+  static const Color gradientEnd = Color(0xFF27587E);
+  static const Color navbar = Color(0xFF4F7694);
+
   static const Color tertiary = Color(0xFF575095);
   static const Color error = Color(0xFFBA1B1B);
   static const Color neutralVarient = Color(0xFFBECFDC);
-  static const Color gradientStart = Color(0xFF0083AB);
-  static const Color gradientEnd = Color(0xFF27587E);
   static const Color neutral10 = Color(0XFF1a1a1a);
   static const Color neutral20 = Color(0XFF333333); // 333333
   static const Color neutral95 = Color(0XFFF1F1F1);
