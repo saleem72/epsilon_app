@@ -6,7 +6,13 @@ class Topology {
   Topology._();
   static const _fontFamily = 'Tajawal';
 
-  static const TextStyle title = TextStyle(
+  static const TextStyle largeTitle = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle smallTitle = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.bold,

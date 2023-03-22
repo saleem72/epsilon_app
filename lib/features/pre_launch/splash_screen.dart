@@ -136,7 +136,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Transform.translate(
       offset: Offset(0, _bussinessAnimation.value),
       child: Text('Business Solutious',
-          style: Topology.title.copyWith(
+          style: Topology.smallTitle.copyWith(
             color: AppColors.primaryDark,
           )),
     );
@@ -146,7 +146,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Transform.translate(
       offset: Offset(0, _forAnimation.value),
       child: Text('for',
-          style: Topology.title.copyWith(
+          style: Topology.smallTitle.copyWith(
             fontWeight: FontWeight.normal,
             color: AppColors.primaryDark,
           )),
@@ -158,7 +158,7 @@ class _SplashScreenState extends State<SplashScreen>
       offset: Offset(0, _titleAnimation.value),
       child: Text(
         'Epsilon soft',
-        style: Topology.title.copyWith(
+        style: Topology.smallTitle.copyWith(
           color: AppColors.primaryDark,
         ),
       ),

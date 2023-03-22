@@ -6,5 +6,12 @@
     "password": "Password",
     "password_hint": "enter password",
     "ok_button": "Ok",
-    "user_name_validation": "user name should has value"
+     "empty_username": "user name is mandatory field",
+     "short_username": "user name should be atleaste 4 char",
+     "empty_password": "user name is mandatory field",
+     "short_password": "user name should be atleaste 4 char",
+     "invalid_username_or_password": "Invalid username or password",
+     "try_again": "Try agian",
+     "no_internet_connection": "No Internet Connection",
+     "general_failure": "Some thing bad happend/nplease try again later"
 }

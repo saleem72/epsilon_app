@@ -1,5 +1,5 @@
 //
 
 abstract class LoginService {
-  Future<String> login({required String email, required String password});
+  Future<String> login({required String username, required String password});
 }

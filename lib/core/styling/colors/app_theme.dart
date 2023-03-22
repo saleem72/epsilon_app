@@ -12,9 +12,9 @@ void setStatusBarAndNavigationBarColor(ThemeMode themeMode) {
     statusBarIconBrightness:
         themeMode == ThemeMode.light ? Brightness.dark : Brightness.light,
     systemNavigationBarIconBrightness:
-        themeMode == ThemeMode.light ? Brightness.dark : Brightness.light,
+        themeMode == ThemeMode.light ? Brightness.light : Brightness.dark,
     systemNavigationBarColor:
-        AppColors.neutralVarient.toMaterialColor().shade300,
+        AppColors.neutralVarient.toMaterialColor().shade600,
     systemNavigationBarDividerColor: Colors.transparent,
   ));
 }

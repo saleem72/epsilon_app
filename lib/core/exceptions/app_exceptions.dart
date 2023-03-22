@@ -1,0 +1,1 @@
+class InvalidUsernameOrPasswordException implements Exception {}

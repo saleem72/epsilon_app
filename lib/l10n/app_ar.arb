@@ -6,5 +6,12 @@
     "password": "كلمة المرور",
     "password_hint": "أدخل كلمة المرور",
     "ok_button": "ادخال",
-    "user_name_validation": "اسم المستخدم يجب أن يحوي قيمة"
+     "empty_username": "اسم المستخدم حقل اجباري",
+     "short_username": "اسم المستخدم يجب ان يكون ٤ محارف على الأقل",
+     "empty_password": "كلمة المرور حقل اجباري",
+     "short_password": "كلمة المرور يجب ان يكون ٤ محارف على الأقل",
+     "invalid_username_or_password": "تحقق من البيانات",
+     "try_again": "حاول مجددا",
+     "no_internet_connection": "تحقق من اتصالك بالانترنت",
+     "general_failure": "حدث خطأ ما\nالرجاء المحاولة لاحقاً"
 }

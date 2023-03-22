@@ -193,7 +193,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   Text(
                     widget.errorMessage!,
                     style: Topology.subTitle.copyWith(
-                      color: Theme.of(context).colorScheme.error,
+                      color: Colors.red,
                     ),
                   ),
                 ],

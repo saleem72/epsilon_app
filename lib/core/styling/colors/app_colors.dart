@@ -30,4 +30,12 @@ class AppColors {
       gradientEnd,
     ],
   );
+
+  static const buttonGradient = LinearGradient(
+      begin: Alignment(-1.4534885883331299, -8.366897485260393e-17),
+      end: Alignment(1.006429672241211, -0.37631702423095703),
+      colors: [
+        Color(0xFF1091DA),
+        Color(0xFF3B464D),
+      ]);
 }
