@@ -1,11 +1,11 @@
 //\\
 
-import 'package:epsilon_app/core/routing/app_screens.dart';
-import 'package:epsilon_app/core/routing/route_generator.dart';
+import 'package:epsilon_app/core/utils/routing/app_screens.dart';
+import 'package:epsilon_app/core/utils/routing/route_generator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/styling/colors/app_theme.dart';
+import '../../core/utils/styling/colors/app_theme.dart';
 
 class EpsilonApp extends StatelessWidget {
   const EpsilonApp({super.key});

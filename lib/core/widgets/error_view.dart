@@ -1,9 +1,9 @@
 //
 
-import 'package:epsilon_app/core/failure/failure.dart';
-import 'package:epsilon_app/core/localization/language_constants.dart';
-import 'package:epsilon_app/core/styling/colors/app_colors.dart';
-import 'package:epsilon_app/core/styling/topology/topology.dart';
+import 'package:epsilon_app/core/errors/failure/failure.dart';
+import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
+import 'package:epsilon_app/core/utils/styling/topology/topology.dart';
 import 'package:epsilon_app/core/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 

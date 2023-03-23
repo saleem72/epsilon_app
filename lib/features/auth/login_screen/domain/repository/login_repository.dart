@@ -2,7 +2,7 @@
 
 import 'package:dartz/dartz.dart';
 
-import '../../../../../core/failure/failure.dart';
+import '../../../../../core/errors/failure/failure.dart';
 
 abstract class LoginRepository {
   Future<Either<Failure, String>> login(

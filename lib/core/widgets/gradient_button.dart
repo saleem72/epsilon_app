@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../styling/colors/app_colors.dart';
-import '../styling/topology/topology.dart';
+import '../utils/styling/colors/app_colors.dart';
+import '../utils/styling/topology/topology.dart';
 
 class GradientButton extends StatelessWidget {
   const GradientButton({

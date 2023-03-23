@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/localization/language_constants.dart';
+import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:flutter/material.dart';
 
 enum ValidationStatus {

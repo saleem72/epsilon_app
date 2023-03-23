@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:epsilon_app/core/failure/failure.dart';
+import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/core/usecases/validate_password.dart';
 import 'package:epsilon_app/core/usecases/validate_username.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';

@@ -1,7 +1,7 @@
 //
 
-import 'package:epsilon_app/core/routing/app_screens.dart';
-import 'package:epsilon_app/core/routing/routing_error.dart';
+import 'package:epsilon_app/core/utils/routing/app_screens.dart';
+import 'package:epsilon_app/core/utils/routing/routing_error.dart';
 import 'package:epsilon_app/features/pre_launch/landing_screen.dart';
 import 'package:flutter/material.dart';
 

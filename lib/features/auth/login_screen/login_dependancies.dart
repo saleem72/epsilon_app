@@ -24,5 +24,5 @@ initLoginDependancies(GetIt locator) {
 
   // Service
   locator.registerLazySingleton<LoginService>(
-      () => LoginServiceImpl(client: locator()));
+      () => LoginServiceImpl(apiHelper: locator()));
 }

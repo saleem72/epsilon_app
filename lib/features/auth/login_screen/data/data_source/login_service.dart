@@ -1,5 +1,7 @@
 //
 
+import 'dtos/login_data.dart';
+
 abstract class LoginService {
-  Future<String> login({required String username, required String password});
+  Future<LoginData> login({required String username, required String password});
 }

@@ -6,12 +6,15 @@
     "password": "كلمة المرور",
     "password_hint": "أدخل كلمة المرور",
     "ok_button": "ادخال",
-     "empty_username": "اسم المستخدم حقل اجباري",
-     "short_username": "اسم المستخدم يجب ان يكون ٤ محارف على الأقل",
-     "empty_password": "كلمة المرور حقل اجباري",
-     "short_password": "كلمة المرور يجب ان يكون ٤ محارف على الأقل",
-     "invalid_username_or_password": "تحقق من البيانات",
-     "try_again": "حاول مجددا",
-     "no_internet_connection": "تحقق من اتصالك بالانترنت",
-     "general_failure": "حدث خطأ ما\nالرجاء المحاولة لاحقاً"
+    "try_again": "حاول مجددا",
+
+    "empty_username": "اسم المستخدم حقل اجباري",
+    "short_username": "اسم المستخدم يجب ان يكون ٤ محارف على الأقل",
+    "empty_password": "كلمة المرور حقل اجباري",
+    "short_password": "كلمة المرور يجب ان يكون ٤ محارف على الأقل",
+    
+    "invalid_username_or_password": "تحقق من البيانات",
+    "no_internet_connection": "تحقق من اتصالك بالانترنت",
+    "connection_failure": "تحقق من اتصالك بالانترنت واعد الحاولة لاحقاً",
+    "unexpected_failure": "حدث خطأ ما\nالرجاء المحاولة لاحقاً"
 }

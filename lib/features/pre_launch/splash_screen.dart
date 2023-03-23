@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../../core/styling/assets/assets.dart';
-import '../../core/styling/colors/app_colors.dart';
-import '../../core/styling/topology/topology.dart';
+import '../../core/utils/styling/assets/assets.dart';
+import '../../core/utils/styling/colors/app_colors.dart';
+import '../../core/utils/styling/topology/topology.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, required this.onFinish});

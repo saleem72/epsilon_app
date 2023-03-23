@@ -1,14 +1,14 @@
 //
 
-import 'package:epsilon_app/core/styling/assets/assets.dart';
+import 'package:epsilon_app/core/utils/styling/assets/assets.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';
 import 'package:epsilon_app/core/widgets/error_view.dart';
 import 'package:epsilon_app/core/widgets/loading_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:epsilon_app/core/localization/language_constants.dart';
-import 'package:epsilon_app/core/styling/assets/app_icons.dart';
-import 'package:epsilon_app/core/styling/colors/app_colors.dart';
-import 'package:epsilon_app/core/styling/topology/topology.dart';
+import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
+import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
+import 'package:epsilon_app/core/utils/styling/topology/topology.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/widgets/app_text_field.dart';

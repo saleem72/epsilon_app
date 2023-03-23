@@ -1,6 +1,8 @@
 //
 
-import 'package:epsilon_app/core/network_info/network_info.dart';
+import 'package:epsilon_app/core/helpers/api_helper/data/http_api_helper.dart';
+import 'package:epsilon_app/core/helpers/api_helper/domain/api_helper.dart';
+import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
 import 'package:epsilon_app/core/usecases/validate_password.dart';
 import 'package:epsilon_app/core/usecases/validate_username.dart';
 import 'package:epsilon_app/features/auth/login_screen/login_dependancies.dart';
@@ -20,6 +22,8 @@ Future<void> initDependancies() async {
       () => NetworkInfoImpl(checker: locator()));
   locator.registerLazySingleton(() => ValidateUsername());
   locator.registerLazySingleton(() => ValidatePassword());
+  locator
+      .registerLazySingleton<ApiHelper>(() => HttpApiHelper(client: locator()));
 
   // External
   final SharedPreferences sharedPreferences =

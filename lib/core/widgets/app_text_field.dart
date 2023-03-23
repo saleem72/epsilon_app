@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../styling/assets/app_icons.dart';
-import '../styling/colors/app_colors.dart';
-import '../styling/topology/topology.dart';
+import '../utils/styling/assets/app_icons.dart';
+import '../utils/styling/colors/app_colors.dart';
+import '../utils/styling/topology/topology.dart';
 
 class LabledValidateTextFIeld extends StatelessWidget {
   const LabledValidateTextFIeld({
