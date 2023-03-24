@@ -55,9 +55,9 @@ class HttpApiHelper implements ApiHelper {
       final uri = Uri.parse(url + endPoint).replace(queryParameters: params);
 
       if (headers != null) {
-        request = client.post(uri, headers: headers);
+        request = client.post(uri, headers: headers, body: body);
       } else {
-        request = client.get(uri);
+        request = client.post(uri, body: body);
       }
 
       final response = await request;
@@ -80,6 +80,9 @@ class HttpApiHelper implements ApiHelper {
     if (error is FormatException) {
       throw const BadResponseException('Fail to decode data');
     }
+    if (error is TypeError) {
+      throw const DecodingException();
+    }
     if (error is BadRequestException) {
       throw error;
     }
@@ -100,24 +103,14 @@ class HttpApiHelper implements ApiHelper {
 
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
-      case 200:
-      case 201:
-        var responseJson = json.decode(response.body);
-        return responseJson;
-      case 400:
-        var responseJson = json.decode(response.body);
-        return responseJson;
-      // throw BadRequestException(response.body.toString());
       case 401:
       case 403:
         throw UnauthorisedException(response.body.toString());
-      case 404:
-        throw NotExsitsRouteException(response.body.toString());
       case 500:
         throw const ServerException('');
       default:
-        throw UnExpectedException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+        var responseJson = json.decode(response.body);
+        return responseJson;
     }
   }
 
@@ -126,3 +119,24 @@ class HttpApiHelper implements ApiHelper {
     debugPrint(temp.toString());
   }
 }
+
+/*
+
+      case 200:
+      case 201:
+        var responseJson = json.decode(response.body);
+        return responseJson;
+
+      case 400:
+        var responseJson = json.decode(response.body);
+        return responseJson;
+      // throw BadRequestException(response.body.toString());
+
+      case 404:
+        var responseJson = json.decode(response.body);
+        return responseJson;
+      // throw NotExsitsRouteException(response.body.toString());
+      default:
+        throw UnExpectedException(
+            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+*/

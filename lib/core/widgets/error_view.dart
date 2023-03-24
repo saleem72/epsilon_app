@@ -34,12 +34,14 @@ class ErrorView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          failure!.message(context),
-                          style: Topology.largeTitle.copyWith(
-                            color: AppColors.primaryDark,
+                        Expanded(
+                          child: Text(
+                            failure!.message(context),
+                            style: Topology.largeTitle.copyWith(
+                              color: AppColors.primaryDark,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),

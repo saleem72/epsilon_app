@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class AppUser extends Equatable {
-  const AppUser({
+class AppUserDTO extends Equatable {
+  const AppUserDTO({
     required this.id,
     required this.fullName,
     required this.email,
@@ -36,7 +36,7 @@ class AppUser extends Equatable {
   @override
   List<Object?> get props => [id];
 
-  factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
+  factory AppUserDTO.fromJson(Map<String, dynamic> json) => AppUserDTO(
         id: json["id"],
         fullName: json["full_name"],
         email: json["email"],

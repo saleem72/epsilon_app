@@ -5,8 +5,8 @@ import 'package:epsilon_app/core/utils/app_constants.dart';
 
 class ValidateUsername {
   ValidationStatus call(String username) {
-    if (username.isEmpty) {
-      return ValidationStatus.emptyPassword;
+    if (username.trim().isEmpty) {
+      return ValidationStatus.emptyUsername;
     }
     if (username.length < AppConstants.usernameMinLength) {
       return ValidationStatus.shortUsername;

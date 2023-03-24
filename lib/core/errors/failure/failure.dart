@@ -44,3 +44,9 @@ class UnExpectedFailure extends Failure {
     return '${Translator.translation(context).unexpected_failure}\n$error';
   }
 }
+
+class DecodingFailure extends Failure {
+  @override
+  String message(BuildContext context) =>
+      Translator.translation(context).decoding_failure;
+}

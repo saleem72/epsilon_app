@@ -24,6 +24,10 @@ class ExceptionToFailure {
       return ConnectionFailure();
     }
 
+    if (error is TypeError) {
+      return DecodingFailure();
+    }
+
     if (error is BadResponseException) {}
 
     // bad response status code 400

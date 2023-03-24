@@ -7,6 +7,17 @@
     "password_hint": "enter password",
     "ok_button": "Ok",
     "try_again": "Try agian",
+
+    "pick_company": "Pick company",
+    "database_url": "Database URL",
+    "database_url_hint": "enter Database URL",
+    "database_port": "Port",
+    "database_port_hint": "enter port",
+    "company": "Company",
+    "company_hint": "choose company",
+    "epsilon": "Epsilon",
+    "alameen": "Alameen",
+    "almanarah": "Almanarah",
      
     "empty_username": "user name is mandatory field",
     "short_username": "user name should be atleaste 4 char",
@@ -16,5 +27,6 @@
     "no_internet_connection": "No Internet Connection",
     "unexpected_failure": "Some thing bad happend/nplease try again later",
     "connection_failure": "Check your connection then try again later",
+    "decoding_failure": "Decoding Failure",
     "invalid_username_or_password": "Invalid username or password"
 }

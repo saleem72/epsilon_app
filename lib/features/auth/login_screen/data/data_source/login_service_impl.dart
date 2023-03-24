@@ -7,7 +7,7 @@ import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_app/core/helpers/api_helper/domain/api_helper.dart';
 import 'package:epsilon_app/core/helpers/api_helper/domain/models/coders_response.dart';
 import 'package:epsilon_app/core/utils/api_end_points.dart';
-import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data.dart';
+import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data_dto.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/login_service.dart';
 
 class LoginServiceImpl implements LoginService {
@@ -15,9 +15,18 @@ class LoginServiceImpl implements LoginService {
 
   const LoginServiceImpl({required this.apiHelper});
   @override
-  Future<LoginData> login(
+  Future<String> login(
       {required String username, required String password}) async {
-    const String baseURL = ApiEndPoints.baseURL;
+    await Future.delayed(const Duration(seconds: 1));
+    if (username == 'aaaa' && password == 'aaaa') {
+      return 'It is ok';
+    }
+    throw InvalidUsernameOrPasswordException();
+  }
+}
+
+/*
+const String baseURL = ApiEndPoints.baseURL;
     const String endPoint = ApiEndPoints.login;
     final params = LoginParams(email: username, password: password);
 
@@ -25,18 +34,15 @@ class LoginServiceImpl implements LoginService {
       url: baseURL,
       endPoint: endPoint,
       body: params.toMap(),
-      printResult: false,
+      printResult: true,
     );
     final loginDataResponse =
-        CodersResponse<LoginData>.fromMap(response, (map) {
-      return LoginData.fromMap(map);
+        CodersResponse<LoginDataDTO>.fromMap(response, (map) {
+      return LoginDataDTO.fromMap(map);
     });
 
     final loginData = loginDataResponse.getData();
-
-    return loginData;
-  }
-}
+*/
 
 class LoginParams {
   final String email;

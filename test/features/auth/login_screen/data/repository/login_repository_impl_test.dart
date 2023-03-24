@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_app/core/errors/failure/failure.dart';
-import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data.dart';
+import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data_dto.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/repository/login_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -29,7 +29,7 @@ void main() {
   group('LoginRepository Behaviour', () {
     final tSuccessFixture = fixture('login_data.json');
     final tSuccessResponse = json.decode(tSuccessFixture);
-    final tLoginData = LoginData.fromMap(tSuccessResponse);
+    final tLoginData = LoginDataDTO.fromMap(tSuccessResponse);
 
     const tUsername = 'user';
     const tPassword = 'password';
@@ -39,12 +39,12 @@ void main() {
       when(networkInfo.isConnected).thenAnswer((_) async => true);
       when(loginService.login(
               username: anyNamed('username'), password: anyNamed('password')))
-          .thenAnswer((_) async => tLoginData);
+          .thenAnswer((_) async => 'it is ok');
       // act
       final response =
           await repository.login(username: tUsername, password: tPassword);
       // assert
-      expect(response, equals(const Right('it is ok')));
+      expect(response, equals(const Right('it is ok'))); // tLoginData
     });
 
     test('Should return [Either<Failure>] when login credentials are invalid',

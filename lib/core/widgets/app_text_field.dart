@@ -145,10 +145,11 @@ class _AppTextFieldState extends State<AppTextField> {
                       onChanged: (value) => widget.onChange(value),
                       style: Topology.subTitle,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: widget.hint,
-                          hintStyle: Topology.subTitle
-                              .copyWith(color: AppColors.secondary)),
+                        border: InputBorder.none,
+                        hintText: widget.hint,
+                        hintStyle: Topology.subTitle
+                            .copyWith(color: AppColors.secondary),
+                      ),
                     ),
                   ),
                 ),

@@ -3,14 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
 import 'package:epsilon_app/core/helpers/api_helper/domain/api_helper.dart'
     as _i2;
-import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data.dart'
-    as _i3;
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/login_service_impl.dart'
-    as _i4;
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -34,20 +32,10 @@ class _FakeApiHelper_0 extends _i1.SmartFake implements _i2.ApiHelper {
         );
 }
 
-class _FakeLoginData_1 extends _i1.SmartFake implements _i3.LoginData {
-  _FakeLoginData_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [LoginServiceImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLoginServiceImpl extends _i1.Mock implements _i4.LoginServiceImpl {
+class MockLoginServiceImpl extends _i1.Mock implements _i3.LoginServiceImpl {
   MockLoginServiceImpl() {
     _i1.throwOnMissingStub(this);
   }
@@ -61,7 +49,7 @@ class MockLoginServiceImpl extends _i1.Mock implements _i4.LoginServiceImpl {
         ),
       ) as _i2.ApiHelper);
   @override
-  _i5.Future<_i3.LoginData> login({
+  _i4.Future<String> login({
     required String? username,
     required String? password,
   }) =>
@@ -74,16 +62,6 @@ class MockLoginServiceImpl extends _i1.Mock implements _i4.LoginServiceImpl {
             #password: password,
           },
         ),
-        returnValue: _i5.Future<_i3.LoginData>.value(_FakeLoginData_1(
-          this,
-          Invocation.method(
-            #login,
-            [],
-            {
-              #username: username,
-              #password: password,
-            },
-          ),
-        )),
-      ) as _i5.Future<_i3.LoginData>);
+        returnValue: _i4.Future<String>.value(''),
+      ) as _i4.Future<String>);
 }

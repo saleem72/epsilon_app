@@ -9,4 +9,6 @@ class AppIcons {
   static const user = '${_imagesPath}user.png';
   static const eye = '${_imagesPath}eye.png';
   static const slashEye = '${_imagesPath}slash_eye.png';
+  static const database = '${_imagesPath}database.png';
+  static const company = '${_imagesPath}company.png';
 }

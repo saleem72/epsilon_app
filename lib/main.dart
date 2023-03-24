@@ -1,8 +1,10 @@
 //
 import 'package:epsilon_app/dependancy_injection.dart' as di;
 import 'package:epsilon_app/features/pre_launch/epsilon_app.dart';
+import 'package:epsilon_app/features/pre_launch/main_controller/main_controller_bloc/main_controller_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_theme.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +18,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const EpsilonApp();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => MainControllerBloc(safe: di.locator()),
+        ),
+      ],
+      child: const EpsilonApp(),
+    );
   }
 }

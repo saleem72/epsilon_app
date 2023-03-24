@@ -105,7 +105,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   _isFromValid() {
-    print('$username, $password');
     final passwordStatus = passwordValidator(password);
     final usernameStatus = usernameValidator(username);
     return passwordStatus == ValidationStatus.valid &&

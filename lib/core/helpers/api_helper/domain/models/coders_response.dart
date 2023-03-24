@@ -21,10 +21,16 @@ class CodersResponse<T> {
 
   factory CodersResponse.fromMap(
       Map<String, dynamic> map, Function(dynamic) dataMapper) {
+    final data = map['data'];
+
     return CodersResponse<T>(
-      data: map['data'] != null ? dataMapper(map['data']) : null,
+      data: data != null && (data is Map<String, dynamic>)
+          ? dataMapper(map['data'])
+          : null,
       status: map['status'] as bool,
-      message: map['message'] != null ? map['message'] as String : null,
+      message: (map['message'] != null && (map['message'] is String))
+          ? (map['message'])
+          : null,
       code: map['code'] as int,
       whatsappMessage: map['whatsappMessage'] != null
           ? map['whatsappMessage'] as String

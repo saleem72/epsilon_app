@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_app/core/utils/api_end_points.dart';
-import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data.dart';
+import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data_dto.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/login_service_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -83,7 +83,7 @@ void main() {
           await service.login(username: tUsername, password: tPassword);
 
       // assert
-      expect(loginData, isA<LoginData>());
+      expect(loginData, isA<LoginDataDTO>());
     });
 
     test(

@@ -1,8 +1,9 @@
 //
 
-import 'package:epsilon_app/features/pre_launch/main_controller.dart';
 import 'package:epsilon_app/features/pre_launch/splash_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'main_controller/main_controller.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});

@@ -1,0 +1,14 @@
+{
+    "id": 51,
+    "full_name": "Pizza Hut",
+    "email": "logical9447@gmail.com",
+    "role": "restaurant",
+    "is_active": 1,
+    "email_verified_at": "2022-03-03T07:56:06.000000Z",
+    "plan": "test v2",
+    "tables": null,
+    "profile_image": null,
+    "is_notify": 1,
+    "default_language": "en",
+    "default_currency": "SYP"
+}
