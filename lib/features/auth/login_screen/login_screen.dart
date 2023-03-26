@@ -1,16 +1,17 @@
 //
 
-import 'package:epsilon_app/core/utils/styling/assets/assets.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';
+import 'package:epsilon_app/core/utils/text_field_formmaters/text_field_formmaters.dart';
 import 'package:epsilon_app/core/widgets/error_view.dart';
 import 'package:epsilon_app/core/widgets/loading_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
-import 'package:epsilon_app/core/utils/styling/topology/topology.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/widgets/app_decoration_image.dart';
+import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/gradient_button.dart';
 import '../../../dependancy_injection.dart' as di;
@@ -92,7 +93,7 @@ class LoginScreenContent extends StatelessWidget {
 
   Widget _decorationImage() {
     // width: 177.63, height: 401.2
-    return const DecorationImage();
+    return const AppDecorationImage();
   }
 
   Widget _handleSuccsess(BuildContext context, bool success) {
@@ -125,6 +126,7 @@ class LoginScreenContent extends StatelessWidget {
         label: Translator.translation(context).password,
         hint: Translator.translation(context).password_hint,
         icon: AppIcons.lock,
+        keyboard: TextInputType.visiblePassword,
         errorMessage: valid?.message(context),
         isSecure: true,
         onChange: (value) => bloc.add(LoginPasswordHasChanged(password: value)),
@@ -143,63 +145,11 @@ class LoginScreenContent extends StatelessWidget {
         hint: Translator.translation(context).user_name_hint,
         errorMessage: valid?.message(context),
         icon: AppIcons.user,
+        keyboard: TextInputType.emailAddress,
+        formmaters: TextFieldFormmaters.letterAndNumbersTextField,
         onChange: (value) => bloc.add(LoginUsernameHasChanged(username: value)),
         onHasFocus: () => bloc.add(LoginClearUsernameError()),
         onLoseFocus: () => bloc.add(LoginUsernameLostFocus()),
-      ),
-    );
-  }
-}
-
-class DecorationImage extends StatelessWidget {
-  const DecorationImage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 177.63,
-      height: 401.2,
-      child: Image(image: AssetImage(Assets.decoration)),
-    );
-  }
-}
-
-class AppNavBar extends StatelessWidget {
-  const AppNavBar({
-    super.key,
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 88,
-      padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-      decoration: BoxDecoration(
-        color: AppColors.navbar,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            offset: const Offset(0, 3),
-            blurRadius: 1.5,
-          ),
-        ],
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
-        ),
-      ),
-      child: Row(
-        children: [
-          Text(
-            title,
-            style: Topology.smallTitle.copyWith(color: Colors.white),
-          ),
-        ],
       ),
     );
   }

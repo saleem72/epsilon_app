@@ -23,4 +23,10 @@ class Topology {
     fontSize: 16,
     fontWeight: FontWeight.w500,
   );
+
+  static const TextStyle body = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+  );
 }

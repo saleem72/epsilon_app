@@ -11,6 +11,8 @@
     "pick_company": "اختر الشركة",
     "database_url": "رابط قاعدة البيانات",
     "database_url_hint": "أدخل رابط قاعدة البيانات",
+    "database_name": "اسم قاعدة البيانات",
+    "database_name_hint": "أدخل اسم قاعدة البيانات",
     "database_port": "البوابة",
     "database_port_hint": "أدخل البوابة",
     "company": "الشركة",
@@ -18,6 +20,24 @@
     "epsilon": "Epsilon",
     "alameen": "الامين",
     "almanarah": "المنارة",
+
+    "operation_title": "الصفحة الرئيسية",
+    "operation_subject": "الإستعلام عن صنف",
+    "operation_customer": "كشف حساب زبون",
+    "operation_voucher": "إدخال سندات قبض ودفع",
+    "operation_bill": "إدخال فاتورة",
+
+    "query_subject_screen": "رمز الاستجابة السريعة",
+    "or_label": "أو",
+    "serial_number": "الرقم التسلسلي",
+    "serial_number_hint": "أدخل الرقم التسلسلي",
+
+    "subject_id": "رمز المادة",
+    "subject_name": "اسم المادة",
+    "subject_properties": "المواصفات",
+    "subject_price_one": "سعر الوحدة 1",
+    "subject_price_tow": "سعر الوحدة 2",
+    "subject_store": "المستودع",
 
     "empty_username": "اسم المستخدم حقل اجباري",
     "short_username": "اسم المستخدم يجب ان يكون ٤ محارف على الأقل",

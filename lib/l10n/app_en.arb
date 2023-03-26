@@ -11,6 +11,8 @@
     "pick_company": "Pick company",
     "database_url": "Database URL",
     "database_url_hint": "enter Database URL",
+    "database_name": "Database name",
+    "database_name_hint": "enter Database name",
     "database_port": "Port",
     "database_port_hint": "enter port",
     "company": "Company",
@@ -18,6 +20,25 @@
     "epsilon": "Epsilon",
     "alameen": "Alameen",
     "almanarah": "Almanarah",
+
+    "operation_title": "Home",
+    "operation_subject": "Query Product",
+    "operation_customer": "Query Customer",
+    "operation_voucher": "Query Voucher",
+    "operation_bill": "Query Bill",
+
+    "query_subject_screen": "Product Code",
+    "or_label": "Or",
+    "serial_number": "Serial Number",
+    "serial_number_hint": "enter serial number",
+
+    "subject_id": "Product ID",
+    "subject_name": "Product Name",
+    "subject_properties": "Qalifications",
+    "subject_price_one": "Price 1",
+    "subject_price_tow": "Price 2",
+    "subject_store": "Store",
+
      
     "empty_username": "user name is mandatory field",
     "short_username": "user name should be atleaste 4 char",

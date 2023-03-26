@@ -2,11 +2,13 @@
 
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/localization/language_constants.dart';
 import '../../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../../core/utils/styling/topology/topology.dart';
 import '../../domain/models/companies.dart';
+import '../connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
 
 class CompaniesDropDown extends StatefulWidget {
   const CompaniesDropDown({super.key});
@@ -20,16 +22,26 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
   final double itemHeight = 58;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          Translator.translation(context).company,
-          style: Topology.subTitle,
-        ),
-        const SizedBox(height: 10),
-        _moreMenu(context),
-      ],
+    return BlocListener<ConnectionManagerBloc, ConnectionManagerState>(
+      listenWhen: (previous, current) => current is ConnectioManagerSetParams,
+      listener: (context, state) {
+        if (state is ConnectioManagerSetParams) {
+          setState(() {
+            _value = state.company;
+          });
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Translator.translation(context).company,
+            style: Topology.subTitle,
+          ),
+          const SizedBox(height: 10),
+          _moreMenu(context),
+        ],
+      ),
     );
   }
 
@@ -105,6 +117,9 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
       onSelected: (item) {
         setState(() {
           _value = item;
+          context
+              .read<ConnectionManagerBloc>()
+              .add(ConnectionManagerCompanyHasChange(company: item));
         });
       }, // => _actionForMenuItem(context, item: item),
       itemBuilder: (context) => Companies.values
@@ -115,40 +130,6 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
               )))
           .toList(),
       child: _contaner(context),
-    );
-  }
-
-  DropdownButtonHideUnderline _dropdownButton(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<Companies>(
-        value: _value,
-        isExpanded: true,
-        items:
-            Companies.values.map((e) => _buildCompanyItem(context, e)).toList(),
-        onChanged: (value) {
-          setState(() {
-            _value = value;
-          });
-        },
-      ),
-    );
-  }
-
-  DropdownMenuItem<Companies> _buildCompanyItem(
-      BuildContext context, Companies item) {
-    return DropdownMenuItem(
-      value: item,
-      child: Row(
-        children: [
-          Image.asset(
-            AppIcons.company,
-            height: 26,
-            width: 26,
-          ),
-          const SizedBox(width: 10),
-          Text(item.title(context)),
-        ],
-      ),
     );
   }
 }

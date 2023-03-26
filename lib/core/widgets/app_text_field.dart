@@ -1,6 +1,7 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../utils/styling/assets/app_icons.dart';
 import '../utils/styling/colors/app_colors.dart';
@@ -19,6 +20,9 @@ class LabledValidateTextFIeld extends StatelessWidget {
     required this.hint,
     required this.icon,
     required this.onChange,
+    this.keyboard = TextInputType.text,
+    this.formmaters,
+    this.iconSize = 30,
   });
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -30,6 +34,9 @@ class LabledValidateTextFIeld extends StatelessWidget {
   final Function(String) onChange;
   final Function? onHasFocus;
   final Function? onLoseFocus;
+  final TextInputType keyboard;
+  final List<TextInputFormatter>? formmaters;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +51,9 @@ class LabledValidateTextFIeld extends StatelessWidget {
         AppTextField(
           controller: controller,
           focusNode: focusNode,
+          keyboard: keyboard,
+          size: iconSize,
+          formmaters: formmaters,
           isSecure: isSecure,
           hint: hint,
           icon: icon,
@@ -69,6 +79,9 @@ class AppTextField extends StatefulWidget {
     required this.hint,
     required this.icon,
     required this.onChange,
+    required this.keyboard,
+    this.formmaters,
+    required this.size,
   });
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -79,6 +92,9 @@ class AppTextField extends StatefulWidget {
   final Function(String) onChange;
   final Function? onHasFocus;
   final Function? onLoseFocus;
+  final TextInputType keyboard;
+  final List<TextInputFormatter>? formmaters;
+  final double size;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -139,6 +155,8 @@ class _AppTextFieldState extends State<AppTextField> {
                     child: TextField(
                       controller: widget.controller,
                       focusNode: widget.focusNode,
+                      // keyboardType: widget.keyboard,
+                      // inputFormatters: widget.formmaters,
                       obscureText: _isSecure,
                       enableSuggestions: false,
                       autocorrect: false,
@@ -159,8 +177,8 @@ class _AppTextFieldState extends State<AppTextField> {
                   children: [
                     Image(
                       image: AssetImage(widget.icon),
-                      height: 30,
-                      width: 30,
+                      height: widget.size,
+                      width: widget.size,
                     ),
                     widget.isSecure
                         ? GestureDetector(
