@@ -96,3 +96,5 @@ class ConnectionManagerExecuteStatment extends ConnectionManagerEvent {
 class ConnectionManagerCheckConnection extends ConnectionManagerEvent {}
 
 class ConnetionManagerFetchConnections extends ConnectionManagerEvent {}
+
+class ConnetionManagerClearError extends ConnectionManagerEvent {}

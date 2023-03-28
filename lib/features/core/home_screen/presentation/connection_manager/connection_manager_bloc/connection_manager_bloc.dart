@@ -48,7 +48,7 @@ class ConnectionManagerBloc
   ConnectionManagerBloc({
     required ConnectionManager connectionManager,
   })  : _connectionManager = connectionManager,
-        super(ConnectionManagerInitial()) {
+        super(ConnectionManagerEmptyState()) {
     on<ConnectionManagerHostHasChange>(_onHostHasChange);
     on<ConnectionManagerPortHasChange>(_onPortHasChange);
     on<ConnectionManagerDatabaseHasChange>(_onDatabaseHasChange);
@@ -59,6 +59,12 @@ class ConnectionManagerBloc
     on<ConnetionManagerFetchConnections>(_onFetchConnections);
     on<ConnectionManagerQueryHasChange>(_onQueryHasChange);
     on<ConnectionManagerCheckConnection>(_onCheckConnection);
+    on<ConnetionManagerClearError>(_onClearError);
+  }
+
+  _onClearError(
+      ConnetionManagerClearError event, Emitter<ConnectionManagerState> emit) {
+    emit(ConnectionManagerEmptyState());
   }
 
   _onFetchConnections(ConnetionManagerFetchConnections event,

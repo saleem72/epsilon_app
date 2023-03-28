@@ -55,7 +55,14 @@ class HomeScreenContent extends StatelessWidget {
                               )
                             : const SizedBox.shrink(),
                         state is ConnectionManagerCheckingFailure
-                            ? ErrorView(failure: state.failure, onAction: () {})
+                            ? ErrorView(
+                                failure: state.failure,
+                                onAction: () {
+                                  context
+                                      .read<ConnectionManagerBloc>()
+                                      .add(ConnetionManagerClearError());
+                                },
+                              )
                             : const SizedBox.shrink(),
                         _handleSuccess(context),
                       ],

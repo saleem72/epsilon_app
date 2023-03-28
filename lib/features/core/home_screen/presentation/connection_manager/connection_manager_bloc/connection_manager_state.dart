@@ -7,7 +7,7 @@ abstract class ConnectionManagerState extends Equatable {
   List<Object?> get props => [];
 }
 
-class ConnectionManagerInitial extends ConnectionManagerState {}
+class ConnectionManagerEmptyState extends ConnectionManagerState {}
 
 class ConnectionManagerLoading extends ConnectionManagerState {}
 

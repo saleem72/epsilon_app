@@ -39,29 +39,32 @@ class SubjectDetailsScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: BlocBuilder<ConnectionManagerBloc, ConnectionManagerState>(
-                builder: (context, state) {
-                  return Stack(
-                    children: [
-                      state is ConnectionManagerLoading
-                          ? const SingleChildScrollView(
-                              child: EmptyProductCard(),
-                            )
-                          : const SizedBox.shrink(),
-                      state is ConnectionManagerLoading
-                          ? const LoadingView(
-                              isLoading: true,
-                              color: AppColors.primaryDark,
-                            )
-                          : const SizedBox.shrink(),
-                      state is ConnectionManagerSuccess
-                          ? _buildProductCard(context, state.records)
-                          : const SizedBox.shrink(),
-                    ],
-                  );
-                },
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child:
+                    BlocBuilder<ConnectionManagerBloc, ConnectionManagerState>(
+                  builder: (context, state) {
+                    return Stack(
+                      children: [
+                        state is ConnectionManagerLoading
+                            ? const SingleChildScrollView(
+                                child: EmptyProductCard(),
+                              )
+                            : const SizedBox.shrink(),
+                        state is ConnectionManagerLoading
+                            ? const LoadingView(
+                                isLoading: true,
+                                color: AppColors.primaryDark,
+                              )
+                            : const SizedBox.shrink(),
+                        state is ConnectionManagerSuccess
+                            ? _buildProductCard(context, state.records)
+                            : const SizedBox.shrink(),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),
