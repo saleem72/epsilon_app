@@ -31,9 +31,18 @@ class ConnectioManagerSetParams extends ConnectionManagerState {
       [host, port, database, username, password, company];
 }
 
-class ConnectionManagerFailure extends ConnectionManagerState {
+class ConnectionManagerExecutionFailure extends ConnectionManagerState {
   final Failure failure;
-  ConnectionManagerFailure({
+  ConnectionManagerExecutionFailure({
+    required this.failure,
+  });
+  @override
+  List<Object?> get props => [failure];
+}
+
+class ConnectionManagerCheckingFailure extends ConnectionManagerState {
+  final Failure failure;
+  ConnectionManagerCheckingFailure({
     required this.failure,
   });
   @override
@@ -50,3 +59,5 @@ class ConnectionManagerSuccess extends ConnectionManagerState {
   @override
   List<Object?> get props => [records];
 }
+
+class ConnectionManagerConnectSuccessfully extends ConnectionManagerState {}

@@ -1,9 +1,11 @@
 // ignore_for_file: depend_on_referenced_packages, invalid_use_of_visible_for_testing_member
 
+import 'dart:convert';
 import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
+import 'package:epsilon_app/core/extensions/map_string_string_extension.dart';
 import 'package:epsilon_app/features/core/home_screen/domain/models/companies.dart';
 import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/failures/connection_manager_failures.dart';
 import 'package:equatable/equatable.dart';
@@ -53,9 +55,10 @@ class ConnectionManagerBloc
     on<ConnectionManagerUsernameHasChange>(_onUsernameHasChange);
     on<ConnectionManagerPasswordHasChange>(_onPasswordHasChange);
     on<ConnectionManagerCompanyHasChange>(_onCompanyHasChange);
-    on<ConnectionManagerConnect>(_onConnect);
-    on<ConnectionManagerIsolatedConnect>(_onIsolatedConnect);
+    on<ConnectionManagerExecuteStatment>(_onExecuteStatment);
     on<ConnetionManagerFetchConnections>(_onFetchConnections);
+    on<ConnectionManagerQueryHasChange>(_onQueryHasChange);
+    on<ConnectionManagerCheckConnection>(_onCheckConnection);
   }
 
   _onFetchConnections(ConnetionManagerFetchConnections event,
@@ -83,6 +86,11 @@ class ConnectionManagerBloc
     password = event.password;
   }
 
+  _onQueryHasChange(ConnectionManagerQueryHasChange event,
+      Emitter<ConnectionManagerState> emit) {
+    query = event.query;
+  }
+
   _onCompanyHasChange(ConnectionManagerCompanyHasChange event,
       Emitter<ConnectionManagerState> emit) {
     company = event.company;
@@ -108,16 +116,40 @@ class ConnectionManagerBloc
     port = event.port;
   }
 
-  void _onConnect(ConnectionManagerConnect event,
+  _onCheckConnection(ConnectionManagerCheckConnection event,
       Emitter<ConnectionManagerState> emit) async {
-    if (query.isEmpty) {
-      emit(
-        ConnectionManagerFailure(
-          failure: EmptyQueryFailure(),
-        ),
-      );
-      return;
-    }
+    print('_onCheckConnection');
+    emit(ConnectionManagerLoading());
+
+    final params = ConnectionParams(
+      host: host,
+      port: port,
+      database: database,
+      username: username,
+      password: password,
+      query: query,
+    );
+    final result = await _connectionManager.checkConnection(params: params);
+    result.fold(
+      (failure) {
+        print(failure.toString);
+        emit(ConnectionManagerCheckingFailure(
+            failure: ConnectionManagerFailToConnect(error: failure.error)));
+      },
+      (success) {
+        if (success) {
+          emit(ConnectionManagerConnectSuccessfully());
+        } else {
+          emit(ConnectionManagerCheckingFailure(
+              failure: ConnectionManagerFailToConnect()));
+        }
+      },
+    );
+  }
+
+  void _onExecuteStatment(ConnectionManagerExecuteStatment event,
+      Emitter<ConnectionManagerState> emit) async {
+    query = event.query;
     emit(ConnectionManagerLoading());
 
     final params = ConnectionParams(
@@ -129,61 +161,38 @@ class ConnectionManagerBloc
       query: query,
     );
     final result =
-        await _connectionManager.connect(query: query, params: params);
+        await _connectionManager.executeStatmet(query: query, params: params);
     result.fold(
       (failure) {
-        emit(ConnectionManagerFailure(failure: failure));
+        print(failure.toString());
+        emit(ConnectionManagerExecutionFailure(failure: failure));
       },
       (records) {
+        for (final rec in records) {
+          rec.beautify();
+        }
         emit(ConnectionManagerSuccess(records: records));
       },
     );
   }
-
-  void _onIsolatedConnect(ConnectionManagerIsolatedConnect event,
-      Emitter<ConnectionManagerState> emit) async {
-    if (query.isEmpty) {
-      emit(ConnectionManagerFailure(failure: EmptyQueryFailure()));
-      return;
-    }
-    emit(ConnectionManagerLoading());
-
-    final params = ConnectionParams(
-      host: host,
-      port: port,
-      database: database,
-      username: username,
-      password: password,
-      query: query,
-    );
-
-    ReceivePort receivePort = ReceivePort();
-
-    final Map<String, String> arguments = <String, String>{
-      'host': params.host,
-      'port': params.port,
-      'database': params.database,
-      'username': params.username,
-      'password': params.password,
-      'query': query
-    };
-    WidgetsFlutterBinding.ensureInitialized();
-    DartPluginRegistrant.ensureInitialized();
-    final isolate = await Isolate.spawn(
-      ConnectionHelper.executeSql,
-      [receivePort.sendPort, platform, arguments],
-    );
-
-    final isolateResult = await receivePort.first;
-
-    isolate.kill(priority: Isolate.immediate);
-    if (isolateResult is List<Map<String, String>>) {
-      emit(ConnectionManagerSuccess(records: isolateResult));
-    } else if (isolateResult is Failure) {
-      print(isolateResult.message);
-      emit(ConnectionManagerFailure(failure: isolateResult));
-    } else {
-      emit(ConnectionManagerFailure(failure: ConnectionUnExpectedFailure()));
-    }
-  }
 }
+
+const temp = [
+  {
+    "barcode": "*****134",
+    "code": "020501038",
+    "Name": "طقم طاولات جيكون لويكنز تركي جوزي"
+  },
+  {"barcode": "*****74", "code": "020502006", "Name": "طقم طربيزات جلد"},
+  {"barcode": "****1313", "code": "020501021", "Name": "طقم طاولات جلد وطني"},
+  {
+    "barcode": "****312",
+    "code": "0115071",
+    "Name": "شفاط 90 سنتم ايطالي اسود elica concord - WR"
+  },
+  {
+    "barcode": "****36",
+    "code": "020501108",
+    "Name": "طقم طاولات اجر مضفرة وطني"
+  }
+];

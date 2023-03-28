@@ -84,8 +84,15 @@ class ConnectionManagerCompanyHasChange extends ConnectionManagerEvent {
   List<Object?> get props => [company];
 }
 
-class ConnectionManagerConnect extends ConnectionManagerEvent {}
+class ConnectionManagerExecuteStatment extends ConnectionManagerEvent {
+  final String query;
 
-class ConnectionManagerIsolatedConnect extends ConnectionManagerEvent {}
+  ConnectionManagerExecuteStatment({required this.query});
+
+  @override
+  List<Object?> get props => [query];
+}
+
+class ConnectionManagerCheckConnection extends ConnectionManagerEvent {}
 
 class ConnetionManagerFetchConnections extends ConnectionManagerEvent {}

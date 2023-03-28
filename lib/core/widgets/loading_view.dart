@@ -6,16 +6,18 @@ class LoadingView extends StatelessWidget {
   const LoadingView({
     super.key,
     required this.isLoading,
+    this.color = Colors.white,
   });
 
   final bool isLoading;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Center(
+        ? Center(
             child: CircularProgressIndicator(
-              color: Colors.white,
+              color: color,
             ),
           )
         : const SizedBox.shrink();

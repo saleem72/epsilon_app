@@ -49,5 +49,6 @@
     "unexpected_failure": "Some thing bad happend/nplease try again later",
     "connection_failure": "Check your connection then try again later",
     "decoding_failure": "Decoding Failure",
-    "invalid_username_or_password": "Invalid username or password"
+    "invalid_username_or_password": "Invalid username or password",
+    "fail_to_connect_db": "Fail To Connect your database"
 }

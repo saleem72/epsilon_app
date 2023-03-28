@@ -60,9 +60,14 @@ class LabeledText extends StatelessWidget {
                     width: iconSize,
                   ),
                   const SizedBox(width: 5),
-                  Text(
-                    text,
-                    style: Topology.subTitle,
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: Topology.subTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                 ],
               ),

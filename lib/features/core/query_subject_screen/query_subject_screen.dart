@@ -7,11 +7,20 @@ import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/widgets/app_nav_bar.dart';
 import 'package:epsilon_app/core/widgets/app_text_field.dart';
 import 'package:epsilon_app/core/widgets/gradient_button.dart';
+import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
+import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/models/sql_statements.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class QuerySubjectScreen extends StatelessWidget {
+class QuerySubjectScreen extends StatefulWidget {
   const QuerySubjectScreen({super.key});
 
+  @override
+  State<QuerySubjectScreen> createState() => _QuerySubjectScreenState();
+}
+
+class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
+  TextEditingController _serial = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +58,7 @@ class QuerySubjectScreen extends StatelessWidget {
                   _orRow(context),
                   const SizedBox(height: 45),
                   LabledValidateTextFIeld(
+                    controller: _serial,
                     label: Translator.translation(context).serial_number,
                     hint: Translator.translation(context).serial_number_hint,
                     icon: AppIcons.serialNumber,
@@ -60,8 +70,12 @@ class QuerySubjectScreen extends StatelessWidget {
           ),
           GradientButton(
             label: Translator.translation(context).ok_button,
-            onPressed: () => Navigator.of(context)
-                .pushNamed(AppScreens.subjectDetailsScreen),
+            onPressed: () {
+              context.read<ConnectionManagerBloc>().add(
+                  ConnectionManagerExecuteStatment(query: SQLStatements.test));
+              return Navigator.of(context)
+                  .pushNamed(AppScreens.subjectDetailsScreen);
+            },
           )
         ],
       ),
