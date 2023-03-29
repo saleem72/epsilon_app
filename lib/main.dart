@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/core/home_screen/presentation/connection_manager/connection_manager.dart';
 import 'features/core/home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
 
 void main() async {
@@ -23,13 +22,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => MainControllerBloc(safe: di.locator()),
+        BlocProvider<MainControllerBloc>(
+          create: (context) => di.locator(),
         ),
-        BlocProvider(
+        BlocProvider<ConnectionManagerBloc>(
           create: (context) =>
-              ConnectionManagerBloc(connectionManager: ConnectionManager())
-                ..add(ConnetionManagerFetchConnections()),
+              di.locator()..add(ConnetionManagerFetchConnections()),
         )
       ],
       child: const EpsilonApp(),

@@ -1,19 +1,20 @@
 //
 
-import 'dart:io';
+import 'dart:math';
 
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
-import 'package:epsilon_app/core/utils/routing/app_screens.dart';
-import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
-import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
-import 'package:epsilon_app/core/widgets/app_nav_bar.dart';
-import 'package:epsilon_app/core/widgets/app_text_field.dart';
-import 'package:epsilon_app/core/widgets/gradient_button.dart';
-import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
-import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/models/sql_statements.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../../../core/utils/styling/assets/app_icons.dart';
+import '../../../core/utils/styling/colors/app_colors.dart';
+import '../../../core/widgets/app_nav_bar.dart';
+import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/gradient_button.dart';
+import '../home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
+import '../home_screen/presentation/connection_manager/models/sql_statements.dart';
+import '../subject_details_screen/subject_details_screen.dart';
+import 'presentation/widgets/scanner_view.dart';
 
 class QuerySubjectScreen extends StatefulWidget {
   const QuerySubjectScreen({super.key});
@@ -24,28 +25,11 @@ class QuerySubjectScreen extends StatefulWidget {
 
 class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
   final TextEditingController _serial = TextEditingController();
-  final qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
-  Barcode? barcode;
 
   @override
   void dispose() {
-    controller?.dispose();
     _serial.dispose();
     super.dispose();
-  }
-
-  @override
-  void reassemble() async {
-    super.reassemble();
-
-    if (Platform.isAndroid) {
-      controller?.pauseCamera();
-    } else if (Platform.isIOS) {
-      controller?.resumeCamera();
-    }
-
-    controller?.resumeCamera();
   }
 
   @override
@@ -97,167 +81,64 @@ class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
   }
 
   Widget _scnnerArea(BuildContext context) {
+    final height = getScanAreaHeight(context);
     return Container(
-      height: getScanAreaHeight(context),
+      height: height,
       decoration: BoxDecoration(
         color: AppColors.primaryLight,
         borderRadius: BorderRadius.circular(30),
       ),
       alignment: Alignment.center,
-      child: _oldStuff(context),
+      child: _scannerView(context, height),
     );
   }
 
-  Stack _oldStuff(BuildContext context) {
-    return Stack(
+  // ignore: unused_element
+  Widget _faceCam() {
+    final height = getScanAreaHeight(context);
+    final shortSide = min(MediaQuery.of(context).size.width, height);
+    return Container(
       alignment: Alignment.center,
-      children: [
-        _buildScanView(context),
-        Positioned(
-          bottom: 10,
-          child: _buildResult(context),
-        ),
-        Positioned(
-          top: 10,
-          child: _buildControlButtons(context),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildScanView(BuildContext context) {
-    var scanArea = (MediaQuery.of(context).size.width < 350 ||
-            MediaQuery.of(context).size.height < 350)
-        ? 150.0
-        : 300.0;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30),
-      child: QRView(
-        key: qrKey,
-        onQRViewCreated: (controller) => onQRViewCreated(context, controller),
-        overlay: QrScannerOverlayShape(
-          borderColor: Theme.of(context).colorScheme.secondary,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildControlButtons(context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white24,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IconButton(
-            onPressed: () async {
-              await controller?.toggleFlash();
-              setState(() {});
-            },
-            icon: FutureBuilder<bool?>(
-              future: controller?.getFlashStatus(),
-              builder: (context, snapshot) {
-                if (snapshot.data != null) {
-                  return Icon(
-                    (snapshot.data!) ? Icons.flash_on : Icons.flash_off,
-                    color: Colors.white,
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
+      child: Container(
+        height: shortSide - 80,
+        width: shortSide - 80,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            color: Colors.white,
           ),
-          IconButton(
-            onPressed: () async {
-              await controller?.flipCamera();
-              setState(() {});
-            },
-            icon: FutureBuilder<CameraFacing?>(
-              future: controller?.getCameraInfo(),
-              builder: (context, snapshot) {
-                if (snapshot.data != null) {
-                  return const Icon(
-                    Icons.switch_camera,
-                    color: Colors.white,
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildResult(context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white24,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        barcode != null ? 'Result: ${barcode?.code ?? ''}' : 'Scan a code',
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-            ),
-        maxLines: 3,
-      ),
+  Widget _scannerView(BuildContext context, double height) {
+    final height = getScanAreaHeight(context);
+    final width = MediaQuery.of(context).size.width - 32;
+
+    return ScannerView(
+      onGettingBarcode: (barcode) => _handleBarcode(context, barcode),
+      borderRadius: 30,
+      height: height,
+      width: width,
     );
-  }
-
-  void onQRViewCreated(BuildContext context, QRViewController controller) {
-    print('🔥 🔥 onQRViewCreated');
-    setState(() {
-      this.controller = controller;
-    });
-
-    controller.pauseCamera();
-    controller.resumeCamera();
-
-    controller.scannedDataStream.listen((barcode) {
-      // print('🔥 🔥 ${barcode.code}');
-      _handleBarcode(context, barcode);
-    });
-  }
-
-  void _handleBarcode(BuildContext context, Barcode barcode) {
-    print('🔥 🔥 ${barcode.code}');
-    // if (barcode.code != null && waitingToGO) {
-    //   setState(() {
-    //     waitingToGO = false;
-    //   });
-    if (barcode.code != null) {
-      context.read<ConnectionManagerBloc>().add(
-          ConnectionManagerExecuteStatment(
-              query: SQLStatements.statementForBarcode(barcode.code!)));
-      Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
-    }
   }
 
   Widget _executeButton(BuildContext context) {
     return GradientButton(
       label: Translator.translation(context).ok_button,
+      isEnabled: _serial.text.isNotEmpty,
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_serial.text.isNotEmpty) {
           context.read<ConnectionManagerBloc>().add(
-              ConnectionManagerExecuteStatment(
-                  query: SQLStatements.statementForSerial(_serial.text)));
-          return Navigator.of(context)
-              .pushNamed(AppScreens.subjectDetailsScreen);
+                GetProductBySerial(serial: _serial.text),
+              );
+          // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) => const SubjectDetailsScreen()),
+          );
         }
       },
     );
@@ -293,6 +174,16 @@ class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  void _handleBarcode(BuildContext context, String barcode) {
+    context.read<ConnectionManagerBloc>().add(
+          GetProductByBarCode(barcode: barcode),
+        );
+    // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const SubjectDetailsScreen()),
     );
   }
 }

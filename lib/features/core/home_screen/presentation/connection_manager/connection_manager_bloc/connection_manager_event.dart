@@ -93,6 +93,24 @@ class ConnectionManagerExecuteStatment extends ConnectionManagerEvent {
   List<Object?> get props => [query];
 }
 
+class GetProductByBarCode extends ConnectionManagerEvent {
+  final String barcode;
+
+  GetProductByBarCode({required this.barcode});
+
+  @override
+  List<Object?> get props => [barcode];
+}
+
+class GetProductBySerial extends ConnectionManagerEvent {
+  final String serial;
+
+  GetProductBySerial({required this.serial});
+
+  @override
+  List<Object?> get props => [serial];
+}
+
 class ConnectionManagerCheckConnection extends ConnectionManagerEvent {}
 
 class ConnetionManagerFetchConnections extends ConnectionManagerEvent {}

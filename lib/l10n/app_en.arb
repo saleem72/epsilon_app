@@ -50,5 +50,7 @@
     "connection_failure": "Check your connection then try again later",
     "decoding_failure": "Decoding Failure",
     "invalid_username_or_password": "Invalid username or password",
-    "fail_to_connect_db": "Fail To Connect your database"
+    "fail_to_connect_db": "Fail To Connect your database",
+    "product_not_found": "Product Not Found",
+    "inValid_product": "InValid Product"
 }

@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../../core/errors/failure/failure.dart';
-import 'failures/connection_manager_failures.dart';
-import 'models/connection_params.dart';
+import '../../presentation/connection_manager/failures/connection_manager_failures.dart';
+import '../../presentation/connection_manager/models/connection_params.dart';
 
 class ConnectionHelper {
   // static const platform = MethodChannel('coders.com/connect_database');

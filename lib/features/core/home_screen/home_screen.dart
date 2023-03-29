@@ -15,7 +15,7 @@ import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/gradient_button.dart';
-import 'presentation/connection_manager/connection_manager.dart';
+import 'data/connection_manager/connection_manager.dart';
 import 'presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
 import 'presentation/widgets/companies_dropdown.dart';
 

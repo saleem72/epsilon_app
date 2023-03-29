@@ -4,18 +4,23 @@
 import 'package:flutter/services.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../../../../core/errors/failure/failure.dart';
-import 'failures/connection_manager_failures.dart';
-import 'models/connection_params.dart';
+import '../../presentation/connection_manager/failures/connection_manager_failures.dart';
+import '../../presentation/connection_manager/models/connection_params.dart';
 
+/// class create connection to remote sql server database
+///
+/// then execute any (sql statement) on that database
 class ConnectionManager {
   static const platform = MethodChannel('coders.com/connect_database');
 
+  /// check if a connection to remote database can be created
+  ///
+  /// if the creation was successfull it returns true
+  /// if there was any error on creation connection it returns failure
   Future<Either<ConnectionFailureWithError, bool>> checkConnection({
     required ConnectionParams params,
   }) async {
     try {
-      print('ConnectionManager: checkConnection');
       final Map<String, String> arguments = <String, String>{
         'host': params.host,
         'port': params.port,
@@ -39,6 +44,10 @@ class ConnectionManager {
     }
   }
 
+  /// preform (sql statement) on a remote database
+  ///
+  /// when success it returns array of hash map as result
+  /// when error it return failure
   Future<Either<ConnectionFailureWithError, List<Map<String, String>>>>
       executeStatmet({
     required String query,
@@ -81,4 +90,4 @@ class ConnectionManager {
     }
     return <Map<String, String>>[];
   }
-} // SELECT * FROM mt000
+}

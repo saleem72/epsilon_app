@@ -5,16 +5,19 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/extensions/map_string_string_extension.dart';
 import 'package:epsilon_app/features/core/home_screen/domain/models/companies.dart';
 import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/failures/connection_manager_failures.dart';
+import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/models/sql_statements.dart';
+import 'package:epsilon_app/features/core/subject_details_screen/models/product_datails.dart';
+import 'package:epsilon_app/features/core/subject_details_screen/usecases/product_details_mapper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../../../core/errors/failure/failure.dart';
-import '../connection_helper.dart';
-import '../connection_manager.dart';
+import '../../../data/connection_manager/connection_manager.dart';
 import '../models/connection_params.dart';
 
 part 'connection_manager_event.dart';
@@ -44,10 +47,13 @@ class ConnectionManagerBloc
   static const platform = MethodChannel('coders.com/connect_database');
 
   final ConnectionManager _connectionManager;
+  final ProductDetailsMapper _productDetailsMapper;
 
   ConnectionManagerBloc({
     required ConnectionManager connectionManager,
+    required ProductDetailsMapper productDetailsMapper,
   })  : _connectionManager = connectionManager,
+        _productDetailsMapper = productDetailsMapper,
         super(ConnectionManagerEmptyState()) {
     on<ConnectionManagerHostHasChange>(_onHostHasChange);
     on<ConnectionManagerPortHasChange>(_onPortHasChange);
@@ -60,6 +66,48 @@ class ConnectionManagerBloc
     on<ConnectionManagerQueryHasChange>(_onQueryHasChange);
     on<ConnectionManagerCheckConnection>(_onCheckConnection);
     on<ConnetionManagerClearError>(_onClearError);
+    on<GetProductBySerial>(_onGetProductBySerial);
+    on<GetProductByBarCode>(_onGetProductByBarCode);
+  }
+
+  _onGetProductByBarCode(
+      GetProductByBarCode event, Emitter<ConnectionManagerState> emit) async {
+    query = SQLStatements.statementForBarcode(event.barcode);
+    emit(ConnectionManagerLoading());
+    final result = await _preformStatment();
+    result.fold(
+      (failure) {
+        emit(ConnectionManagerExecutionFailure(failure: failure));
+      },
+      (records) {
+        final mappingResult = _productDetailsMapper(records);
+        mappingResult.fold((failure) {
+          emit(ConnectionManagerExecutionFailure(failure: failure));
+        }, (product) {
+          emit(GettingProductWithSuccess(product: product));
+        });
+      },
+    );
+  }
+
+  _onGetProductBySerial(
+      GetProductBySerial event, Emitter<ConnectionManagerState> emit) async {
+    query = SQLStatements.statementForSerial(event.serial);
+    emit(ConnectionManagerLoading());
+    final result = await _preformStatment();
+    result.fold(
+      (failure) {
+        emit(ConnectionManagerExecutionFailure(failure: failure));
+      },
+      (records) {
+        final mappingResult = _productDetailsMapper(records);
+        mappingResult.fold((failure) {
+          emit(ConnectionManagerExecutionFailure(failure: failure));
+        }, (product) {
+          emit(GettingProductWithSuccess(product: product));
+        });
+      },
+    );
   }
 
   _onClearError(
@@ -158,16 +206,7 @@ class ConnectionManagerBloc
     query = event.query;
     emit(ConnectionManagerLoading());
 
-    final params = ConnectionParams(
-      host: host,
-      port: port,
-      database: database,
-      username: username,
-      password: password,
-      query: query,
-    );
-    final result =
-        await _connectionManager.executeStatmet(query: query, params: params);
+    final result = await _preformStatment();
     result.fold(
       (failure) {
         print(failure.toString());
@@ -180,6 +219,20 @@ class ConnectionManagerBloc
         emit(ConnectionManagerSuccess(records: records));
       },
     );
+  }
+
+  Future<Either<ConnectionFailureWithError, List<Map<String, String>>>>
+      _preformStatment() async {
+    final params = ConnectionParams(
+      host: host,
+      port: port,
+      database: database,
+      username: username,
+      password: password,
+      query: query,
+    );
+    return await _connectionManager.executeStatmet(
+        query: query, params: params);
   }
 }
 

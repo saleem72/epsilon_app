@@ -113,6 +113,11 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
+      constraints: BoxConstraints(
+        minWidth: 200,
+        maxWidth: MediaQuery.of(context).size.width - 32,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       offset: Offset(0, itemHeight + 8),
       onSelected: (item) {
         setState(() {
@@ -127,6 +132,7 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
               value: e,
               child: PopupMenuItemCard(
                 title: e.title(context),
+                isActive: e == _value,
               )))
           .toList(),
       child: _contaner(context),
@@ -138,20 +144,40 @@ class PopupMenuItemCard extends StatelessWidget {
   const PopupMenuItemCard({
     Key? key,
     required this.title,
+    required this.isActive,
   }) : super(key: key);
   final String title;
+  final bool isActive;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Image.asset(
-          AppIcons.company,
-          height: 26,
-          width: 26,
-        ),
-        const SizedBox(width: 8),
-        Text(title),
-      ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width - 32,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Image.asset(
+            AppIcons.company,
+            height: 26,
+            width: 26,
+          ),
+          const SizedBox(width: 8),
+          Expanded(child: Text(title)),
+          isActive
+              ? Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                      color: AppColors.green.withOpacity(0.1),
+                      shape: BoxShape.circle),
+                  child: const Icon(
+                    Icons.check,
+                    size: 18,
+                    color: AppColors.green,
+                  ),
+                )
+              : const SizedBox.shrink()
+        ],
+      ),
     );
   }
 }

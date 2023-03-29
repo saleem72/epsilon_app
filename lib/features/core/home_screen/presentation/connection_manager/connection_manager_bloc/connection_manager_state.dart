@@ -61,3 +61,14 @@ class ConnectionManagerSuccess extends ConnectionManagerState {
 }
 
 class ConnectionManagerConnectSuccessfully extends ConnectionManagerState {}
+
+class GettingProductWithSuccess extends ConnectionManagerState {
+  final ProductDetails product;
+
+  GettingProductWithSuccess({
+    required this.product,
+  });
+
+  @override
+  List<Object?> get props => [product];
+}

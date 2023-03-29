@@ -13,6 +13,7 @@ class AppColors {
   static const Color gradientStart = Color(0xFF0083AB);
   static const Color gradientEnd = Color(0xFF27587E);
   static const Color navbar = Color(0xFF4F7694);
+  static const Color green = Color(0xFF44C4A1);
 
   static const Color tertiary = Color(0xFF575095);
   static const Color error = Color(0xFFBA1B1B);
