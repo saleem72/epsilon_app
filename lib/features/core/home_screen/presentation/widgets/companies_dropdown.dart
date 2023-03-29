@@ -8,7 +8,7 @@ import '../../../../../core/helpers/localization/language_constants.dart';
 import '../../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../../core/utils/styling/topology/topology.dart';
 import '../../domain/models/companies.dart';
-import '../connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
+import '../connection_manager/database_provider/database_provider.dart';
 
 class CompaniesDropDown extends StatefulWidget {
   const CompaniesDropDown({super.key});
@@ -22,10 +22,10 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
   final double itemHeight = 58;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ConnectionManagerBloc, ConnectionManagerState>(
-      listenWhen: (previous, current) => current is ConnectioManagerSetParams,
+    return BlocListener<DatabaseProvider, DatabaseProviderState>(
+      listenWhen: (previous, current) => current is DatabaseProviderSetParams,
       listener: (context, state) {
-        if (state is ConnectioManagerSetParams) {
+        if (state is DatabaseProviderSetParams) {
           setState(() {
             _value = state.company;
           });
@@ -123,8 +123,8 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
         setState(() {
           _value = item;
           context
-              .read<ConnectionManagerBloc>()
-              .add(ConnectionManagerCompanyHasChange(company: item));
+              .read<DatabaseProvider>()
+              .add(DatabaseProviderCompanyHasChange(company: item));
         });
       }, // => _actionForMenuItem(context, item: item),
       itemBuilder: (context) => Companies.values

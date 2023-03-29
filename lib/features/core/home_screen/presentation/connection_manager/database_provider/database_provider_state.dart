@@ -1,24 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'connection_manager_bloc.dart';
+part of 'database_provider.dart';
 
 @immutable
-abstract class ConnectionManagerState extends Equatable {
+abstract class DatabaseProviderState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ConnectionManagerEmptyState extends ConnectionManagerState {}
+class DatabaseProviderEmptyState extends DatabaseProviderState {}
 
-class ConnectionManagerLoading extends ConnectionManagerState {}
+class DatabaseProviderLoading extends DatabaseProviderState {}
 
-class ConnectioManagerSetParams extends ConnectionManagerState {
+class DatabaseProviderSetParams extends DatabaseProviderState {
   final String host;
   final String port;
   final String database;
   final String username;
   final String password;
   final Companies company;
-  ConnectioManagerSetParams({
+  DatabaseProviderSetParams({
     required this.host,
     required this.port,
     required this.database,
@@ -31,28 +31,28 @@ class ConnectioManagerSetParams extends ConnectionManagerState {
       [host, port, database, username, password, company];
 }
 
-class ConnectionManagerExecutionFailure extends ConnectionManagerState {
+class DatabaseProviderExecutionFailure extends DatabaseProviderState {
   final Failure failure;
-  ConnectionManagerExecutionFailure({
+  DatabaseProviderExecutionFailure({
     required this.failure,
   });
   @override
   List<Object?> get props => [failure];
 }
 
-class ConnectionManagerCheckingFailure extends ConnectionManagerState {
+class DatabaseProviderCheckingFailure extends DatabaseProviderState {
   final Failure failure;
-  ConnectionManagerCheckingFailure({
+  DatabaseProviderCheckingFailure({
     required this.failure,
   });
   @override
   List<Object?> get props => [failure];
 }
 
-class ConnectionManagerSuccess extends ConnectionManagerState {
+class DatabaseProviderSuccess extends DatabaseProviderState {
   final List<Map<String, String>> records;
 
-  ConnectionManagerSuccess({
+  DatabaseProviderSuccess({
     required this.records,
   });
 
@@ -60,9 +60,9 @@ class ConnectionManagerSuccess extends ConnectionManagerState {
   List<Object?> get props => [records];
 }
 
-class ConnectionManagerConnectSuccessfully extends ConnectionManagerState {}
+class DatabaseProviderConnectSuccessfully extends DatabaseProviderState {}
 
-class GettingProductWithSuccess extends ConnectionManagerState {
+class GettingProductWithSuccess extends DatabaseProviderState {
   final ProductDetails product;
 
   GettingProductWithSuccess({

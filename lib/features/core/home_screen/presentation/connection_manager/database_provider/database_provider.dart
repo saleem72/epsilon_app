@@ -1,12 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, invalid_use_of_visible_for_testing_member
 
-import 'dart:convert';
-import 'dart:isolate';
-import 'dart:ui';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:epsilon_app/core/extensions/map_string_string_extension.dart';
 import 'package:epsilon_app/features/core/home_screen/domain/models/companies.dart';
 import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/failures/connection_manager_failures.dart';
 import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/models/sql_statements.dart';
@@ -14,14 +9,13 @@ import 'package:epsilon_app/features/core/subject_details_screen/models/product_
 import 'package:epsilon_app/features/core/subject_details_screen/usecases/product_details_mapper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../../../../core/errors/failure/failure.dart';
 import '../../../data/connection_manager/connection_manager.dart';
 import '../models/connection_params.dart';
 
-part 'connection_manager_event.dart';
-part 'connection_manager_state.dart';
+part 'database_provider_event.dart';
+part 'database_provider_state.dart';
 
 /*
         host: 'epsilondemo.dyndns.org',
@@ -34,8 +28,32 @@ part 'connection_manager_state.dart';
         connectionManager: ConnectionManager(),
 */
 
-class ConnectionManagerBloc
-    extends Bloc<ConnectionManagerEvent, ConnectionManagerState> {
+class DatabaseProvider
+    extends Bloc<DatabaseProviderEvent, DatabaseProviderState> {
+  final ConnectionManager _connectionManager;
+  final ProductDetailsMapper _productDetailsMapper;
+
+  DatabaseProvider({
+    required ConnectionManager connectionManager,
+    required ProductDetailsMapper productDetailsMapper,
+  })  : _connectionManager = connectionManager,
+        _productDetailsMapper = productDetailsMapper,
+        super(DatabaseProviderEmptyState()) {
+    on<DatabaseProviderHostHasChange>(_onHostHasChange);
+    on<DatabaseProviderPortHasChange>(_onPortHasChange);
+    on<DatabaseProviderDatabaseNameHasChange>(_onDatabaseHasChange);
+    on<DatabaseProviderUsernameHasChange>(_onUsernameHasChange);
+    on<DatabaseProviderPasswordHasChange>(_onPasswordHasChange);
+    on<DatabaseProviderCompanyHasChange>(_onCompanyHasChange);
+    // on<ConnectionManagerExecuteStatment>(_onExecuteStatment);
+    on<DatabaseProviderFetchConnections>(_onFetchConnections);
+    on<DatabaseProviderQueryHasChange>(_onQueryHasChange);
+    on<DatabaseProviderCheckConnection>(_onCheckConnection);
+    on<DatabaseProviderClearError>(_onClearError);
+    on<GetProductBySerial>(_onGetProductBySerial);
+    on<GetProductByBarCode>(_onGetProductByBarCode);
+  }
+
   String host = '';
   String port = '';
   String database = '';
@@ -44,45 +62,19 @@ class ConnectionManagerBloc
   String query = '';
   Companies? company;
 
-  static const platform = MethodChannel('coders.com/connect_database');
-
-  final ConnectionManager _connectionManager;
-  final ProductDetailsMapper _productDetailsMapper;
-
-  ConnectionManagerBloc({
-    required ConnectionManager connectionManager,
-    required ProductDetailsMapper productDetailsMapper,
-  })  : _connectionManager = connectionManager,
-        _productDetailsMapper = productDetailsMapper,
-        super(ConnectionManagerEmptyState()) {
-    on<ConnectionManagerHostHasChange>(_onHostHasChange);
-    on<ConnectionManagerPortHasChange>(_onPortHasChange);
-    on<ConnectionManagerDatabaseHasChange>(_onDatabaseHasChange);
-    on<ConnectionManagerUsernameHasChange>(_onUsernameHasChange);
-    on<ConnectionManagerPasswordHasChange>(_onPasswordHasChange);
-    on<ConnectionManagerCompanyHasChange>(_onCompanyHasChange);
-    on<ConnectionManagerExecuteStatment>(_onExecuteStatment);
-    on<ConnetionManagerFetchConnections>(_onFetchConnections);
-    on<ConnectionManagerQueryHasChange>(_onQueryHasChange);
-    on<ConnectionManagerCheckConnection>(_onCheckConnection);
-    on<ConnetionManagerClearError>(_onClearError);
-    on<GetProductBySerial>(_onGetProductBySerial);
-    on<GetProductByBarCode>(_onGetProductByBarCode);
-  }
-
   _onGetProductByBarCode(
-      GetProductByBarCode event, Emitter<ConnectionManagerState> emit) async {
+      GetProductByBarCode event, Emitter<DatabaseProviderState> emit) async {
     query = SQLStatements.statementForBarcode(event.barcode);
-    emit(ConnectionManagerLoading());
+    emit(DatabaseProviderLoading());
     final result = await _preformStatment();
     result.fold(
       (failure) {
-        emit(ConnectionManagerExecutionFailure(failure: failure));
+        emit(DatabaseProviderExecutionFailure(failure: failure));
       },
       (records) {
         final mappingResult = _productDetailsMapper(records);
         mappingResult.fold((failure) {
-          emit(ConnectionManagerExecutionFailure(failure: failure));
+          emit(DatabaseProviderExecutionFailure(failure: failure));
         }, (product) {
           emit(GettingProductWithSuccess(product: product));
         });
@@ -91,18 +83,18 @@ class ConnectionManagerBloc
   }
 
   _onGetProductBySerial(
-      GetProductBySerial event, Emitter<ConnectionManagerState> emit) async {
+      GetProductBySerial event, Emitter<DatabaseProviderState> emit) async {
     query = SQLStatements.statementForSerial(event.serial);
-    emit(ConnectionManagerLoading());
+    emit(DatabaseProviderLoading());
     final result = await _preformStatment();
     result.fold(
       (failure) {
-        emit(ConnectionManagerExecutionFailure(failure: failure));
+        emit(DatabaseProviderExecutionFailure(failure: failure));
       },
       (records) {
         final mappingResult = _productDetailsMapper(records);
         mappingResult.fold((failure) {
-          emit(ConnectionManagerExecutionFailure(failure: failure));
+          emit(DatabaseProviderExecutionFailure(failure: failure));
         }, (product) {
           emit(GettingProductWithSuccess(product: product));
         });
@@ -111,12 +103,12 @@ class ConnectionManagerBloc
   }
 
   _onClearError(
-      ConnetionManagerClearError event, Emitter<ConnectionManagerState> emit) {
-    emit(ConnectionManagerEmptyState());
+      DatabaseProviderClearError event, Emitter<DatabaseProviderState> emit) {
+    emit(DatabaseProviderEmptyState());
   }
 
-  _onFetchConnections(ConnetionManagerFetchConnections event,
-      Emitter<ConnectionManagerState> emit) {
+  _onFetchConnections(DatabaseProviderFetchConnections event,
+      Emitter<DatabaseProviderState> emit) {
     host = 'epsilondemo.dyndns.org';
     port = '1433';
     database = 'amndbtest1';
@@ -124,7 +116,7 @@ class ConnectionManagerBloc
     password = 'H123456789h';
     company = Companies.alameen;
     emit(
-      ConnectioManagerSetParams(
+      DatabaseProviderSetParams(
         host: host,
         port: port,
         database: database,
@@ -135,45 +127,45 @@ class ConnectionManagerBloc
     );
   }
 
-  _onPasswordHasChange(ConnectionManagerPasswordHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onPasswordHasChange(DatabaseProviderPasswordHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     password = event.password;
   }
 
-  _onQueryHasChange(ConnectionManagerQueryHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onQueryHasChange(DatabaseProviderQueryHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     query = event.query;
   }
 
-  _onCompanyHasChange(ConnectionManagerCompanyHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onCompanyHasChange(DatabaseProviderCompanyHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     company = event.company;
   }
 
-  _onUsernameHasChange(ConnectionManagerUsernameHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onUsernameHasChange(DatabaseProviderUsernameHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     username = event.username;
   }
 
-  _onDatabaseHasChange(ConnectionManagerDatabaseHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onDatabaseHasChange(DatabaseProviderDatabaseNameHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     database = event.database;
   }
 
-  _onHostHasChange(ConnectionManagerHostHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onHostHasChange(DatabaseProviderHostHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     host = event.host;
   }
 
-  _onPortHasChange(ConnectionManagerPortHasChange event,
-      Emitter<ConnectionManagerState> emit) {
+  _onPortHasChange(DatabaseProviderPortHasChange event,
+      Emitter<DatabaseProviderState> emit) {
     port = event.port;
   }
 
-  _onCheckConnection(ConnectionManagerCheckConnection event,
-      Emitter<ConnectionManagerState> emit) async {
+  _onCheckConnection(DatabaseProviderCheckConnection event,
+      Emitter<DatabaseProviderState> emit) async {
     print('_onCheckConnection');
-    emit(ConnectionManagerLoading());
+    emit(DatabaseProviderLoading());
 
     final params = ConnectionParams(
       host: host,
@@ -187,39 +179,41 @@ class ConnectionManagerBloc
     result.fold(
       (failure) {
         print(failure.toString);
-        emit(ConnectionManagerCheckingFailure(
+        emit(DatabaseProviderCheckingFailure(
             failure: ConnectionManagerFailToConnect(error: failure.error)));
       },
       (success) {
         if (success) {
-          emit(ConnectionManagerConnectSuccessfully());
+          emit(DatabaseProviderConnectSuccessfully());
         } else {
-          emit(ConnectionManagerCheckingFailure(
+          emit(DatabaseProviderCheckingFailure(
               failure: ConnectionManagerFailToConnect()));
         }
       },
     );
   }
 
+  /*
   void _onExecuteStatment(ConnectionManagerExecuteStatment event,
-      Emitter<ConnectionManagerState> emit) async {
+      Emitter<DatabaseProviderState> emit) async {
     query = event.query;
-    emit(ConnectionManagerLoading());
+    emit(DatabaseProviderLoading());
 
     final result = await _preformStatment();
     result.fold(
       (failure) {
         print(failure.toString());
-        emit(ConnectionManagerExecutionFailure(failure: failure));
+        emit(DatabaseProviderExecutionFailure(failure: failure));
       },
       (records) {
         for (final rec in records) {
           rec.beautify();
         }
-        emit(ConnectionManagerSuccess(records: records));
+        emit(DatabaseProviderSuccess(records: records));
       },
     );
   }
+  */
 
   Future<Either<ConnectionFailureWithError, List<Map<String, String>>>>
       _preformStatment() async {

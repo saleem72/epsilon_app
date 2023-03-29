@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'features/core/home_screen/data/connection_manager/connection_manager.dart';
-import 'features/core/home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
+import 'features/core/home_screen/presentation/connection_manager/database_provider/database_provider.dart';
 import 'features/core/subject_details_screen/usecases/product_details_mapper.dart';
 import 'features/pre_launch/main_controller/main_controller_bloc/main_controller_bloc.dart';
 
@@ -33,7 +33,7 @@ Future<void> initDependancies() async {
   locator.registerLazySingleton(() => Safe(storage: locator()));
 
   locator.registerLazySingleton(
-    () => ConnectionManagerBloc(
+    () => DatabaseProvider(
       connectionManager: locator(),
       productDetailsMapper: locator(),
     ),

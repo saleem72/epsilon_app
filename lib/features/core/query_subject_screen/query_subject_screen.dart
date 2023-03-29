@@ -11,8 +11,7 @@ import '../../../core/utils/styling/colors/app_colors.dart';
 import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/gradient_button.dart';
-import '../home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
-import '../home_screen/presentation/connection_manager/models/sql_statements.dart';
+import '../home_screen/presentation/connection_manager/database_provider/database_provider.dart';
 import '../subject_details_screen/subject_details_screen.dart';
 import 'presentation/widgets/scanner_view.dart';
 
@@ -131,7 +130,7 @@ class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_serial.text.isNotEmpty) {
-          context.read<ConnectionManagerBloc>().add(
+          context.read<DatabaseProvider>().add(
                 GetProductBySerial(serial: _serial.text),
               );
           // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
@@ -178,7 +177,7 @@ class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
   }
 
   void _handleBarcode(BuildContext context, String barcode) {
-    context.read<ConnectionManagerBloc>().add(
+    context.read<DatabaseProvider>().add(
           GetProductByBarCode(barcode: barcode),
         );
     // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);

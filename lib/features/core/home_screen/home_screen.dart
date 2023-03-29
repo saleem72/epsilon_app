@@ -5,8 +5,6 @@ import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_app/core/widgets/loading_view.dart';
-import 'package:epsilon_app/features/auth/login_screen/login_screen.dart';
-import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/models/sql_statements.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,8 +13,7 @@ import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/gradient_button.dart';
-import 'data/connection_manager/connection_manager.dart';
-import 'presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
+import 'presentation/connection_manager/database_provider/database_provider.dart';
 import 'presentation/widgets/companies_dropdown.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -42,25 +39,24 @@ class HomeScreenContent extends StatelessWidget {
             children: [
               AppNavBar(title: Translator.translation(context).pick_company),
               Expanded(
-                child:
-                    BlocBuilder<ConnectionManagerBloc, ConnectionManagerState>(
+                child: BlocBuilder<DatabaseProvider, DatabaseProviderState>(
                   builder: (context, state) {
                     return Stack(
                       children: [
                         const HomeScreenTextFIelds(),
-                        state is ConnectionManagerLoading
+                        state is DatabaseProviderLoading
                             ? const LoadingView(
                                 isLoading: true,
                                 color: AppColors.primaryDark,
                               )
                             : const SizedBox.shrink(),
-                        state is ConnectionManagerCheckingFailure
+                        state is DatabaseProviderCheckingFailure
                             ? ErrorView(
                                 failure: state.failure,
                                 onAction: () {
                                   context
-                                      .read<ConnectionManagerBloc>()
-                                      .add(ConnetionManagerClearError());
+                                      .read<DatabaseProvider>()
+                                      .add(DatabaseProviderClearError());
                                 },
                               )
                             : const SizedBox.shrink(),
@@ -89,9 +85,9 @@ class HomeScreenContent extends StatelessWidget {
   }
 
   Widget _handleSuccess(BuildContext context) {
-    return BlocListener<ConnectionManagerBloc, ConnectionManagerState>(
+    return BlocListener<DatabaseProvider, DatabaseProviderState>(
       listener: (context, state) {
-        if (state is ConnectionManagerConnectSuccessfully) {
+        if (state is DatabaseProviderConnectSuccessfully) {
           Navigator.of(context).pushNamed(AppScreens.operationsScreen);
         }
       },
@@ -152,7 +148,7 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
     );
   }
 
-  _fillTextFields(ConnectioManagerSetParams state) {
+  _fillTextFields(DatabaseProviderSetParams state) {
     _host.text = state.host;
     _port.text = state.port;
     _database.text = state.database;
@@ -161,10 +157,10 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
   }
 
   Widget _connectionParamsListner(BuildContext context) {
-    return BlocListener<ConnectionManagerBloc, ConnectionManagerState>(
-      listenWhen: (previous, current) => current is ConnectioManagerSetParams,
+    return BlocListener<DatabaseProvider, DatabaseProviderState>(
+      listenWhen: (previous, current) => current is DatabaseProviderSetParams,
       listener: (context, state) {
-        if (state is ConnectioManagerSetParams) {
+        if (state is DatabaseProviderSetParams) {
           _fillTextFields(state);
         }
       },
@@ -182,8 +178,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.lock,
         isSecure: true,
         onChange: (value) => context
-            .read<ConnectionManagerBloc>()
-            .add(ConnectionManagerPasswordHasChange(password: value)),
+            .read<DatabaseProvider>()
+            .add(DatabaseProviderPasswordHasChange(password: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -199,8 +195,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).user_name_hint,
         icon: AppIcons.user,
         onChange: (value) => context
-            .read<ConnectionManagerBloc>()
-            .add(ConnectionManagerUsernameHasChange(username: value)),
+            .read<DatabaseProvider>()
+            .add(DatabaseProviderUsernameHasChange(username: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -217,8 +213,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<ConnectionManagerBloc>()
-            .add(ConnectionManagerPortHasChange(port: value)),
+            .read<DatabaseProvider>()
+            .add(DatabaseProviderPortHasChange(port: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -235,8 +231,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<ConnectionManagerBloc>()
-            .add(ConnectionManagerDatabaseHasChange(database: value)),
+            .read<DatabaseProvider>()
+            .add(DatabaseProviderDatabaseNameHasChange(database: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -253,8 +249,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<ConnectionManagerBloc>()
-            .add(ConnectionManagerHostHasChange(host: value)),
+            .read<DatabaseProvider>()
+            .add(DatabaseProviderHostHasChange(host: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -265,9 +261,7 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
     return GradientButton(
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        context
-            .read<ConnectionManagerBloc>()
-            .add(ConnectionManagerCheckConnection());
+        context.read<DatabaseProvider>().add(DatabaseProviderCheckConnection());
       },
       isEnabled: isEnabled,
       label: Translator.translation(context).ok_button,

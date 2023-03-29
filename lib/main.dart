@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/core/home_screen/presentation/connection_manager/connection_manager_bloc/connection_manager_bloc.dart';
+import 'features/core/home_screen/presentation/connection_manager/database_provider/database_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<MainControllerBloc>(
           create: (context) => di.locator(),
         ),
-        BlocProvider<ConnectionManagerBloc>(
+        BlocProvider<DatabaseProvider>(
           create: (context) =>
-              di.locator()..add(ConnetionManagerFetchConnections()),
+              di.locator()..add(DatabaseProviderFetchConnections()),
         )
       ],
       child: const EpsilonApp(),
