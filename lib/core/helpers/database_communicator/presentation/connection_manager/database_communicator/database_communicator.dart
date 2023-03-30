@@ -6,16 +6,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/errors/failure/failure.dart';
-import '../../../../query_subject/subject_details_screen/models/product_datails.dart';
-import '../../../../query_subject/subject_details_screen/usecases/product_details_mapper.dart';
+import '../../../../../../features/core/query_product/product_details_screen/models/product_datails.dart';
+import '../../../../../../features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
 import '../../../data/connection_manager/connection_manager.dart';
-import '../../../domain/models/companies.dart';
+import '../../../domain/models/company.dart';
 import '../../../domain/sql_statements_provider/sql_statement_provider.dart';
 import '../failures/connection_manager_failures.dart';
 import '../models/connection_params.dart';
 
-part 'database_provider_event.dart';
-part 'database_provider_state.dart';
+part 'database_communicator_event.dart';
+part 'database_communicator_state.dart';
 
 /*
         host: 'epsilondemo.dyndns.org',
@@ -28,31 +28,31 @@ part 'database_provider_state.dart';
         connectionManager: ConnectionManager(),
 */
 
-class DatabaseProvider
-    extends Bloc<DatabaseProviderEvent, DatabaseProviderState> {
+class DatabaseCommunicator
+    extends Bloc<DatabaseCommunicatorEvent, DatabaseCommunicatorState> {
   final ConnectionManager _connectionManager;
   final ProductDetailsMapper _productDetailsMapper;
   final SqlStatmentProvider _sqlProvider;
 
-  DatabaseProvider({
+  DatabaseCommunicator({
     required ConnectionManager connectionManager,
     required ProductDetailsMapper productDetailsMapper,
     required SqlStatmentProvider sqlProvider,
   })  : _connectionManager = connectionManager,
         _productDetailsMapper = productDetailsMapper,
         _sqlProvider = sqlProvider,
-        super(DatabaseProviderEmptyState()) {
-    on<DatabaseProviderHostHasChange>(_onHostHasChange);
-    on<DatabaseProviderPortHasChange>(_onPortHasChange);
-    on<DatabaseProviderDatabaseNameHasChange>(_onDatabaseHasChange);
-    on<DatabaseProviderUsernameHasChange>(_onUsernameHasChange);
-    on<DatabaseProviderPasswordHasChange>(_onPasswordHasChange);
-    on<DatabaseProviderCompanyHasChange>(_onCompanyHasChange);
+        super(DatabaseCommunicatorEmptyState()) {
+    on<DatabaseCommunicatorHostHasChange>(_onHostHasChange);
+    on<DatabaseCommunicatorPortHasChange>(_onPortHasChange);
+    on<DatabaseCommunicatorDatabaseNameHasChange>(_onDatabaseHasChange);
+    on<DatabaseCommunicatorUsernameHasChange>(_onUsernameHasChange);
+    on<DatabaseCommunicatorPasswordHasChange>(_onPasswordHasChange);
+    on<DatabaseCommunicatorCompanyHasChange>(_onCompanyHasChange);
     // on<ConnectionManagerExecuteStatment>(_onExecuteStatment);
-    on<DatabaseProviderFetchConnections>(_onFetchConnections);
-    on<DatabaseProviderQueryHasChange>(_onQueryHasChange);
-    on<DatabaseProviderCheckConnection>(_onCheckConnection);
-    on<DatabaseProviderClearError>(_onClearError);
+    on<DatabaseCommunicatorFetchConnections>(_onFetchConnections);
+    on<DatabaseCommunicatorQueryHasChange>(_onQueryHasChange);
+    on<DatabaseCommunicatorCheckConnection>(_onCheckConnection);
+    on<DatabaseCommunicatorClearError>(_onClearError);
     on<GetProductBySerial>(_onGetProductBySerial);
     on<GetProductByBarCode>(_onGetProductByBarCode);
   }
@@ -63,21 +63,21 @@ class DatabaseProvider
   String username = '';
   String password = '';
   String query = '';
-  Companies? company;
+  Company? company;
 
-  _onGetProductByBarCode(
-      GetProductByBarCode event, Emitter<DatabaseProviderState> emit) async {
+  _onGetProductByBarCode(GetProductByBarCode event,
+      Emitter<DatabaseCommunicatorState> emit) async {
     query = await _sqlProvider.statementForBarcode(event.barcode);
-    emit(DatabaseProviderLoading());
+    emit(DatabaseCommunicatorLoading());
     final result = await _preformStatment();
     result.fold(
       (failure) {
-        emit(DatabaseProviderExecutionFailure(failure: failure));
+        emit(DatabaseCommunicatorExecutionFailure(failure: failure));
       },
       (records) {
         final mappingResult = _productDetailsMapper(records);
         mappingResult.fold((failure) {
-          emit(DatabaseProviderExecutionFailure(failure: failure));
+          emit(DatabaseCommunicatorExecutionFailure(failure: failure));
         }, (product) {
           emit(GettingProductWithSuccess(product: product));
         });
@@ -86,18 +86,18 @@ class DatabaseProvider
   }
 
   _onGetProductBySerial(
-      GetProductBySerial event, Emitter<DatabaseProviderState> emit) async {
+      GetProductBySerial event, Emitter<DatabaseCommunicatorState> emit) async {
     query = await _sqlProvider.statementForSerial(event.serial);
-    emit(DatabaseProviderLoading());
+    emit(DatabaseCommunicatorLoading());
     final result = await _preformStatment();
     result.fold(
       (failure) {
-        emit(DatabaseProviderExecutionFailure(failure: failure));
+        emit(DatabaseCommunicatorExecutionFailure(failure: failure));
       },
       (records) {
         final mappingResult = _productDetailsMapper(records);
         mappingResult.fold((failure) {
-          emit(DatabaseProviderExecutionFailure(failure: failure));
+          emit(DatabaseCommunicatorExecutionFailure(failure: failure));
         }, (product) {
           emit(GettingProductWithSuccess(product: product));
         });
@@ -105,21 +105,21 @@ class DatabaseProvider
     );
   }
 
-  _onClearError(
-      DatabaseProviderClearError event, Emitter<DatabaseProviderState> emit) {
-    emit(DatabaseProviderEmptyState());
+  _onClearError(DatabaseCommunicatorClearError event,
+      Emitter<DatabaseCommunicatorState> emit) {
+    emit(DatabaseCommunicatorEmptyState());
   }
 
-  _onFetchConnections(DatabaseProviderFetchConnections event,
-      Emitter<DatabaseProviderState> emit) {
+  _onFetchConnections(DatabaseCommunicatorFetchConnections event,
+      Emitter<DatabaseCommunicatorState> emit) {
     host = 'epsilondemo.dyndns.org';
     port = '1433';
     database = 'amndbtest1';
     username = 'sa';
     password = 'H123456789h';
-    company = Companies.alameen;
+    company = Company.alameen;
     emit(
-      DatabaseProviderSetParams(
+      DatabaseCommunicatorSetParams(
         host: host,
         port: port,
         database: database,
@@ -130,45 +130,45 @@ class DatabaseProvider
     );
   }
 
-  _onPasswordHasChange(DatabaseProviderPasswordHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onPasswordHasChange(DatabaseCommunicatorPasswordHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     password = event.password;
   }
 
-  _onQueryHasChange(DatabaseProviderQueryHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onQueryHasChange(DatabaseCommunicatorQueryHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     query = event.query;
   }
 
-  _onCompanyHasChange(DatabaseProviderCompanyHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onCompanyHasChange(DatabaseCommunicatorCompanyHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     company = event.company;
   }
 
-  _onUsernameHasChange(DatabaseProviderUsernameHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onUsernameHasChange(DatabaseCommunicatorUsernameHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     username = event.username;
   }
 
-  _onDatabaseHasChange(DatabaseProviderDatabaseNameHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onDatabaseHasChange(DatabaseCommunicatorDatabaseNameHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     database = event.database;
   }
 
-  _onHostHasChange(DatabaseProviderHostHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onHostHasChange(DatabaseCommunicatorHostHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     host = event.host;
   }
 
-  _onPortHasChange(DatabaseProviderPortHasChange event,
-      Emitter<DatabaseProviderState> emit) {
+  _onPortHasChange(DatabaseCommunicatorPortHasChange event,
+      Emitter<DatabaseCommunicatorState> emit) {
     port = event.port;
   }
 
-  _onCheckConnection(DatabaseProviderCheckConnection event,
-      Emitter<DatabaseProviderState> emit) async {
+  _onCheckConnection(DatabaseCommunicatorCheckConnection event,
+      Emitter<DatabaseCommunicatorState> emit) async {
     print('_onCheckConnection');
-    emit(DatabaseProviderLoading());
+    emit(DatabaseCommunicatorLoading());
 
     final params = ConnectionParams(
       host: host,
@@ -182,14 +182,14 @@ class DatabaseProvider
     result.fold(
       (failure) {
         print(failure.toString);
-        emit(DatabaseProviderCheckingFailure(
+        emit(DatabaseCommunicatorCheckingFailure(
             failure: ConnectionManagerFailToConnect(error: failure.error)));
       },
       (success) {
         if (success) {
-          emit(DatabaseProviderConnectSuccessfully());
+          emit(DatabaseCommunicatorConnectSuccessfully());
         } else {
-          emit(DatabaseProviderCheckingFailure(
+          emit(DatabaseCommunicatorCheckingFailure(
               failure: ConnectionManagerFailToConnect()));
         }
       },

@@ -7,8 +7,8 @@ import 'package:epsilon_app/features/core/operations_screen/operations_screen.da
 import 'package:epsilon_app/features/pre_launch/landing_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../features/core/query_subject/query_subject_screen/query_subject_screen.dart';
-import '../../../features/core/query_subject/subject_details_screen/subject_details_screen.dart';
+import '../../../features/core/query_product/product_details_screen/product_details_screen.dart';
+import '../../../features/core/query_product/query_product_screen/query_product_screen.dart';
 
 class RouteGenerator {
   RouteGenerator._();
@@ -26,11 +26,11 @@ class RouteGenerator {
         );
       case AppScreens.querySubjectScreen:
         return MaterialPageRoute(
-          builder: (context) => const QuerySubjectScreen(),
+          builder: (context) => const QueryProductScreen(),
         );
       case AppScreens.subjectDetailsScreen:
         return MaterialPageRoute(
-          builder: (context) => const SubjectDetailsScreen(),
+          builder: (context) => const ProductDetailsScreen(),
         );
       case AppScreens.customerSearch:
         return MaterialPageRoute(

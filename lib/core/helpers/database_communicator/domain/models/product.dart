@@ -3,13 +3,13 @@ import 'dart:convert';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-class Subject {
+class Product {
   final String unit;
   final String name;
   final String quantity;
   final String barCode;
   final String guid;
-  Subject({
+  Product({
     required this.unit,
     required this.name,
     required this.quantity,
@@ -27,8 +27,8 @@ class Subject {
     };
   }
 
-  factory Subject.fromMap(Map<String, dynamic> map) {
-    return Subject(
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
         guid: map["GUID"] as String? ?? "",
         unit: map["Unity"] as String? ?? "",
         name: map["Name"] as String? ?? "",
@@ -38,8 +38,8 @@ class Subject {
 
   String toJson() => json.encode(toMap());
 
-  factory Subject.fromJson(String source) =>
-      Subject.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

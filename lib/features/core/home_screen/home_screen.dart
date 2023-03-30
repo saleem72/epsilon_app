@@ -8,13 +8,13 @@ import 'package:epsilon_app/core/widgets/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
 import '../../../core/utils/styling/assets/app_icons.dart';
 import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/gradient_button.dart';
-import 'presentation/connection_manager/database_provider/database_provider.dart';
-import 'presentation/widgets/companies_dropdown.dart';
+import 'widgets/companies_dropdown.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -39,24 +39,25 @@ class HomeScreenContent extends StatelessWidget {
             children: [
               AppNavBar(title: Translator.translation(context).pick_company),
               Expanded(
-                child: BlocBuilder<DatabaseProvider, DatabaseProviderState>(
+                child: BlocBuilder<DatabaseCommunicator,
+                    DatabaseCommunicatorState>(
                   builder: (context, state) {
                     return Stack(
                       children: [
                         const HomeScreenTextFIelds(),
-                        state is DatabaseProviderLoading
+                        state is DatabaseCommunicatorLoading
                             ? const LoadingView(
                                 isLoading: true,
                                 color: AppColors.primaryDark,
                               )
                             : const SizedBox.shrink(),
-                        state is DatabaseProviderCheckingFailure
+                        state is DatabaseCommunicatorCheckingFailure
                             ? ErrorView(
                                 failure: state.failure,
                                 onAction: () {
                                   context
-                                      .read<DatabaseProvider>()
-                                      .add(DatabaseProviderClearError());
+                                      .read<DatabaseCommunicator>()
+                                      .add(DatabaseCommunicatorClearError());
                                 },
                               )
                             : const SizedBox.shrink(),
@@ -85,9 +86,9 @@ class HomeScreenContent extends StatelessWidget {
   }
 
   Widget _handleSuccess(BuildContext context) {
-    return BlocListener<DatabaseProvider, DatabaseProviderState>(
+    return BlocListener<DatabaseCommunicator, DatabaseCommunicatorState>(
       listener: (context, state) {
-        if (state is DatabaseProviderConnectSuccessfully) {
+        if (state is DatabaseCommunicatorConnectSuccessfully) {
           Navigator.of(context).pushNamed(AppScreens.operationsScreen);
         }
       },
@@ -148,7 +149,7 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
     );
   }
 
-  _fillTextFields(DatabaseProviderSetParams state) {
+  _fillTextFields(DatabaseCommunicatorSetParams state) {
     _host.text = state.host;
     _port.text = state.port;
     _database.text = state.database;
@@ -157,10 +158,11 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
   }
 
   Widget _connectionParamsListner(BuildContext context) {
-    return BlocListener<DatabaseProvider, DatabaseProviderState>(
-      listenWhen: (previous, current) => current is DatabaseProviderSetParams,
+    return BlocListener<DatabaseCommunicator, DatabaseCommunicatorState>(
+      listenWhen: (previous, current) =>
+          current is DatabaseCommunicatorSetParams,
       listener: (context, state) {
-        if (state is DatabaseProviderSetParams) {
+        if (state is DatabaseCommunicatorSetParams) {
           _fillTextFields(state);
         }
       },
@@ -178,8 +180,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.lock,
         isSecure: true,
         onChange: (value) => context
-            .read<DatabaseProvider>()
-            .add(DatabaseProviderPasswordHasChange(password: value)),
+            .read<DatabaseCommunicator>()
+            .add(DatabaseCommunicatorPasswordHasChange(password: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -195,8 +197,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).user_name_hint,
         icon: AppIcons.user,
         onChange: (value) => context
-            .read<DatabaseProvider>()
-            .add(DatabaseProviderUsernameHasChange(username: value)),
+            .read<DatabaseCommunicator>()
+            .add(DatabaseCommunicatorUsernameHasChange(username: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -213,8 +215,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<DatabaseProvider>()
-            .add(DatabaseProviderPortHasChange(port: value)),
+            .read<DatabaseCommunicator>()
+            .add(DatabaseCommunicatorPortHasChange(port: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -231,8 +233,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<DatabaseProvider>()
-            .add(DatabaseProviderDatabaseNameHasChange(database: value)),
+            .read<DatabaseCommunicator>()
+            .add(DatabaseCommunicatorDatabaseNameHasChange(database: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -249,8 +251,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<DatabaseProvider>()
-            .add(DatabaseProviderHostHasChange(host: value)),
+            .read<DatabaseCommunicator>()
+            .add(DatabaseCommunicatorHostHasChange(host: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -261,7 +263,9 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
     return GradientButton(
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        context.read<DatabaseProvider>().add(DatabaseProviderCheckConnection());
+        context
+            .read<DatabaseCommunicator>()
+            .add(DatabaseCommunicatorCheckConnection());
       },
       isEnabled: isEnabled,
       label: Translator.translation(context).ok_button,

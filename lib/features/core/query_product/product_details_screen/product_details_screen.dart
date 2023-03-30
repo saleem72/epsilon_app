@@ -5,15 +5,15 @@ import 'package:epsilon_app/core/widgets/error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/loading_view.dart';
-import '../../home_screen/presentation/connection_manager/database_provider/database_provider.dart';
 import 'models/product_datails.dart';
 import 'presentation/widgets/product_card.dart';
 
-class SubjectDetailsScreen extends StatelessWidget {
-  const SubjectDetailsScreen({super.key});
+class ProductDetailsScreen extends StatelessWidget {
+  const ProductDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,8 @@ class SubjectDetailsScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: BlocBuilder<DatabaseProvider, DatabaseProviderState>(
+                child: BlocBuilder<DatabaseCommunicator,
+                    DatabaseCommunicatorState>(
                   builder: (context, state) {
                     return Stack(
                       children: [
@@ -50,17 +51,17 @@ class SubjectDetailsScreen extends StatelessWidget {
                             : const SingleChildScrollView(
                                 child: ProductCard(),
                               ),
-                        state is DatabaseProviderLoading
+                        state is DatabaseCommunicatorLoading
                             ? const LoadingView(
                                 isLoading: true,
                                 color: AppColors.primaryDark,
                               )
                             : const SizedBox.shrink(),
-                        state is DatabaseProviderExecutionFailure
+                        state is DatabaseCommunicatorExecutionFailure
                             ? ErrorView(
                                 onAction: () => context
-                                    .read<DatabaseProvider>()
-                                    .add(DatabaseProviderClearError()),
+                                    .read<DatabaseCommunicator>()
+                                    .add(DatabaseCommunicatorClearError()),
                                 failure: state.failure,
                               )
                             : const SizedBox.shrink(),

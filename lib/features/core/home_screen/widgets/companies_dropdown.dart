@@ -4,11 +4,11 @@ import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/helpers/localization/language_constants.dart';
-import '../../../../../core/utils/styling/colors/app_colors.dart';
-import '../../../../../core/utils/styling/topology/topology.dart';
-import '../../domain/models/companies.dart';
-import '../connection_manager/database_provider/database_provider.dart';
+import '../../../../core/helpers/database_communicator/domain/models/company.dart';
+import '../../../../core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
+import '../../../../core/helpers/localization/language_constants.dart';
+import '../../../../core/utils/styling/colors/app_colors.dart';
+import '../../../../core/utils/styling/topology/topology.dart';
 
 class CompaniesDropDown extends StatefulWidget {
   const CompaniesDropDown({super.key});
@@ -18,14 +18,15 @@ class CompaniesDropDown extends StatefulWidget {
 }
 
 class _CompaniesDropDownState extends State<CompaniesDropDown> {
-  Companies? _value;
+  Company? _value;
   final double itemHeight = 58;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DatabaseProvider, DatabaseProviderState>(
-      listenWhen: (previous, current) => current is DatabaseProviderSetParams,
+    return BlocListener<DatabaseCommunicator, DatabaseCommunicatorState>(
+      listenWhen: (previous, current) =>
+          current is DatabaseCommunicatorSetParams,
       listener: (context, state) {
-        if (state is DatabaseProviderSetParams) {
+        if (state is DatabaseCommunicatorSetParams) {
           setState(() {
             _value = state.company;
           });
@@ -108,7 +109,7 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
     );
   }
 
-  PopupMenuButton<Companies> _moreMenu(BuildContext context) {
+  PopupMenuButton<Company> _moreMenu(BuildContext context) {
     return PopupMenuButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -123,11 +124,11 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
         setState(() {
           _value = item;
           context
-              .read<DatabaseProvider>()
-              .add(DatabaseProviderCompanyHasChange(company: item));
+              .read<DatabaseCommunicator>()
+              .add(DatabaseCommunicatorCompanyHasChange(company: item));
         });
       }, // => _actionForMenuItem(context, item: item),
-      itemBuilder: (context) => Companies.values
+      itemBuilder: (context) => Company.values
           .map((e) => PopupMenuItem(
               value: e,
               child: PopupMenuItemCard(

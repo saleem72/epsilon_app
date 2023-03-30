@@ -6,9 +6,9 @@ import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_app/core/widgets/app_nav_bar.dart';
-import 'package:epsilon_app/features/core/home_screen/domain/models/operations.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/helpers/database_communicator/domain/models/operations.dart';
 import 'presentation/widgets/app_icon_button.dart';
 
 class OperationsScreen extends StatelessWidget {

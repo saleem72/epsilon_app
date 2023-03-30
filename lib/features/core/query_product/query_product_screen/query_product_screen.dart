@@ -6,23 +6,23 @@ import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
 import '../../../../core/utils/styling/assets/app_icons.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/gradient_button.dart';
-import '../../home_screen/presentation/connection_manager/database_provider/database_provider.dart';
-import '../subject_details_screen/subject_details_screen.dart';
+import '../product_details_screen/product_details_screen.dart';
 import 'presentation/widgets/scanner_view.dart';
 
-class QuerySubjectScreen extends StatefulWidget {
-  const QuerySubjectScreen({super.key});
+class QueryProductScreen extends StatefulWidget {
+  const QueryProductScreen({super.key});
 
   @override
-  State<QuerySubjectScreen> createState() => _QuerySubjectScreenState();
+  State<QueryProductScreen> createState() => _QueryProductScreenState();
 }
 
-class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
+class _QueryProductScreenState extends State<QueryProductScreen> {
   final TextEditingController _serial = TextEditingController();
 
   @override
@@ -130,13 +130,13 @@ class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_serial.text.isNotEmpty) {
-          context.read<DatabaseProvider>().add(
+          context.read<DatabaseCommunicator>().add(
                 GetProductBySerial(serial: _serial.text),
               );
           // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-                builder: (context) => const SubjectDetailsScreen()),
+                builder: (context) => const ProductDetailsScreen()),
           );
         }
       },
@@ -177,12 +177,12 @@ class _QuerySubjectScreenState extends State<QuerySubjectScreen> {
   }
 
   void _handleBarcode(BuildContext context, String barcode) {
-    context.read<DatabaseProvider>().add(
+    context.read<DatabaseCommunicator>().add(
           GetProductByBarCode(barcode: barcode),
         );
     // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const SubjectDetailsScreen()),
+      MaterialPageRoute(builder: (context) => const ProductDetailsScreen()),
     );
   }
 }
