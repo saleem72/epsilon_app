@@ -1,13 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-import 'dart:convert';
-
 import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
 import 'package:epsilon_app/core/helpers/api_helper/domain/api_helper.dart';
-import 'package:epsilon_app/core/helpers/api_helper/domain/models/coders_response.dart';
-import 'package:epsilon_app/core/utils/api_end_points.dart';
-import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data_dto.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/login_service.dart';
 
 class LoginServiceImpl implements LoginService {

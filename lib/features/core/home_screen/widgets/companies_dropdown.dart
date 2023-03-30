@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/database_communicator/domain/models/company.dart';
-import '../../../../core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
+import '../../../../core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import '../../../../core/helpers/localization/language_constants.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/utils/styling/topology/topology.dart';

@@ -1,18 +1,15 @@
 // ignore_for_file: depend_on_referenced_packages, invalid_use_of_visible_for_testing_member
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
+import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/errors/failure/failure.dart';
 import '../../../../../../features/core/query_product/product_details_screen/models/product_datails.dart';
-import '../../../../../../features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
-import '../../../data/connection_manager/connection_manager.dart';
-import '../../../domain/models/company.dart';
-import '../../../domain/sql_statements_provider/sql_statement_provider.dart';
-import '../failures/connection_manager_failures.dart';
-import '../models/connection_params.dart';
+import '../../domain/models/company.dart';
+import '../../domain/models/connection_params.dart';
+import '../../domain/models/failures/connection_manager_failures.dart';
 
 part 'database_communicator_event.dart';
 part 'database_communicator_state.dart';
@@ -30,17 +27,10 @@ part 'database_communicator_state.dart';
 
 class DatabaseCommunicator
     extends Bloc<DatabaseCommunicatorEvent, DatabaseCommunicatorState> {
-  final ConnectionManager _connectionManager;
-  final ProductDetailsMapper _productDetailsMapper;
-  final SqlStatmentProvider _sqlProvider;
-
+  final DatabaseCommunicatorRepository _repository;
   DatabaseCommunicator({
-    required ConnectionManager connectionManager,
-    required ProductDetailsMapper productDetailsMapper,
-    required SqlStatmentProvider sqlProvider,
-  })  : _connectionManager = connectionManager,
-        _productDetailsMapper = productDetailsMapper,
-        _sqlProvider = sqlProvider,
+    required DatabaseCommunicatorRepository repository,
+  })  : _repository = repository,
         super(DatabaseCommunicatorEmptyState()) {
     on<DatabaseCommunicatorHostHasChange>(_onHostHasChange);
     on<DatabaseCommunicatorPortHasChange>(_onPortHasChange);
@@ -48,9 +38,8 @@ class DatabaseCommunicator
     on<DatabaseCommunicatorUsernameHasChange>(_onUsernameHasChange);
     on<DatabaseCommunicatorPasswordHasChange>(_onPasswordHasChange);
     on<DatabaseCommunicatorCompanyHasChange>(_onCompanyHasChange);
-    // on<ConnectionManagerExecuteStatment>(_onExecuteStatment);
+
     on<DatabaseCommunicatorFetchConnections>(_onFetchConnections);
-    on<DatabaseCommunicatorQueryHasChange>(_onQueryHasChange);
     on<DatabaseCommunicatorCheckConnection>(_onCheckConnection);
     on<DatabaseCommunicatorClearError>(_onClearError);
     on<GetProductBySerial>(_onGetProductBySerial);
@@ -65,43 +54,69 @@ class DatabaseCommunicator
   String query = '';
   Company? company;
 
+  ConnectionParams get _params => ConnectionParams(
+        host: host,
+        port: port,
+        database: database,
+        username: username,
+        password: password,
+        company: company,
+      );
+
+  _onCheckConnection(DatabaseCommunicatorCheckConnection event,
+      Emitter<DatabaseCommunicatorState> emit) async {
+    emit(DatabaseCommunicatorLoading());
+    final response = await _repository.checkConnection(_params);
+    response.fold(
+      (failure) {
+        if (failure is ConnectionManagerFailToConnect) {
+          emit(DatabaseCommunicatorCheckingFailure(
+              failure: ConnectionManagerFailToConnect(error: failure.error)));
+        } else {
+          emit(DatabaseCommunicatorCheckingFailure(failure: failure));
+        }
+      },
+      (r) => emit(DatabaseCommunicatorConnectSuccessfully()),
+    );
+  }
+
   _onGetProductByBarCode(GetProductByBarCode event,
       Emitter<DatabaseCommunicatorState> emit) async {
-    query = await _sqlProvider.statementForBarcode(event.barcode);
     emit(DatabaseCommunicatorLoading());
-    final result = await _preformStatment();
-    result.fold(
+    final response = await _repository.getProductByBarcode(
+      params: _params,
+      barcode: event.barcode,
+    );
+    response.fold(
       (failure) {
-        emit(DatabaseCommunicatorExecutionFailure(failure: failure));
-      },
-      (records) {
-        final mappingResult = _productDetailsMapper(records);
-        mappingResult.fold((failure) {
+        if (failure is ConnectionManagerFailToConnect) {
+          emit(DatabaseCommunicatorCheckingFailure(
+              failure: ConnectionManagerFailToConnect(error: failure.error)));
+        } else {
           emit(DatabaseCommunicatorExecutionFailure(failure: failure));
-        }, (product) {
-          emit(GettingProductWithSuccess(product: product));
-        });
+        }
       },
+      (product) => emit(GettingProductWithSuccess(product: product)),
     );
   }
 
   _onGetProductBySerial(
       GetProductBySerial event, Emitter<DatabaseCommunicatorState> emit) async {
-    query = await _sqlProvider.statementForSerial(event.serial);
     emit(DatabaseCommunicatorLoading());
-    final result = await _preformStatment();
-    result.fold(
+    final response = await _repository.getProductBySerial(
+      params: _params,
+      serial: event.serial,
+    );
+    response.fold(
       (failure) {
-        emit(DatabaseCommunicatorExecutionFailure(failure: failure));
-      },
-      (records) {
-        final mappingResult = _productDetailsMapper(records);
-        mappingResult.fold((failure) {
+        if (failure is ConnectionManagerFailToConnect) {
+          emit(DatabaseCommunicatorCheckingFailure(
+              failure: ConnectionManagerFailToConnect(error: failure.error)));
+        } else {
           emit(DatabaseCommunicatorExecutionFailure(failure: failure));
-        }, (product) {
-          emit(GettingProductWithSuccess(product: product));
-        });
+        }
       },
+      (product) => emit(GettingProductWithSuccess(product: product)),
     );
   }
 
@@ -135,11 +150,6 @@ class DatabaseCommunicator
     password = event.password;
   }
 
-  _onQueryHasChange(DatabaseCommunicatorQueryHasChange event,
-      Emitter<DatabaseCommunicatorState> emit) {
-    query = event.query;
-  }
-
   _onCompanyHasChange(DatabaseCommunicatorCompanyHasChange event,
       Emitter<DatabaseCommunicatorState> emit) {
     company = event.company;
@@ -163,51 +173,6 @@ class DatabaseCommunicator
   _onPortHasChange(DatabaseCommunicatorPortHasChange event,
       Emitter<DatabaseCommunicatorState> emit) {
     port = event.port;
-  }
-
-  _onCheckConnection(DatabaseCommunicatorCheckConnection event,
-      Emitter<DatabaseCommunicatorState> emit) async {
-    print('_onCheckConnection');
-    emit(DatabaseCommunicatorLoading());
-
-    final params = ConnectionParams(
-      host: host,
-      port: port,
-      database: database,
-      username: username,
-      password: password,
-      query: query,
-    );
-    final result = await _connectionManager.checkConnection(params: params);
-    result.fold(
-      (failure) {
-        print(failure.toString);
-        emit(DatabaseCommunicatorCheckingFailure(
-            failure: ConnectionManagerFailToConnect(error: failure.error)));
-      },
-      (success) {
-        if (success) {
-          emit(DatabaseCommunicatorConnectSuccessfully());
-        } else {
-          emit(DatabaseCommunicatorCheckingFailure(
-              failure: ConnectionManagerFailToConnect()));
-        }
-      },
-    );
-  }
-
-  Future<Either<ConnectionFailureWithError, List<Map<String, String>>>>
-      _preformStatment() async {
-    final params = ConnectionParams(
-      host: host,
-      port: port,
-      database: database,
-      username: username,
-      password: password,
-      query: query,
-    );
-    return await _connectionManager.executeStatmet(
-        query: query, params: params);
   }
 }
 

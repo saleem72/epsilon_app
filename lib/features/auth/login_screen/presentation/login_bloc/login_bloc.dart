@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:epsilon_app/core/errors/failure/failure.dart';
-import 'package:epsilon_app/core/usecases/validate_password.dart';
-import 'package:epsilon_app/core/usecases/validate_username.dart';
-import 'package:epsilon_app/core/usecases/validation_status.dart';
-import 'package:epsilon_app/features/auth/login_screen/domain/repository/login_repository.dart';
+import '../../../../../core/errors/failure/failure.dart';
+import '../../../../../core/usecases/validate_password.dart';
+import '../../../../../core/usecases/validate_username.dart';
+import '../../../../../core/usecases/validation_status.dart';
+import '../../domain/repository/login_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'login_event.dart';

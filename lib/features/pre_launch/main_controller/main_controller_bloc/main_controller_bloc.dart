@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:epsilon_app/core/helpers/safe.dart';
+import '../../../../core/helpers/safe.dart';
 import 'package:equatable/equatable.dart';
 
 part 'main_controller_event.dart';

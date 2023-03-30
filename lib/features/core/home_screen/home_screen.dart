@@ -8,7 +8,7 @@ import 'package:epsilon_app/core/widgets/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
+import '../../../core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import '../../../core/utils/styling/assets/app_icons.dart';
 import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';

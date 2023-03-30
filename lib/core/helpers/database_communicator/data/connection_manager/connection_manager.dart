@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, depend_on_referenced_packages
 //
 
-import 'package:flutter/services.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/services.dart';
 
-import '../../presentation/connection_manager/failures/connection_manager_failures.dart';
-import '../../presentation/connection_manager/models/connection_params.dart';
+import '../../domain/models/connection_params.dart';
+import '../../domain/models/failures/connection_manager_failures.dart';
 
 /// class create connection to remote sql server database
 ///

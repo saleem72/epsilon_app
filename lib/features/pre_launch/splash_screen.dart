@@ -1,7 +1,6 @@
 //
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../core/utils/styling/assets/assets.dart';
 import '../../core/utils/styling/colors/app_colors.dart';

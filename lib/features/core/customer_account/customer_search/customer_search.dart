@@ -1,7 +1,5 @@
 //
 
-import 'dart:math';
-
 import 'package:epsilon_app/core/extensions/num_extension.dart';
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';

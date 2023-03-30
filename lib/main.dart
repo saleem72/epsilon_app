@@ -1,12 +1,12 @@
 //
+import 'package:epsilon_app/core/utils/styling/colors/app_theme.dart';
 import 'package:epsilon_app/dependancy_injection.dart' as di;
 import 'package:epsilon_app/features/pre_launch/epsilon_app.dart';
 import 'package:epsilon_app/features/pre_launch/main_controller/main_controller_bloc/main_controller_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:epsilon_app/core/utils/styling/colors/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/helpers/database_communicator/presentation/connection_manager/database_communicator/database_communicator.dart';
+import 'core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

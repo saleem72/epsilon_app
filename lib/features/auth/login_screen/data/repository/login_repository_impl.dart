@@ -1,9 +1,8 @@
 //
 
-import 'package:epsilon_app/core/errors/exception_to_failure.dart';
-import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
-import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:epsilon_app/core/errors/exception_to_failure.dart';
+import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/login_service.dart';
 import 'package:epsilon_app/features/auth/login_screen/domain/repository/login_repository.dart';

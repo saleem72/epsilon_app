@@ -4,14 +4,6 @@ import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class EmptyQueryFailure extends Failure {
-  @override
-  String message(BuildContext context) {
-    // TODO: implement message
-    throw UnimplementedError();
-  }
-}
-
 class ConnectionUnExpectedFailure extends Failure {
   @override
   String message(BuildContext context) {

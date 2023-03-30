@@ -2,8 +2,8 @@
 
 import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/routing/route_generator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/utils/styling/colors/app_theme.dart';
 

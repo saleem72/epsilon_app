@@ -63,17 +63,6 @@ class DatabaseCommunicatorPasswordHasChange extends DatabaseCommunicatorEvent {
   List<Object?> get props => [password];
 }
 
-class DatabaseCommunicatorQueryHasChange extends DatabaseCommunicatorEvent {
-  final String query;
-
-  DatabaseCommunicatorQueryHasChange({
-    required this.query,
-  });
-
-  @override
-  List<Object?> get props => [query];
-}
-
 class DatabaseCommunicatorCompanyHasChange extends DatabaseCommunicatorEvent {
   final Company company;
 
