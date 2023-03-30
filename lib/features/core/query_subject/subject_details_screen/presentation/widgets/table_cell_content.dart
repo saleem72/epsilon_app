@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../../core/utils/styling/colors/app_colors.dart';
-import '../../../../../core/utils/styling/topology/topology.dart';
+import '../../../../../../core/utils/styling/colors/app_colors.dart';
+import '../../../../../../core/utils/styling/topology/topology.dart';
 
 class TableCellContent extends StatelessWidget {
   const TableCellContent({

@@ -3,7 +3,7 @@
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/errors/failure/failure.dart';
+import '../../../../../core/errors/failure/failure.dart';
 
 class ProductNotFound extends Failure {
   @override

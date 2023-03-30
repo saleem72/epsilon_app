@@ -19,7 +19,7 @@ class AppNavBar extends StatelessWidget {
       height: 88,
       padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
       decoration: BoxDecoration(
-        color: AppColors.navbar,
+        gradient: AppColors.gradient,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),

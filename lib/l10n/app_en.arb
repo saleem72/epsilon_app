@@ -39,6 +39,11 @@
     "subject_price_tow": "Price 2",
     "subject_store": "Store",
 
+    "customer_account_statement": "Customer account statement",
+    "search": "Search",
+    "old_research": "Old search",
+    "clear_all": "Clear all",
+
      
     "empty_username": "user name is mandatory field",
     "short_username": "user name should be atleaste 4 char",

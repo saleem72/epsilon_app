@@ -6,12 +6,12 @@ import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/utils/styling/assets/app_icons.dart';
-import '../../../core/utils/styling/colors/app_colors.dart';
-import '../../../core/widgets/app_nav_bar.dart';
-import '../../../core/widgets/app_text_field.dart';
-import '../../../core/widgets/gradient_button.dart';
-import '../home_screen/presentation/connection_manager/database_provider/database_provider.dart';
+import '../../../../core/utils/styling/assets/app_icons.dart';
+import '../../../../core/utils/styling/colors/app_colors.dart';
+import '../../../../core/widgets/app_nav_bar.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../../core/widgets/gradient_button.dart';
+import '../../home_screen/presentation/connection_manager/database_provider/database_provider.dart';
 import '../subject_details_screen/subject_details_screen.dart';
 import 'presentation/widgets/scanner_view.dart';
 

@@ -27,8 +27,8 @@ class AppColors {
     begin: Alignment(-1.4534885883331299, -8.366897485260393e-17),
     end: Alignment(1.006429672241211, -0.37631702423095703),
     colors: [
-      gradientStart,
-      gradientEnd,
+      Color(0xFF0083AB), // Color.fromRGBO(0, 131, 171, 1),
+      Color(0xFF27587E), // Color.fromRGBO(39, 88, 126, 1),
     ],
   );
 

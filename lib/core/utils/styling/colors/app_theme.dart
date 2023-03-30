@@ -54,7 +54,7 @@ final ColorScheme appLightColorScheme = ColorScheme(
 
 ThemeData appLightTheme = ThemeData(
   colorScheme: appLightColorScheme,
-  scaffoldBackgroundColor: AppColors.neutral90,
+  scaffoldBackgroundColor: const Color(0xFFF1F1F1), // AppColors.neutral90,
   fontFamily: 'Tajawal',
 );
 

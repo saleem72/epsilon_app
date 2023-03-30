@@ -84,15 +84,6 @@ class DatabaseProviderCompanyHasChange extends DatabaseProviderEvent {
   List<Object?> get props => [company];
 }
 
-// class ConnectionManagerExecuteStatment extends DatabaseProviderEvent {
-//   final String query;
-
-//   ConnectionManagerExecuteStatment({required this.query});
-
-//   @override
-//   List<Object?> get props => [query];
-// }
-
 class GetProductByBarCode extends DatabaseProviderEvent {
   final String barcode;
 

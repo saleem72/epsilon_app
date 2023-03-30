@@ -2,9 +2,9 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/errors/failure/failure.dart';
-import 'package:epsilon_app/features/core/subject_details_screen/models/product_details_failures.dart';
 
 import '../models/product_datails.dart';
+import '../models/product_details_failures.dart';
 
 class ProductDetailsMapper {
   Either<Failure, ProductDetails> call(List<Map<String, String>> recoreds) {

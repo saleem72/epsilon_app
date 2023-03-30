@@ -2,16 +2,16 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:epsilon_app/features/core/home_screen/domain/models/companies.dart';
-import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/failures/connection_manager_failures.dart';
-import 'package:epsilon_app/features/core/home_screen/presentation/connection_manager/models/sql_statements.dart';
-import 'package:epsilon_app/features/core/subject_details_screen/models/product_datails.dart';
-import 'package:epsilon_app/features/core/subject_details_screen/usecases/product_details_mapper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/errors/failure/failure.dart';
+import '../../../../query_subject/subject_details_screen/models/product_datails.dart';
+import '../../../../query_subject/subject_details_screen/usecases/product_details_mapper.dart';
 import '../../../data/connection_manager/connection_manager.dart';
+import '../../../domain/models/companies.dart';
+import '../../../domain/sql_statements_provider/sql_statement_provider.dart';
+import '../failures/connection_manager_failures.dart';
 import '../models/connection_params.dart';
 
 part 'database_provider_event.dart';
@@ -32,12 +32,15 @@ class DatabaseProvider
     extends Bloc<DatabaseProviderEvent, DatabaseProviderState> {
   final ConnectionManager _connectionManager;
   final ProductDetailsMapper _productDetailsMapper;
+  final SqlStatmentProvider _sqlProvider;
 
   DatabaseProvider({
     required ConnectionManager connectionManager,
     required ProductDetailsMapper productDetailsMapper,
+    required SqlStatmentProvider sqlProvider,
   })  : _connectionManager = connectionManager,
         _productDetailsMapper = productDetailsMapper,
+        _sqlProvider = sqlProvider,
         super(DatabaseProviderEmptyState()) {
     on<DatabaseProviderHostHasChange>(_onHostHasChange);
     on<DatabaseProviderPortHasChange>(_onPortHasChange);
@@ -64,7 +67,7 @@ class DatabaseProvider
 
   _onGetProductByBarCode(
       GetProductByBarCode event, Emitter<DatabaseProviderState> emit) async {
-    query = SQLStatements.statementForBarcode(event.barcode);
+    query = await _sqlProvider.statementForBarcode(event.barcode);
     emit(DatabaseProviderLoading());
     final result = await _preformStatment();
     result.fold(
@@ -84,7 +87,7 @@ class DatabaseProvider
 
   _onGetProductBySerial(
       GetProductBySerial event, Emitter<DatabaseProviderState> emit) async {
-    query = SQLStatements.statementForSerial(event.serial);
+    query = await _sqlProvider.statementForSerial(event.serial);
     emit(DatabaseProviderLoading());
     final result = await _preformStatment();
     result.fold(
@@ -193,28 +196,6 @@ class DatabaseProvider
     );
   }
 
-  /*
-  void _onExecuteStatment(ConnectionManagerExecuteStatment event,
-      Emitter<DatabaseProviderState> emit) async {
-    query = event.query;
-    emit(DatabaseProviderLoading());
-
-    final result = await _preformStatment();
-    result.fold(
-      (failure) {
-        print(failure.toString());
-        emit(DatabaseProviderExecutionFailure(failure: failure));
-      },
-      (records) {
-        for (final rec in records) {
-          rec.beautify();
-        }
-        emit(DatabaseProviderSuccess(records: records));
-      },
-    );
-  }
-  */
-
   Future<Either<ConnectionFailureWithError, List<Map<String, String>>>>
       _preformStatment() async {
     final params = ConnectionParams(
@@ -230,6 +211,7 @@ class DatabaseProvider
   }
 }
 
+/*
 const temp = [
   {
     "barcode": "*****134",
@@ -249,3 +231,4 @@ const temp = [
     "Name": "طقم طاولات اجر مضفرة وطني"
   }
 ];
+*/

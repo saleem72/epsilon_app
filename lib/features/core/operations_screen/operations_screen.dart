@@ -20,7 +20,7 @@ class OperationsScreen extends StatelessWidget {
         Navigator.of(context).pushNamed(AppScreens.querySubjectScreen);
         break;
       case Operations.customer:
-        print(operation.toString());
+        Navigator.of(context).pushNamed(AppScreens.customerSearch);
         break;
       case Operations.voucher:
         print(operation.toString());

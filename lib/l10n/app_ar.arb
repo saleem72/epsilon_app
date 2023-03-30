@@ -39,6 +39,11 @@
     "subject_price_tow": "سعر الوحدة 2",
     "subject_store": "المستودع",
 
+    "customer_account_statement": "كشف حساب الزبون",
+    "search": "بحث",
+    "old_research": "الأبحاث السابقة",
+    "clear_all": "امسح الكل",
+
     "empty_username": "اسم المستخدم حقل اجباري",
     "short_username": "اسم المستخدم يجب ان يكون ٤ محارف على الأقل",
     "empty_password": "كلمة المرور حقل اجباري",

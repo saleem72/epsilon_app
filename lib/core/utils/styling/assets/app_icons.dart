@@ -19,4 +19,6 @@ class AppIcons {
   static const subjectId = '${_imagesPath}subject_id.png';
   static const subjectName = '${_imagesPath}subject_name.png';
   static const properties = '${_imagesPath}properties.png';
+  static const userImage = '${_imagesPath}user_image.png';
+  static const search = '${_imagesPath}search.png';
 }

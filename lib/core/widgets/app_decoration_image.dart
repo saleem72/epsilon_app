@@ -11,10 +11,13 @@ class AppDecorationImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 177.63,
-      height: 401.2,
-      child: Image(image: AssetImage(Assets.decoration)),
+    return const Opacity(
+      opacity: 0.3,
+      child: SizedBox(
+        width: 177.63,
+        height: 401.2,
+        child: Image(image: AssetImage(Assets.decoration)),
+      ),
     );
   }
 }
