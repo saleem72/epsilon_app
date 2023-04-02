@@ -5,6 +5,7 @@ import 'package:epsilon_app/core/helpers/database_communicator/domain/models/con
 
 import '../../../../../features/core/query_product/product_details_screen/models/product_datails.dart';
 import '../../../../errors/failure/failure.dart';
+import '../models/failures/connection_manager_failures.dart';
 
 abstract class DatabaseCommunicatorRepository {
   Future<Either<Failure, ProductDetails>> getProductBySerial(
@@ -12,4 +13,6 @@ abstract class DatabaseCommunicatorRepository {
   Future<Either<Failure, ProductDetails>> getProductByBarcode(
       {required ConnectionParams params, required String barcode});
   Future<Either<Failure, bool>> checkConnection(ConnectionParams params);
+  Future<Either<ConnectionFailureWithError, List<ConnectionInfo>>>
+      fetchCachedConnections();
 }

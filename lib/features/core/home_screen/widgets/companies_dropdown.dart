@@ -28,7 +28,7 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
       listener: (context, state) {
         if (state is DatabaseCommunicatorSetParams) {
           setState(() {
-            _value = state.company;
+            _value = state.params.company;
           });
         }
       },

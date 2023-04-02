@@ -35,42 +35,49 @@ class HomeScreenContent extends StatelessWidget {
       body: Stack(
         children: [
           _decorationImage(),
-          Column(
-            children: [
-              AppNavBar(title: Translator.translation(context).pick_company),
-              Expanded(
-                child: BlocBuilder<DatabaseCommunicator,
-                    DatabaseCommunicatorState>(
-                  builder: (context, state) {
-                    return Stack(
-                      children: [
-                        const HomeScreenTextFIelds(),
-                        state is DatabaseCommunicatorLoading
-                            ? const LoadingView(
-                                isLoading: true,
-                                color: AppColors.primaryDark,
-                              )
-                            : const SizedBox.shrink(),
-                        state is DatabaseCommunicatorCheckingFailure
-                            ? ErrorView(
-                                failure: state.failure,
-                                onAction: () {
-                                  context
-                                      .read<DatabaseCommunicator>()
-                                      .add(DatabaseCommunicatorClearError());
-                                },
-                              )
-                            : const SizedBox.shrink(),
-                        _handleSuccess(context),
-                      ],
-                    );
-                  },
-                ),
-              )
-            ],
+          Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Colors.transparent,
+            body: _content(context),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _content(BuildContext context) {
+    return Column(
+      children: [
+        AppNavBar(title: Translator.translation(context).pick_company),
+        Expanded(
+          child: BlocBuilder<DatabaseCommunicator, DatabaseCommunicatorState>(
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  const HomeScreenTextFIelds(),
+                  state is DatabaseCommunicatorLoading
+                      ? const LoadingView(
+                          isLoading: true,
+                          color: AppColors.primaryDark,
+                        )
+                      : const SizedBox.shrink(),
+                  state is DatabaseCommunicatorCheckingFailure
+                      ? ErrorView(
+                          failure: state.failure,
+                          onAction: () {
+                            context
+                                .read<DatabaseCommunicator>()
+                                .add(DatabaseCommunicatorClearError());
+                          },
+                        )
+                      : const SizedBox.shrink(),
+                  _handleSuccess(context),
+                ],
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 
@@ -150,11 +157,11 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
   }
 
   _fillTextFields(DatabaseCommunicatorSetParams state) {
-    _host.text = state.host;
-    _port.text = state.port;
-    _database.text = state.database;
-    _username.text = state.username;
-    _password.text = state.password;
+    _host.text = state.params.host;
+    _port.text = state.params.port;
+    _database.text = state.params.database;
+    _username.text = state.params.username;
+    _password.text = state.params.password;
   }
 
   Widget _connectionParamsListner(BuildContext context) {

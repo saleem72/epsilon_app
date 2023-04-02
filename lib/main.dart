@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<DatabaseCommunicator>(
           create: (context) =>
-              di.locator()..add(DatabaseCommunicatorFetchConnections()),
+              di.locator()..add(DatabaseCommunicatorFetchCachedConnections()),
         )
       ],
       child: const EpsilonApp(),

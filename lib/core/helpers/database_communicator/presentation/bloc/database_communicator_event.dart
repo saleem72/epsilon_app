@@ -94,6 +94,7 @@ class GetProductBySerial extends DatabaseCommunicatorEvent {
 
 class DatabaseCommunicatorCheckConnection extends DatabaseCommunicatorEvent {}
 
-class DatabaseCommunicatorFetchConnections extends DatabaseCommunicatorEvent {}
+class DatabaseCommunicatorFetchCachedConnections
+    extends DatabaseCommunicatorEvent {}
 
 class DatabaseCommunicatorClearError extends DatabaseCommunicatorEvent {}

@@ -11,6 +11,8 @@ import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
 import 'package:epsilon_app/features/core/query_product/product_details_screen/models/product_datails.dart';
 import 'package:epsilon_app/features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
 
+import '../../domain/models/company.dart';
+
 class DatabaseCommunicatorRepositoryImpl
     implements DatabaseCommunicatorRepository {
   final NetworkInfo _networkInfo;
@@ -94,5 +96,21 @@ class DatabaseCommunicatorRepositoryImpl
         return _mapToProductDetails(records);
       },
     );
+  }
+
+  @override
+  Future<Either<ConnectionFailureWithError, List<ConnectionInfo>>>
+      fetchCachedConnections() async {
+    final info = ConnectionInfo(
+      id: 1,
+      lastInUse: true,
+      host: 'epsilondemo.dyndns.org',
+      port: '1433',
+      database: 'amndbtest1',
+      username: 'sa',
+      password: 'H123456789h',
+      company: Company.alameen,
+    );
+    return Right([info]);
   }
 }

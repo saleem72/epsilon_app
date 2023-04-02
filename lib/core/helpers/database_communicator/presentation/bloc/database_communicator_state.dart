@@ -12,23 +12,12 @@ class DatabaseCommunicatorEmptyState extends DatabaseCommunicatorState {}
 class DatabaseCommunicatorLoading extends DatabaseCommunicatorState {}
 
 class DatabaseCommunicatorSetParams extends DatabaseCommunicatorState {
-  final String host;
-  final String port;
-  final String database;
-  final String username;
-  final String password;
-  final Company company;
+  final ConnectionParams params;
   DatabaseCommunicatorSetParams({
-    required this.host,
-    required this.port,
-    required this.database,
-    required this.username,
-    required this.password,
-    required this.company,
+    required this.params,
   });
   @override
-  List<Object?> get props =>
-      [host, port, database, username, password, company];
+  List<Object?> get props => [params];
 }
 
 class DatabaseCommunicatorExecutionFailure extends DatabaseCommunicatorState {

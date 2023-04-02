@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, invalid_use_of_visible_for_testing_member
 
 import 'package:bloc/bloc.dart';
+import 'package:epsilon_app/core/extensions/connection_info_list_extension.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class DatabaseCommunicator
     on<DatabaseCommunicatorPasswordHasChange>(_onPasswordHasChange);
     on<DatabaseCommunicatorCompanyHasChange>(_onCompanyHasChange);
 
-    on<DatabaseCommunicatorFetchConnections>(_onFetchConnections);
+    on<DatabaseCommunicatorFetchCachedConnections>(_onFetchCachedConnections);
     on<DatabaseCommunicatorCheckConnection>(_onCheckConnection);
     on<DatabaseCommunicatorClearError>(_onClearError);
     on<GetProductBySerial>(_onGetProductBySerial);
@@ -120,29 +121,36 @@ class DatabaseCommunicator
     );
   }
 
+  _onFetchCachedConnections(DatabaseCommunicatorFetchCachedConnections event,
+      Emitter<DatabaseCommunicatorState> emit) async {
+    final connectionsResponse = await _repository.fetchCachedConnections();
+    connectionsResponse.fold(
+      (failure) {
+        emit(DatabaseCommunicatorCheckingFailure(
+            failure: ConnectionManagerFailToConnect(error: failure.error)));
+      },
+      (connections) {
+        final lastInUse = connections.lastInUse();
+        if (lastInUse != null) {
+          _extractConnectionInfo(lastInUse);
+          emit(DatabaseCommunicatorSetParams(params: _params));
+        }
+      },
+    );
+  }
+
+  _extractConnectionInfo(ConnectionInfo info) {
+    host = info.host;
+    port = info.port;
+    database = info.database;
+    username = info.username;
+    password = info.password;
+    company = Company.alameen;
+  }
+
   _onClearError(DatabaseCommunicatorClearError event,
       Emitter<DatabaseCommunicatorState> emit) {
     emit(DatabaseCommunicatorEmptyState());
-  }
-
-  _onFetchConnections(DatabaseCommunicatorFetchConnections event,
-      Emitter<DatabaseCommunicatorState> emit) {
-    host = 'epsilondemo.dyndns.org';
-    port = '1433';
-    database = 'amndbtest1';
-    username = 'sa';
-    password = 'H123456789h';
-    company = Company.alameen;
-    emit(
-      DatabaseCommunicatorSetParams(
-        host: host,
-        port: port,
-        database: database,
-        username: username,
-        password: password,
-        company: company!,
-      ),
-    );
   }
 
   _onPasswordHasChange(DatabaseCommunicatorPasswordHasChange event,
