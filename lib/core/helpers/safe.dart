@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //
 
-import 'package:epsilon_app/features/pre_launch/main_controller/main_controller_bloc/main_controller_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../features/auth/login_screen/presentation/auth_bloc/auth_bloc.dart';
 
 class SafeKeys {
   SafeKeys._();
@@ -20,6 +21,8 @@ class SafeKeys {
 
   static const String onBoarding = 'restlist_onboarding';
 }
+
+enum AuthOption { none, home, login }
 
 class Safe {
   final SharedPreferences _storage;
@@ -99,11 +102,11 @@ class Safe {
     return (token != null) && (token.isNotEmpty);
   }
 
-  MainControllerStatus getAuthStatus() {
+  AuthOption getAuthStatus() {
     if (isAuthorized()) {
-      return MainControllerStatus.home;
+      return AuthOption.home;
     } else {
-      return MainControllerStatus.login;
+      return AuthOption.login;
     }
   }
 }

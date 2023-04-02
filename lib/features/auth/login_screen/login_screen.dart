@@ -15,16 +15,16 @@ import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/gradient_button.dart';
 import '../../../dependancy_injection.dart' as di;
+import 'presentation/auth_bloc/auth_bloc.dart';
 import 'presentation/login_bloc/login_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key, required this.onLoginSuccess});
-  final Function onLoginSuccess;
+  const LoginScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
       create: (context) => di.locator(),
-      child: LoginScreenContent(onLoginSuccess: onLoginSuccess),
+      child: const LoginScreenContent(),
     );
   }
 }
@@ -32,9 +32,7 @@ class LoginScreen extends StatelessWidget {
 class LoginScreenContent extends StatelessWidget {
   const LoginScreenContent({
     super.key,
-    required this.onLoginSuccess,
   });
-  final Function onLoginSuccess;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +43,12 @@ class LoginScreenContent extends StatelessWidget {
         child: Column(
           children: [
             AppNavBar(title: Translator.translation(context).login),
-            BlocBuilder<LoginBloc, LoginState>(
+            BlocConsumer<LoginBloc, LoginState>(
+              listener: (context, state) {
+                if (state.loginSuccessfully) {
+                  context.read<AuthBloc>().add(const AuthEvent.authorized());
+                }
+              },
               builder: (context, state) {
                 return Expanded(
                   child: Stack(
@@ -86,7 +89,6 @@ class LoginScreenContent extends StatelessWidget {
         _passwordTextField(context, state.passwordStatus),
         const SizedBox(height: 30),
         _loginButton(context, state.isValid),
-        _handleSuccsess(context, state.loginSuccessfully)
       ],
     ));
   }
@@ -94,17 +96,6 @@ class LoginScreenContent extends StatelessWidget {
   Widget _decorationImage() {
     // width: 177.63, height: 401.2
     return const AppDecorationImage();
-  }
-
-  Widget _handleSuccsess(BuildContext context, bool success) {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.loginSuccessfully) {
-          onLoginSuccess();
-        }
-      },
-      child: const SizedBox.shrink(),
-    );
   }
 
   Widget _loginButton(BuildContext context, bool isEnabled) {

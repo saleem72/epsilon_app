@@ -18,8 +18,8 @@ import 'core/helpers/database_communicator/data/sql_statements_provider/local_sq
 import 'core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'core/helpers/database_communicator/domain/sql_statements_provider/sql_statement_provider.dart';
 import 'core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
+import 'features/auth/login_screen/presentation/auth_bloc/auth_bloc.dart';
 import 'features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
-import 'features/pre_launch/main_controller/main_controller_bloc/main_controller_bloc.dart';
 
 final locator = GetIt.instance;
 
@@ -55,7 +55,7 @@ Future<void> initDependancies() async {
       .registerLazySingleton<ApiHelper>(() => HttpApiHelper(client: locator()));
   locator.registerLazySingleton(() => Safe(storage: locator()));
 
-  locator.registerLazySingleton(() => MainControllerBloc(safe: locator()));
+  locator.registerLazySingleton(() => AuthBloc(safe: locator()));
 
   // External
   final SharedPreferences sharedPreferences =

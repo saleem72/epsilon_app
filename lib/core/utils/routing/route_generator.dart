@@ -2,7 +2,9 @@
 
 import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/routing/routing_error.dart';
+import 'package:epsilon_app/features/auth/login_screen/login_screen.dart';
 import 'package:epsilon_app/features/core/customer_account/customer_search/customer_search.dart';
+import 'package:epsilon_app/features/core/home_screen/home_screen.dart';
 import 'package:epsilon_app/features/core/operations_screen/operations_screen.dart';
 import 'package:epsilon_app/features/pre_launch/landing_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,14 @@ class RouteGenerator {
       case AppScreens.initial:
         return MaterialPageRoute(
           builder: (context) => const LandingScreen(),
+        );
+      case AppScreens.home:
+        return MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        );
+      case AppScreens.login:
+        return MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
         );
       case AppScreens.operationsScreen:
         return MaterialPageRoute(
