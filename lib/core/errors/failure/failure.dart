@@ -50,3 +50,9 @@ class DecodingFailure extends Failure {
   String message(BuildContext context) =>
       Translator.translation(context).decoding_failure;
 }
+
+class InvalidConnectionParams extends Failure {
+  @override
+  String message(BuildContext context) =>
+      'no connection re check your connection again';
+}

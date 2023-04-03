@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:epsilon_app/core/extensions/connection_info_list_extension.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/models/company.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,8 +78,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     connectionsResponse.fold(
       (failure) {},
       (connections) {
-        final lastInUse = connections.lastInUse();
-        if (lastInUse != null) {
+        if (connections.isNotEmpty) {
+          final lastInUse = connections.first;
           emit(state.copyWith(
             forceUpdate: true,
             host: lastInUse.host,
@@ -88,7 +87,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             database: lastInUse.database,
             username: lastInUse.username,
             password: lastInUse.password,
-            company: Some(lastInUse.company),
+            company: optionOf(lastInUse.company),
           ));
         }
       },

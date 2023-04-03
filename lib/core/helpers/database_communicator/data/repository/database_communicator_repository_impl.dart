@@ -12,6 +12,8 @@ import 'package:epsilon_app/features/core/query_product/product_details_screen/m
 import 'package:epsilon_app/features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
 
 import '../../domain/models/company.dart';
+import '../local_cache/database/app_database.dart';
+import '../models/connection_params_dto.dart';
 
 class DatabaseCommunicatorRepositoryImpl
     implements DatabaseCommunicatorRepository {
@@ -19,15 +21,18 @@ class DatabaseCommunicatorRepositoryImpl
   final ConnectionManager _connectionManager;
   final SqlStatmentProvider _sqlProvider;
   final ProductDetailsMapper _productDetailsMapper;
+  final AppDatabase _db;
 
   DatabaseCommunicatorRepositoryImpl({
     required NetworkInfo networkInfo,
     required ConnectionManager connectionManager,
     required SqlStatmentProvider sqlProvider,
     required ProductDetailsMapper productDetailsMapper,
+    required AppDatabase db,
   })  : _networkInfo = networkInfo,
         _connectionManager = connectionManager,
         _sqlProvider = sqlProvider,
+        _db = db,
         _productDetailsMapper = productDetailsMapper;
 
   @override
@@ -40,13 +45,28 @@ class DatabaseCommunicatorRepositoryImpl
     final result = await _connectionManager.checkConnection(params: params);
     return result.fold(
       (failure) => Left(ConnectionManagerFailToConnect(error: failure.error)),
-      (r) => const Right(true),
+      (r) {
+        final connectionEntity =
+            ConnectionParamsDTO.fromDomain(params).toEntity();
+        _db.connectionsDAO.updateConnection(connectionEntity);
+        return const Right(true);
+      },
     );
+  }
+
+  Future<ConnectionParams> _getLastInUseConnection() async {
+    try {
+      final connectionEntity = await _db.connectionsDAO.getLastInUseOrNull();
+      final newParams =
+          ConnectionParamsDTO.fromEntity(connectionEntity).toDomain();
+      return newParams;
+    } catch (e) {
+      throw InvalidConnectionParams();
+    }
   }
 
   @override
   Future<Either<Failure, ProductDetails>> getProductByBarcode({
-    required ConnectionParams params,
     required String barcode,
   }) async {
     final isConnected = await _networkInfo.isConnected;
@@ -54,16 +74,23 @@ class DatabaseCommunicatorRepositoryImpl
       return Left(NoInternetConnection());
     }
     final query = await _sqlProvider.statementForBarcode(barcode);
-    final result =
-        await _connectionManager.executeStatmet(query: query, params: params);
-    return result.fold(
-      (failure) {
-        return Left(failure);
-      },
-      (records) {
-        return _mapToProductDetails(records);
-      },
-    );
+
+    try {
+      final cachedConnection = await _getLastInUseConnection();
+      final result = await _connectionManager.executeStatmet(
+          query: query, params: cachedConnection);
+
+      return result.fold(
+        (failure) {
+          return Left(failure);
+        },
+        (records) {
+          return _mapToProductDetails(records);
+        },
+      );
+    } on InvalidConnectionParams catch (e) {
+      return Left(e);
+    }
   }
 
   Either<Failure, ProductDetails> _mapToProductDetails(
@@ -78,7 +105,6 @@ class DatabaseCommunicatorRepositoryImpl
 
   @override
   Future<Either<Failure, ProductDetails>> getProductBySerial({
-    required ConnectionParams params,
     required String serial,
   }) async {
     final isConnected = await _networkInfo.isConnected;
@@ -86,31 +112,32 @@ class DatabaseCommunicatorRepositoryImpl
       return Left(NoInternetConnection());
     }
     final query = await _sqlProvider.statementForSerial(serial);
-    final result =
-        await _connectionManager.executeStatmet(query: query, params: params);
-    return result.fold(
-      (failure) {
-        return Left(failure);
-      },
-      (records) {
-        return _mapToProductDetails(records);
-      },
-    );
+
+    try {
+      final cachedConnection = await _getLastInUseConnection();
+      final result = await _connectionManager.executeStatmet(
+          query: query, params: cachedConnection);
+      return result.fold(
+        (failure) {
+          return Left(failure);
+        },
+        (records) {
+          return _mapToProductDetails(records);
+        },
+      );
+    } on InvalidConnectionParams catch (e) {
+      return Left(e);
+    }
   }
 
   @override
-  Future<Either<ConnectionFailureWithError, List<ConnectionInfo>>>
+  Future<Either<Failure, List<ConnectionParams>>>
       fetchCachedConnections() async {
-    final info = ConnectionInfo(
-      id: 1,
-      lastInUse: true,
-      host: 'epsilondemo.dyndns.org',
-      port: '1433',
-      database: 'amndbtest1',
-      username: 'sa',
-      password: 'H123456789h',
-      company: Company.alameen,
-    );
-    return Right([info]);
+    try {
+      final cachedConnection = await _getLastInUseConnection();
+      return right([cachedConnection]);
+    } on InvalidConnectionParams catch (e) {
+      return left(e);
+    }
   }
 }

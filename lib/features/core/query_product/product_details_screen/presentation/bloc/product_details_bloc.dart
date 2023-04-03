@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:epsilon_app/core/helpers/database_communicator/domain/models/connection_params.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -43,13 +42,6 @@ class ProductDetailsBloc
       _GetProductByBarcode event, Emitter<ProductDetailsState> emit) async {
     emit(const ProductDetailsState.loading());
     final response = await _repository.getProductByBarcode(
-      params: const ConnectionParams(
-        host: 'epsilondemo.dyndns.org',
-        port: '1433',
-        database: 'amndbtest1',
-        username: 'sa',
-        password: 'H123456789h',
-      ),
       barcode: event.barcode,
     );
     response.fold(
@@ -64,13 +56,6 @@ class ProductDetailsBloc
       _GetProductBySerial event, Emitter<ProductDetailsState> emit) async {
     emit(const ProductDetailsState.loading());
     final response = await _repository.getProductBySerial(
-      params: const ConnectionParams(
-        host: 'epsilondemo.dyndns.org',
-        port: '1433',
-        database: 'amndbtest1',
-        username: 'sa',
-        password: 'H123456789h',
-      ),
       serial: event.serial,
     );
     response.fold(

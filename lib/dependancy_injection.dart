@@ -16,6 +16,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/helpers/database_communicator/data/connection_manager/connection_manager.dart';
+import 'core/helpers/database_communicator/data/local_cache/database/app_database.dart';
 import 'core/helpers/database_communicator/data/sql_statements_provider/local_sql_statment_provider.dart';
 import 'core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'core/helpers/database_communicator/domain/sql_statements_provider/sql_statement_provider.dart';
@@ -46,8 +47,12 @@ Future<void> initDependancies() async {
       connectionManager: locator(),
       sqlProvider: locator(),
       productDetailsMapper: locator(),
+      db: locator(),
     ),
   );
+
+  // database
+  locator.registerSingleton(AppDatabase());
 
   // Core
   locator.registerLazySingleton<NetworkInfo>(
