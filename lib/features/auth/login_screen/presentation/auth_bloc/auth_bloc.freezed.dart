@@ -37,20 +37,20 @@ mixin _$AuthEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(AuthEventCheckAuthStatus value) checkAuthStatus,
-    required TResult Function(AuthEventAuthorized value) authorized,
+    required TResult Function(_CheckAuthStatus value) checkAuthStatus,
+    required TResult Function(_Authorized value) authorized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthEventCheckAuthStatus value)? checkAuthStatus,
-    TResult? Function(AuthEventAuthorized value)? authorized,
+    TResult? Function(_CheckAuthStatus value)? checkAuthStatus,
+    TResult? Function(_Authorized value)? authorized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthEventCheckAuthStatus value)? checkAuthStatus,
-    TResult Function(AuthEventAuthorized value)? authorized,
+    TResult Function(_CheckAuthStatus value)? checkAuthStatus,
+    TResult Function(_Authorized value)? authorized,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -74,25 +74,25 @@ class _$AuthEventCopyWithImpl<$Res, $Val extends AuthEvent>
 }
 
 /// @nodoc
-abstract class _$$AuthEventCheckAuthStatusCopyWith<$Res> {
-  factory _$$AuthEventCheckAuthStatusCopyWith(_$AuthEventCheckAuthStatus value,
-          $Res Function(_$AuthEventCheckAuthStatus) then) =
-      __$$AuthEventCheckAuthStatusCopyWithImpl<$Res>;
+abstract class _$$_CheckAuthStatusCopyWith<$Res> {
+  factory _$$_CheckAuthStatusCopyWith(
+          _$_CheckAuthStatus value, $Res Function(_$_CheckAuthStatus) then) =
+      __$$_CheckAuthStatusCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$AuthEventCheckAuthStatusCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthEventCheckAuthStatus>
-    implements _$$AuthEventCheckAuthStatusCopyWith<$Res> {
-  __$$AuthEventCheckAuthStatusCopyWithImpl(_$AuthEventCheckAuthStatus _value,
-      $Res Function(_$AuthEventCheckAuthStatus) _then)
+class __$$_CheckAuthStatusCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$_CheckAuthStatus>
+    implements _$$_CheckAuthStatusCopyWith<$Res> {
+  __$$_CheckAuthStatusCopyWithImpl(
+      _$_CheckAuthStatus _value, $Res Function(_$_CheckAuthStatus) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$AuthEventCheckAuthStatus implements AuthEventCheckAuthStatus {
-  const _$AuthEventCheckAuthStatus();
+class _$_CheckAuthStatus implements _CheckAuthStatus {
+  const _$_CheckAuthStatus();
 
   @override
   String toString() {
@@ -102,8 +102,7 @@ class _$AuthEventCheckAuthStatus implements AuthEventCheckAuthStatus {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthEventCheckAuthStatus);
+        (other.runtimeType == runtimeType && other is _$_CheckAuthStatus);
   }
 
   @override
@@ -143,8 +142,8 @@ class _$AuthEventCheckAuthStatus implements AuthEventCheckAuthStatus {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(AuthEventCheckAuthStatus value) checkAuthStatus,
-    required TResult Function(AuthEventAuthorized value) authorized,
+    required TResult Function(_CheckAuthStatus value) checkAuthStatus,
+    required TResult Function(_Authorized value) authorized,
   }) {
     return checkAuthStatus(this);
   }
@@ -152,8 +151,8 @@ class _$AuthEventCheckAuthStatus implements AuthEventCheckAuthStatus {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthEventCheckAuthStatus value)? checkAuthStatus,
-    TResult? Function(AuthEventAuthorized value)? authorized,
+    TResult? Function(_CheckAuthStatus value)? checkAuthStatus,
+    TResult? Function(_Authorized value)? authorized,
   }) {
     return checkAuthStatus?.call(this);
   }
@@ -161,8 +160,8 @@ class _$AuthEventCheckAuthStatus implements AuthEventCheckAuthStatus {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthEventCheckAuthStatus value)? checkAuthStatus,
-    TResult Function(AuthEventAuthorized value)? authorized,
+    TResult Function(_CheckAuthStatus value)? checkAuthStatus,
+    TResult Function(_Authorized value)? authorized,
     required TResult orElse(),
   }) {
     if (checkAuthStatus != null) {
@@ -172,30 +171,30 @@ class _$AuthEventCheckAuthStatus implements AuthEventCheckAuthStatus {
   }
 }
 
-abstract class AuthEventCheckAuthStatus implements AuthEvent {
-  const factory AuthEventCheckAuthStatus() = _$AuthEventCheckAuthStatus;
+abstract class _CheckAuthStatus implements AuthEvent {
+  const factory _CheckAuthStatus() = _$_CheckAuthStatus;
 }
 
 /// @nodoc
-abstract class _$$AuthEventAuthorizedCopyWith<$Res> {
-  factory _$$AuthEventAuthorizedCopyWith(_$AuthEventAuthorized value,
-          $Res Function(_$AuthEventAuthorized) then) =
-      __$$AuthEventAuthorizedCopyWithImpl<$Res>;
+abstract class _$$_AuthorizedCopyWith<$Res> {
+  factory _$$_AuthorizedCopyWith(
+          _$_Authorized value, $Res Function(_$_Authorized) then) =
+      __$$_AuthorizedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$AuthEventAuthorizedCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthEventAuthorized>
-    implements _$$AuthEventAuthorizedCopyWith<$Res> {
-  __$$AuthEventAuthorizedCopyWithImpl(
-      _$AuthEventAuthorized _value, $Res Function(_$AuthEventAuthorized) _then)
+class __$$_AuthorizedCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$_Authorized>
+    implements _$$_AuthorizedCopyWith<$Res> {
+  __$$_AuthorizedCopyWithImpl(
+      _$_Authorized _value, $Res Function(_$_Authorized) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$AuthEventAuthorized implements AuthEventAuthorized {
-  const _$AuthEventAuthorized();
+class _$_Authorized implements _Authorized {
+  const _$_Authorized();
 
   @override
   String toString() {
@@ -205,7 +204,7 @@ class _$AuthEventAuthorized implements AuthEventAuthorized {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$AuthEventAuthorized);
+        (other.runtimeType == runtimeType && other is _$_Authorized);
   }
 
   @override
@@ -245,8 +244,8 @@ class _$AuthEventAuthorized implements AuthEventAuthorized {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(AuthEventCheckAuthStatus value) checkAuthStatus,
-    required TResult Function(AuthEventAuthorized value) authorized,
+    required TResult Function(_CheckAuthStatus value) checkAuthStatus,
+    required TResult Function(_Authorized value) authorized,
   }) {
     return authorized(this);
   }
@@ -254,8 +253,8 @@ class _$AuthEventAuthorized implements AuthEventAuthorized {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthEventCheckAuthStatus value)? checkAuthStatus,
-    TResult? Function(AuthEventAuthorized value)? authorized,
+    TResult? Function(_CheckAuthStatus value)? checkAuthStatus,
+    TResult? Function(_Authorized value)? authorized,
   }) {
     return authorized?.call(this);
   }
@@ -263,8 +262,8 @@ class _$AuthEventAuthorized implements AuthEventAuthorized {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthEventCheckAuthStatus value)? checkAuthStatus,
-    TResult Function(AuthEventAuthorized value)? authorized,
+    TResult Function(_CheckAuthStatus value)? checkAuthStatus,
+    TResult Function(_Authorized value)? authorized,
     required TResult orElse(),
   }) {
     if (authorized != null) {
@@ -274,8 +273,8 @@ class _$AuthEventAuthorized implements AuthEventAuthorized {
   }
 }
 
-abstract class AuthEventAuthorized implements AuthEvent {
-  const factory AuthEventAuthorized() = _$AuthEventAuthorized;
+abstract class _Authorized implements AuthEvent {
+  const factory _Authorized() = _$_Authorized;
 }
 
 /// @nodoc

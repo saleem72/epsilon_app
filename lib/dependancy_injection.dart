@@ -8,6 +8,8 @@ import 'package:epsilon_app/core/helpers/safe.dart';
 import 'package:epsilon_app/core/usecases/validate_password.dart';
 import 'package:epsilon_app/core/usecases/validate_username.dart';
 import 'package:epsilon_app/features/auth/login_screen/login_dependancies.dart';
+import 'package:epsilon_app/features/core/home_screen/bloc/home_bloc.dart';
+import 'package:epsilon_app/features/core/query_product/product_details_screen/presentation/bloc/product_details_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -17,7 +19,6 @@ import 'core/helpers/database_communicator/data/connection_manager/connection_ma
 import 'core/helpers/database_communicator/data/sql_statements_provider/local_sql_statment_provider.dart';
 import 'core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'core/helpers/database_communicator/domain/sql_statements_provider/sql_statement_provider.dart';
-import 'core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import 'features/auth/login_screen/presentation/auth_bloc/auth_bloc.dart';
 import 'features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
 
@@ -27,9 +28,11 @@ Future<void> initDependancies() async {
   // Features
   initLoginDependancies(locator);
 
+  locator.registerFactory(() => ProductDetailsBloc(repository: locator()));
+
   // DatabaseProvider Bloc
-  locator.registerLazySingleton(
-    () => DatabaseCommunicator(
+  locator.registerFactory(
+    () => HomeBloc(
       repository: locator(),
     ),
   );

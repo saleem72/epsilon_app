@@ -13,6 +13,6 @@ part of 'auth_bloc.dart';
 
 @freezed
 class AuthEvent with _$AuthEvent {
-  const factory AuthEvent.checkAuthStatus() = AuthEventCheckAuthStatus;
-  const factory AuthEvent.authorized() = AuthEventAuthorized;
+  const factory AuthEvent.checkAuthStatus() = _CheckAuthStatus;
+  const factory AuthEvent.authorized() = _Authorized;
 }

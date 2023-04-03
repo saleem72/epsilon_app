@@ -3,10 +3,9 @@
 import 'dart:math';
 
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/features/core/query_product/product_details_screen/models/barcode_or_serial.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import '../../../../core/utils/styling/assets/app_icons.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
@@ -130,13 +129,12 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_serial.text.isNotEmpty) {
-          context.read<DatabaseCommunicator>().add(
-                GetProductBySerial(serial: _serial.text),
-              );
-          // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-                builder: (context) => const ProductDetailsScreen()),
+              builder: (context) => ProductDetailsScreen(
+                input: BarcodeOrSerial.serial(serial: _serial.text),
+              ),
+            ),
           );
         }
       },
@@ -177,12 +175,12 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   }
 
   void _handleBarcode(BuildContext context, String barcode) {
-    context.read<DatabaseCommunicator>().add(
-          GetProductByBarCode(barcode: barcode),
-        );
-    // Navigator.of(context).pushNamed(AppScreens.subjectDetailsScreen);
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const ProductDetailsScreen()),
+      MaterialPageRoute(
+        builder: (context) => ProductDetailsScreen(
+          input: BarcodeOrSerial.barcode(barcode: barcode),
+        ),
+      ),
     );
   }
 }

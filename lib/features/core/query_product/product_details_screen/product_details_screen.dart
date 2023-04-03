@@ -2,18 +2,37 @@
 
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/widgets/error_view.dart';
+import 'package:epsilon_app/dependancy_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/loading_view.dart';
+import 'models/barcode_or_serial.dart';
 import 'models/product_datails.dart';
+import 'presentation/bloc/product_details_bloc.dart';
 import 'presentation/widgets/product_card.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({
+    super.key,
+    required this.input,
+  });
+  final BarcodeOrSerial input;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => locator<ProductDetailsBloc>()
+        ..add(ProductDetailsEvent.getProduct(product: input)),
+      child: const ProductDetailsScreenContent(),
+    );
+  }
+}
+
+class ProductDetailsScreenContent extends StatelessWidget {
+  const ProductDetailsScreenContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,31 +60,31 @@ class ProductDetailsScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: BlocBuilder<DatabaseCommunicator,
-                    DatabaseCommunicatorState>(
+                child: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
                   builder: (context, state) {
                     return Stack(
                       children: [
-                        state is GettingProductWithSuccess
+                        state is ProductDetailsWithSuccess
                             ? const SizedBox.shrink()
                             : const SingleChildScrollView(
                                 child: ProductCard(),
                               ),
-                        state is DatabaseCommunicatorLoading
+                        state is ProductDetailsLoading
                             ? const LoadingView(
                                 isLoading: true,
                                 color: AppColors.primaryDark,
                               )
                             : const SizedBox.shrink(),
-                        state is DatabaseCommunicatorExecutionFailure
+                        state is ProductDetailsWithFailure
                             ? ErrorView(
                                 onAction: () => context
-                                    .read<DatabaseCommunicator>()
-                                    .add(DatabaseCommunicatorClearError()),
+                                    .read<ProductDetailsBloc>()
+                                    .add(
+                                        const ProductDetailsEvent.clearError()),
                                 failure: state.failure,
                               )
                             : const SizedBox.shrink(),
-                        state is GettingProductWithSuccess
+                        state is ProductDetailsWithSuccess
                             ? _buildProductCard(context, state.product)
                             : const SizedBox.shrink(),
                       ],

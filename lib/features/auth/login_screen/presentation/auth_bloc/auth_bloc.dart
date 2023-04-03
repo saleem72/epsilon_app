@@ -20,12 +20,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthStatus> {
       },
     );
   }
-  _onAuthorized(AuthEventAuthorized event, Emitter<AuthStatus> emit) {
+  _onAuthorized(_Authorized event, Emitter<AuthStatus> emit) {
     safe.setToken('Ok');
     emit(const AuthStatus.home());
   }
 
-  _onCheckAuthStatus(AuthEventCheckAuthStatus event, Emitter<AuthStatus> emit) {
+  _onCheckAuthStatus(_CheckAuthStatus event, Emitter<AuthStatus> emit) {
     final option = safe.getAuthStatus();
     switch (option) {
       case AuthOption.home:

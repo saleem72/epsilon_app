@@ -1,11 +1,11 @@
 //
 
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
+import 'package:epsilon_app/features/core/home_screen/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/database_communicator/domain/models/company.dart';
-import '../../../../core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import '../../../../core/helpers/localization/language_constants.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/utils/styling/topology/topology.dart';
@@ -22,14 +22,15 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
   final double itemHeight = 58;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DatabaseCommunicator, DatabaseCommunicatorState>(
-      listenWhen: (previous, current) =>
-          current is DatabaseCommunicatorSetParams,
+    return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
-        if (state is DatabaseCommunicatorSetParams) {
-          setState(() {
-            _value = state.params.company;
-          });
+        if (state.forceUpdate) {
+          state.company.fold(
+            () {},
+            (company) => setState(() {
+              _value = company;
+            }),
+          );
         }
       },
       child: Column(
@@ -124,8 +125,8 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
         setState(() {
           _value = item;
           context
-              .read<DatabaseCommunicator>()
-              .add(DatabaseCommunicatorCompanyHasChange(company: item));
+              .read<HomeBloc>()
+              .add(HomeEvent.companyHasChanged(company: item));
         });
       }, // => _actionForMenuItem(context, item: item),
       itemBuilder: (context) => Company.values

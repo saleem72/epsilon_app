@@ -5,7 +5,6 @@ import 'package:epsilon_app/features/pre_launch/epsilon_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import 'features/auth/login_screen/presentation/auth_bloc/auth_bloc.dart';
 
 void main() async {
@@ -26,10 +25,6 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               di.locator()..add(const AuthEvent.checkAuthStatus()),
         ),
-        BlocProvider<DatabaseCommunicator>(
-          create: (context) =>
-              di.locator()..add(DatabaseCommunicatorFetchCachedConnections()),
-        )
       ],
       child: const EpsilonApp(),
     );

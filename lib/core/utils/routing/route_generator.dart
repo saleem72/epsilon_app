@@ -38,10 +38,6 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => const QueryProductScreen(),
         );
-      case AppScreens.subjectDetailsScreen:
-        return MaterialPageRoute(
-          builder: (context) => const ProductDetailsScreen(),
-        );
       case AppScreens.customerSearch:
         return MaterialPageRoute(
           builder: (context) => const CustomerSearch(),

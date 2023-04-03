@@ -5,10 +5,11 @@ import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_app/core/widgets/loading_view.dart';
+import 'package:epsilon_app/dependancy_injection.dart';
+import 'package:epsilon_app/features/core/home_screen/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/helpers/database_communicator/presentation/bloc/database_communicator.dart';
 import '../../../core/utils/styling/assets/app_icons.dart';
 import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
@@ -21,7 +22,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomeScreenContent();
+    return BlocProvider(
+      create: (_) =>
+          locator<HomeBloc>()..add(const HomeEvent.fetchCachedConnection()),
+      child: const HomeScreenContent(),
+    );
   }
 }
 
@@ -50,28 +55,33 @@ class HomeScreenContent extends StatelessWidget {
       children: [
         AppNavBar(title: Translator.translation(context).pick_company),
         Expanded(
-          child: BlocBuilder<DatabaseCommunicator, DatabaseCommunicatorState>(
+          child: BlocConsumer<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state.connectSuccessfully) {
+                Navigator.of(context).pushNamed(AppScreens.operationsScreen);
+              }
+            },
             builder: (context, state) {
               return Stack(
                 children: [
                   const HomeScreenTextFIelds(),
-                  state is DatabaseCommunicatorLoading
+                  state.isLoading
                       ? const LoadingView(
                           isLoading: true,
                           color: AppColors.primaryDark,
                         )
                       : const SizedBox.shrink(),
-                  state is DatabaseCommunicatorCheckingFailure
-                      ? ErrorView(
-                          failure: state.failure,
-                          onAction: () {
-                            context
-                                .read<DatabaseCommunicator>()
-                                .add(DatabaseCommunicatorClearError());
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                  _handleSuccess(context),
+                  state.failure.fold(
+                    () => const SizedBox.shrink(),
+                    (f) => ErrorView(
+                      failure: f,
+                      onAction: () {
+                        context
+                            .read<HomeBloc>()
+                            .add(const HomeEvent.clearFailure());
+                      },
+                    ),
+                  ),
                 ],
               );
             },
@@ -89,17 +99,6 @@ class HomeScreenContent extends StatelessWidget {
         offset: const Offset(-110, 0),
         child: const AppDecorationImage(),
       ),
-    );
-  }
-
-  Widget _handleSuccess(BuildContext context) {
-    return BlocListener<DatabaseCommunicator, DatabaseCommunicatorState>(
-      listener: (context, state) {
-        if (state is DatabaseCommunicatorConnectSuccessfully) {
-          Navigator.of(context).pushNamed(AppScreens.operationsScreen);
-        }
-      },
-      child: const SizedBox.shrink(),
     );
   }
 }
@@ -130,51 +129,44 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 30),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: CompaniesDropDown(),
-          ),
-          const SizedBox(height: 30),
-          _usernameTextField(context),
-          const SizedBox(height: 30),
-          _passwordTextField(context),
-          const SizedBox(height: 30),
-          _databaseURl(context),
-          const SizedBox(height: 30),
-          _databasePort(context),
-          const SizedBox(height: 30),
-          _databaseName(context),
-          const SizedBox(height: 30),
-          _loginButton(context, true),
-          _connectionParamsListner(context),
-        ],
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state.forceUpdate) {
+          _fillTextFields(state);
+        }
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: CompaniesDropDown(),
+            ),
+            const SizedBox(height: 30),
+            _usernameTextField(context),
+            const SizedBox(height: 30),
+            _passwordTextField(context),
+            const SizedBox(height: 30),
+            _databaseURl(context),
+            const SizedBox(height: 30),
+            _databasePort(context),
+            const SizedBox(height: 30),
+            _databaseName(context),
+            const SizedBox(height: 30),
+            _loginButton(context, true),
+          ],
+        ),
       ),
     );
   }
 
-  _fillTextFields(DatabaseCommunicatorSetParams state) {
-    _host.text = state.params.host;
-    _port.text = state.params.port;
-    _database.text = state.params.database;
-    _username.text = state.params.username;
-    _password.text = state.params.password;
-  }
-
-  Widget _connectionParamsListner(BuildContext context) {
-    return BlocListener<DatabaseCommunicator, DatabaseCommunicatorState>(
-      listenWhen: (previous, current) =>
-          current is DatabaseCommunicatorSetParams,
-      listener: (context, state) {
-        if (state is DatabaseCommunicatorSetParams) {
-          _fillTextFields(state);
-        }
-      },
-      child: const SizedBox.shrink(),
-    );
+  _fillTextFields(HomeState state) {
+    _host.text = state.host;
+    _port.text = state.port;
+    _database.text = state.database;
+    _username.text = state.username;
+    _password.text = state.password;
   }
 
   Widget _passwordTextField(BuildContext context) {
@@ -187,8 +179,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.lock,
         isSecure: true,
         onChange: (value) => context
-            .read<DatabaseCommunicator>()
-            .add(DatabaseCommunicatorPasswordHasChange(password: value)),
+            .read<HomeBloc>()
+            .add(HomeEvent.passwordHasChanged(password: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -204,8 +196,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).user_name_hint,
         icon: AppIcons.user,
         onChange: (value) => context
-            .read<DatabaseCommunicator>()
-            .add(DatabaseCommunicatorUsernameHasChange(username: value)),
+            .read<HomeBloc>()
+            .add(HomeEvent.usernameHasChanged(username: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -221,9 +213,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).database_port_hint,
         icon: AppIcons.database,
         iconSize: 26,
-        onChange: (value) => context
-            .read<DatabaseCommunicator>()
-            .add(DatabaseCommunicatorPortHasChange(port: value)),
+        onChange: (value) =>
+            context.read<HomeBloc>().add(HomeEvent.portHasChanged(port: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -240,8 +231,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
-            .read<DatabaseCommunicator>()
-            .add(DatabaseCommunicatorDatabaseNameHasChange(database: value)),
+            .read<HomeBloc>()
+            .add(HomeEvent.databaseHasChanged(database: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -257,9 +248,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).database_url_hint,
         icon: AppIcons.database,
         iconSize: 26,
-        onChange: (value) => context
-            .read<DatabaseCommunicator>()
-            .add(DatabaseCommunicatorHostHasChange(host: value)),
+        onChange: (value) =>
+            context.read<HomeBloc>().add(HomeEvent.hostHasChanged(host: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -270,11 +260,9 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
     return GradientButton(
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        context
-            .read<DatabaseCommunicator>()
-            .add(DatabaseCommunicatorCheckConnection());
+        context.read<HomeBloc>().add(const HomeEvent.checkConnection());
       },
-      isEnabled: isEnabled,
+      isEnabled: context.watch<HomeBloc>().state.isValid(),
       label: Translator.translation(context).ok_button,
     );
   }
