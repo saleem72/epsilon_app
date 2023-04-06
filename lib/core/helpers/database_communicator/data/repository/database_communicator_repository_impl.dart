@@ -12,6 +12,7 @@ import 'package:epsilon_app/features/core/query_product/product_details_screen/m
 import 'package:epsilon_app/features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
 
 import '../../domain/models/company.dart';
+import '../../domain/models/failures/get_product_failure.dart';
 import '../local_cache/database/app_database.dart';
 import '../models/connection_params_dto.dart';
 
@@ -36,12 +37,31 @@ class DatabaseCommunicatorRepositoryImpl
         _productDetailsMapper = productDetailsMapper;
 
   @override
-  Future<Either<Failure, bool>> checkConnection(ConnectionParams params) async {
+  Future<Either<CheckConnectionFailure, bool>> checkConnection(
+      ConnectionParams params) async {
     final isConnected = await _networkInfo.isConnected;
     if (!isConnected) {
-      return Left(NoInternetConnection());
+      return Left(CheckConnectionFailure.noInternt());
     }
 
+    try {
+      final result = await _connectionManager.checkConnection(params: params);
+      final connectionEntity =
+          ConnectionParamsDTO.fromDomain(params).toEntity();
+      _db.connectionsDAO.updateConnection(connectionEntity);
+      return const Right(true);
+    } on InvalidConnectionHostException {
+      return Left(CheckConnectionFailure.hostFailure());
+    } on InvalidConnectionPortException {
+      return Left(CheckConnectionFailure.portFailure());
+    } on InvalidConnectionDatabaseException {
+      return Left(CheckConnectionFailure.databaseFailure());
+    } on InvalidConnectionUsernameOrPasswordException {
+      return Left(CheckConnectionFailure.usernameOrPasswordFailure());
+    } catch (e) {
+      return Left(CheckConnectionFailure.unExpected(message: e.toString()));
+    }
+    /*
     final result = await _connectionManager.checkConnection(params: params);
     return result.fold(
       (failure) => Left(ConnectionManagerFailToConnect(error: failure.error)),
@@ -52,6 +72,7 @@ class DatabaseCommunicatorRepositoryImpl
         return const Right(true);
       },
     );
+    */
   }
 
   Future<ConnectionParams> _getLastInUseConnection() async {
@@ -66,12 +87,12 @@ class DatabaseCommunicatorRepositoryImpl
   }
 
   @override
-  Future<Either<Failure, ProductDetails>> getProductByBarcode({
+  Future<Either<GetProductFailure, ProductDetails>> getProductByBarcode({
     required String barcode,
   }) async {
     final isConnected = await _networkInfo.isConnected;
     if (!isConnected) {
-      return Left(NoInternetConnection());
+      return const Left(GetProductFailure.noInternet());
     }
     final query = await _sqlProvider.statementForBarcode(barcode);
 
@@ -82,34 +103,38 @@ class DatabaseCommunicatorRepositoryImpl
 
       return result.fold(
         (failure) {
-          return Left(failure);
+          return const Left(GetProductFailure.connectionFailure());
         },
         (records) {
           return _mapToProductDetails(records);
         },
       );
-    } on InvalidConnectionParams catch (e) {
-      return Left(e);
+    } on InvalidConnectionParams catch (_) {
+      return const Left(GetProductFailure.connectionFailure());
     }
   }
 
-  Either<Failure, ProductDetails> _mapToProductDetails(
+  Either<GetProductFailure, ProductDetails> _mapToProductDetails(
       List<Map<String, String>> records) {
-    final mappingResult = _productDetailsMapper(records);
-    return mappingResult.fold((failure) {
-      return Left(failure);
-    }, (product) {
-      return Right(product);
-    });
+    try {
+      final mappingResult = _productDetailsMapper(records);
+      return Right(mappingResult);
+    } on ProductNotFoundError {
+      return const Left(GetProductFailure.productNotFound());
+    } on InValidProductError {
+      return const Left(GetProductFailure.invalidResponse());
+    } catch (e) {
+      return const Left(GetProductFailure.unexpected());
+    }
   }
 
   @override
-  Future<Either<Failure, ProductDetails>> getProductBySerial({
+  Future<Either<GetProductFailure, ProductDetails>> getProductBySerial({
     required String serial,
   }) async {
     final isConnected = await _networkInfo.isConnected;
     if (!isConnected) {
-      return Left(NoInternetConnection());
+      return const Left(GetProductFailure.noInternet());
     }
     final query = await _sqlProvider.statementForSerial(serial);
 
@@ -119,21 +144,20 @@ class DatabaseCommunicatorRepositoryImpl
           query: query, params: cachedConnection);
       return result.fold(
         (failure) {
-          return Left(failure);
+          return const Left(GetProductFailure.connectionFailure());
         },
         (records) {
           return _mapToProductDetails(records);
         },
       );
-    } on InvalidConnectionParams catch (e) {
-      return Left(e);
+    } on InvalidConnectionParams catch (_) {
+      return const Left(GetProductFailure.unexpected());
     }
   }
 
   @override
   Future<Either<Failure, List<ConnectionParams>>>
       fetchCachedConnections() async {
-    /*
     const params = ConnectionParams(
       host: 'epsilondemo.dyndns.org',
       port: '1433',
@@ -143,12 +167,12 @@ class DatabaseCommunicatorRepositoryImpl
       company: Company.alameen,
     );
     return const Right([params]);
-    */
-    try {
-      final cachedConnection = await _getLastInUseConnection();
-      return right([cachedConnection]);
-    } on InvalidConnectionParams catch (e) {
-      return left(e);
-    }
+
+    // try {
+    //   final cachedConnection = await _getLastInUseConnection();
+    //   return right([cachedConnection]);
+    // } on InvalidConnectionParams catch (e) {
+    //   return left(e);
+    // }
   }
 }

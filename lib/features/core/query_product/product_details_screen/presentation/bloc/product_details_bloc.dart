@@ -1,3 +1,4 @@
+import 'package:epsilon_app/core/helpers/database_communicator/domain/models/failures/get_product_failure.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

@@ -2,6 +2,9 @@
 //
 
 import 'package:dartz/dartz.dart';
+import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
+import 'package:epsilon_app/core/errors/failure/failure.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../domain/models/connection_params.dart';
@@ -17,7 +20,7 @@ class ConnectionManager {
   ///
   /// if the creation was successfull it returns true
   /// if there was any error on creation connection it returns failure
-  Future<Either<ConnectionFailureWithError, bool>> checkConnection({
+  Future<bool> checkConnection({
     required ConnectionParams params,
   }) async {
     try {
@@ -33,14 +36,12 @@ class ConnectionManager {
           await platform.invokeMethod<bool>('checkConnection', arguments);
 
       if (methodResult != null) {
-        return Right(methodResult);
+        return methodResult;
       } else {
-        return const Right(false);
+        return false;
       }
     } on PlatformException catch (e) {
-      return Left(ConnectionFailureWithError(error: e.message ?? ''));
-    } catch (error) {
-      return Left(ConnectionFailureWithError(error: error.toString()));
+      throw e.toConnectionException();
     }
   }
 
@@ -89,5 +90,36 @@ class ConnectionManager {
       return other;
     }
     return <Map<String, String>>[];
+  }
+}
+
+class InvalidConnectionHostException extends AppException {}
+
+class InvalidConnectionPortException extends AppException {}
+
+class InvalidConnectionDatabaseException extends AppException {}
+
+class InvalidConnectionUsernameOrPasswordException extends AppException {}
+
+class UnExpectedConnectionException extends AppException {
+  const UnExpectedConnectionException([message])
+      : super(message: message, prefix: "");
+}
+
+extension ConnectionExceptionStrings on PlatformException {
+  Exception toConnectionException() {
+    if ((message ?? '').startsWith('The syntax of the connection URL')) {
+      return InvalidConnectionPortException();
+    }
+    if ((message ?? '').startsWith('Unknown server host name')) {
+      return InvalidConnectionHostException();
+    }
+    if ((message ?? '').startsWith('Cannot open database')) {
+      return InvalidConnectionDatabaseException();
+    }
+    if ((message ?? '').startsWith('Login failed for user')) {
+      return InvalidConnectionUsernameOrPasswordException();
+    }
+    return UnExpectedConnectionException(message);
   }
 }

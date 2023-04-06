@@ -56,6 +56,10 @@
     "decoding_failure": "Decoding Failure",
     "invalid_username_or_password": "Invalid username or password",
     "fail_to_connect_db": "Fail To Connect your database",
+    "fail_to_connect_db_host": "Fail To Connect your database host",
+    "fail_to_connect_db_port": "Fail To Connect your database port",
+    "fail_to_connect_db_db": "Fail To Connect your database database name",
+    "fail_to_connect_db_username": "Fail To Connect your database username",
     "product_not_found": "Product Not Found",
     "inValid_product": "InValid Product"
 }

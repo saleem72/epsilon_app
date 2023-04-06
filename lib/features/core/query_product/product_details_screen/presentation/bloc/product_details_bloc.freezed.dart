@@ -657,7 +657,7 @@ mixin _$ProductDetailsState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(ProductDetails product) withSuccess,
-    required TResult Function(Failure failure) withFailure,
+    required TResult Function(GetProductFailure failure) withFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -665,7 +665,7 @@ mixin _$ProductDetailsState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(ProductDetails product)? withSuccess,
-    TResult? Function(Failure failure)? withFailure,
+    TResult? Function(GetProductFailure failure)? withFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -673,7 +673,7 @@ mixin _$ProductDetailsState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(ProductDetails product)? withSuccess,
-    TResult Function(Failure failure)? withFailure,
+    TResult Function(GetProductFailure failure)? withFailure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -763,7 +763,7 @@ class _$ProductDetailsInitial implements ProductDetailsInitial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(ProductDetails product) withSuccess,
-    required TResult Function(Failure failure) withFailure,
+    required TResult Function(GetProductFailure failure) withFailure,
   }) {
     return initial();
   }
@@ -774,7 +774,7 @@ class _$ProductDetailsInitial implements ProductDetailsInitial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(ProductDetails product)? withSuccess,
-    TResult? Function(Failure failure)? withFailure,
+    TResult? Function(GetProductFailure failure)? withFailure,
   }) {
     return initial?.call();
   }
@@ -785,7 +785,7 @@ class _$ProductDetailsInitial implements ProductDetailsInitial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(ProductDetails product)? withSuccess,
-    TResult Function(Failure failure)? withFailure,
+    TResult Function(GetProductFailure failure)? withFailure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -877,7 +877,7 @@ class _$ProductDetailsLoading implements ProductDetailsLoading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(ProductDetails product) withSuccess,
-    required TResult Function(Failure failure) withFailure,
+    required TResult Function(GetProductFailure failure) withFailure,
   }) {
     return loading();
   }
@@ -888,7 +888,7 @@ class _$ProductDetailsLoading implements ProductDetailsLoading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(ProductDetails product)? withSuccess,
-    TResult? Function(Failure failure)? withFailure,
+    TResult? Function(GetProductFailure failure)? withFailure,
   }) {
     return loading?.call();
   }
@@ -899,7 +899,7 @@ class _$ProductDetailsLoading implements ProductDetailsLoading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(ProductDetails product)? withSuccess,
-    TResult Function(Failure failure)? withFailure,
+    TResult Function(GetProductFailure failure)? withFailure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1019,7 +1019,7 @@ class _$ProductDetailsWithSuccess implements ProductDetailsWithSuccess {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(ProductDetails product) withSuccess,
-    required TResult Function(Failure failure) withFailure,
+    required TResult Function(GetProductFailure failure) withFailure,
   }) {
     return withSuccess(product);
   }
@@ -1030,7 +1030,7 @@ class _$ProductDetailsWithSuccess implements ProductDetailsWithSuccess {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(ProductDetails product)? withSuccess,
-    TResult? Function(Failure failure)? withFailure,
+    TResult? Function(GetProductFailure failure)? withFailure,
   }) {
     return withSuccess?.call(product);
   }
@@ -1041,7 +1041,7 @@ class _$ProductDetailsWithSuccess implements ProductDetailsWithSuccess {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(ProductDetails product)? withSuccess,
-    TResult Function(Failure failure)? withFailure,
+    TResult Function(GetProductFailure failure)? withFailure,
     required TResult orElse(),
   }) {
     if (withSuccess != null) {
@@ -1105,7 +1105,9 @@ abstract class _$$ProductDetailsWithFailureCopyWith<$Res> {
           $Res Function(_$ProductDetailsWithFailure) then) =
       __$$ProductDetailsWithFailureCopyWithImpl<$Res>;
   @useResult
-  $Res call({Failure failure});
+  $Res call({GetProductFailure failure});
+
+  $GetProductFailureCopyWith<$Res> get failure;
 }
 
 /// @nodoc
@@ -1125,8 +1127,16 @@ class __$$ProductDetailsWithFailureCopyWithImpl<$Res>
       null == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
+              as GetProductFailure,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $GetProductFailureCopyWith<$Res> get failure {
+    return $GetProductFailureCopyWith<$Res>(_value.failure, (value) {
+      return _then(_value.copyWith(failure: value));
+    });
   }
 }
 
@@ -1136,7 +1146,7 @@ class _$ProductDetailsWithFailure implements ProductDetailsWithFailure {
   const _$ProductDetailsWithFailure(this.failure);
 
   @override
-  final Failure failure;
+  final GetProductFailure failure;
 
   @override
   String toString() {
@@ -1167,7 +1177,7 @@ class _$ProductDetailsWithFailure implements ProductDetailsWithFailure {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(ProductDetails product) withSuccess,
-    required TResult Function(Failure failure) withFailure,
+    required TResult Function(GetProductFailure failure) withFailure,
   }) {
     return withFailure(failure);
   }
@@ -1178,7 +1188,7 @@ class _$ProductDetailsWithFailure implements ProductDetailsWithFailure {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(ProductDetails product)? withSuccess,
-    TResult? Function(Failure failure)? withFailure,
+    TResult? Function(GetProductFailure failure)? withFailure,
   }) {
     return withFailure?.call(failure);
   }
@@ -1189,7 +1199,7 @@ class _$ProductDetailsWithFailure implements ProductDetailsWithFailure {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(ProductDetails product)? withSuccess,
-    TResult Function(Failure failure)? withFailure,
+    TResult Function(GetProductFailure failure)? withFailure,
     required TResult orElse(),
   }) {
     if (withFailure != null) {
@@ -1237,10 +1247,10 @@ class _$ProductDetailsWithFailure implements ProductDetailsWithFailure {
 }
 
 abstract class ProductDetailsWithFailure implements ProductDetailsState {
-  const factory ProductDetailsWithFailure(final Failure failure) =
+  const factory ProductDetailsWithFailure(final GetProductFailure failure) =
       _$ProductDetailsWithFailure;
 
-  Failure get failure;
+  GetProductFailure get failure;
   @JsonKey(ignore: true)
   _$$ProductDetailsWithFailureCopyWith<_$ProductDetailsWithFailure>
       get copyWith => throw _privateConstructorUsedError;

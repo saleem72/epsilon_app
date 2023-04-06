@@ -66,3 +66,7 @@ class ServerException extends AppException {
 }
 
 class InvalidUsernameOrPasswordException extends AppException {}
+
+class FailToConnectDB extends AppException {}
+
+class FailToExecuteSQL extends AppException {}

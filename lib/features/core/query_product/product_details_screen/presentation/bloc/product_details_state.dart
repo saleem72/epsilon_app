@@ -6,6 +6,6 @@ class ProductDetailsState with _$ProductDetailsState {
   const factory ProductDetailsState.loading() = ProductDetailsLoading;
   const factory ProductDetailsState.withSuccess(ProductDetails product) =
       ProductDetailsWithSuccess;
-  const factory ProductDetailsState.withFailure(Failure failure) =
+  const factory ProductDetailsState.withFailure(GetProductFailure failure) =
       ProductDetailsWithFailure;
 }

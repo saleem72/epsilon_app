@@ -46,7 +46,7 @@ class LoginScreenContent extends StatelessWidget {
             AppNavBar(title: Translator.translation(context).login),
             BlocConsumer<LoginBloc, LoginState>(
               listenWhen: (previous, current) =>
-                  previous.isValid != current.isValid,
+                  previous.loginSuccessfully != current.loginSuccessfully,
               listener: (context, state) {
                 if (state.loginSuccessfully) {
                   context.read<AuthBloc>().add(const AuthEvent.authorized());

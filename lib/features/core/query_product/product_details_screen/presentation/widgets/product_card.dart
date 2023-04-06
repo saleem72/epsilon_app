@@ -108,8 +108,12 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-            const TableCell(
-              child: Text(' '),
+            TableCell(
+              child: Text(
+                product?.storeName ?? '',
+                style: Topology.subTitle,
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),

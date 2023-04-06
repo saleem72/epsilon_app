@@ -86,8 +86,22 @@ class ConnectionConfigurationContent extends StatelessWidget {
                       : const SizedBox.shrink(),
                   state.failure.fold(
                     () => const SizedBox.shrink(),
-                    (f) => ErrorView(
-                      failure: f,
+                    (f) => GeneralErrorView(
+                      failure: f.map(
+                        noInternt: (_) => Translator.translation(context)
+                            .no_internet_connection,
+                        portFailure: (_) => Translator.translation(context)
+                            .fail_to_connect_db_port,
+                        hostFailure: (_) => Translator.translation(context)
+                            .fail_to_connect_db_host,
+                        databaseFailure: (_) => Translator.translation(context)
+                            .fail_to_connect_db_db,
+                        usernameOrPasswordFailure: (_) =>
+                            Translator.translation(context)
+                                .fail_to_connect_db_username,
+                        unExpected: (_) =>
+                            Translator.translation(context).fail_to_connect_db,
+                      ),
                       onAction: () {
                         context.read<ConnectionConfigurationBloc>().add(
                             const ConnectionConfigurationEvent.clearFailure());

@@ -76,12 +76,28 @@ class ProductDetailsScreenContent extends StatelessWidget {
                               )
                             : const SizedBox.shrink(),
                         state is ProductDetailsWithFailure
-                            ? ErrorView(
+                            ? GeneralErrorView(
                                 onAction: () => context
                                     .read<ProductDetailsBloc>()
                                     .add(
                                         const ProductDetailsEvent.clearError()),
-                                failure: state.failure,
+                                failure: state.failure.map(
+                                  noInternet: (_) =>
+                                      Translator.translation(context)
+                                          .no_internet_connection,
+                                  connectionFailure: (_) =>
+                                      Translator.translation(context)
+                                          .connection_failure,
+                                  productNotFound: (_) =>
+                                      Translator.translation(context)
+                                          .product_not_found,
+                                  invalidResponse: (_) =>
+                                      Translator.translation(context)
+                                          .decoding_failure,
+                                  unexpected: (_) =>
+                                      Translator.translation(context)
+                                          .unexpected_failure,
+                                ),
                               )
                             : const SizedBox.shrink(),
                         state is ProductDetailsWithSuccess

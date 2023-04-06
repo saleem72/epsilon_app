@@ -11,7 +11,7 @@ class ConnectionConfigurationState with _$ConnectionConfigurationState {
     required String host,
     required String port,
     required String database,
-    required Option<Failure> failure,
+    required Option<CheckConnectionFailure> failure,
     required bool isLoading,
     required bool connectSuccessfully,
   }) = _HomeState;

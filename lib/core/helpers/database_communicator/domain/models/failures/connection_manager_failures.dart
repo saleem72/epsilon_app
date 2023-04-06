@@ -2,14 +2,21 @@
 
 import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ConnectionUnExpectedFailure extends Failure {
-  @override
-  String message(BuildContext context) {
-    // TODO: implement message
-    throw UnimplementedError();
-  }
+part 'connection_manager_failures.freezed.dart';
+
+@freezed
+class CheckConnectionFailure with _$CheckConnectionFailure {
+  factory CheckConnectionFailure.noInternt() = _NoInternt;
+  factory CheckConnectionFailure.portFailure() = _PortFailure;
+  factory CheckConnectionFailure.hostFailure() = _HostFailure;
+  factory CheckConnectionFailure.databaseFailure() = _databaseFailure;
+  factory CheckConnectionFailure.usernameOrPasswordFailure() =
+      _UsernameOrPasswordFailure;
+  factory CheckConnectionFailure.unExpected({required String message}) =
+      _UnExpected;
 }
 
 class ConnectionFailureWithError extends Failure {

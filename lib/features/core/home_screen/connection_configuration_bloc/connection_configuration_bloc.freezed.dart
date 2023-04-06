@@ -1654,7 +1654,8 @@ mixin _$ConnectionConfigurationState {
   String get host => throw _privateConstructorUsedError;
   String get port => throw _privateConstructorUsedError;
   String get database => throw _privateConstructorUsedError;
-  Option<Failure> get failure => throw _privateConstructorUsedError;
+  Option<CheckConnectionFailure> get failure =>
+      throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get connectSuccessfully => throw _privateConstructorUsedError;
 
@@ -1678,7 +1679,7 @@ abstract class $ConnectionConfigurationStateCopyWith<$Res> {
       String host,
       String port,
       String database,
-      Option<Failure> failure,
+      Option<CheckConnectionFailure> failure,
       bool isLoading,
       bool connectSuccessfully});
 }
@@ -1735,7 +1736,7 @@ class _$ConnectionConfigurationStateCopyWithImpl<$Res,
       failure: null == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Option<Failure>,
+              as Option<CheckConnectionFailure>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -1763,7 +1764,7 @@ abstract class _$$_HomeStateCopyWith<$Res>
       String host,
       String port,
       String database,
-      Option<Failure> failure,
+      Option<CheckConnectionFailure> failure,
       bool isLoading,
       bool connectSuccessfully});
 }
@@ -1817,7 +1818,7 @@ class __$$_HomeStateCopyWithImpl<$Res>
       failure: null == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Option<Failure>,
+              as Option<CheckConnectionFailure>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -1858,7 +1859,7 @@ class _$_HomeState extends _HomeState {
   @override
   final String database;
   @override
-  final Option<Failure> failure;
+  final Option<CheckConnectionFailure> failure;
   @override
   final bool isLoading;
   @override
@@ -1909,7 +1910,7 @@ abstract class _HomeState extends ConnectionConfigurationState {
       required final String host,
       required final String port,
       required final String database,
-      required final Option<Failure> failure,
+      required final Option<CheckConnectionFailure> failure,
       required final bool isLoading,
       required final bool connectSuccessfully}) = _$_HomeState;
   const _HomeState._() : super._();
@@ -1927,7 +1928,7 @@ abstract class _HomeState extends ConnectionConfigurationState {
   @override
   String get database;
   @override
-  Option<Failure> get failure;
+  Option<CheckConnectionFailure> get failure;
   @override
   bool get isLoading;
   @override
