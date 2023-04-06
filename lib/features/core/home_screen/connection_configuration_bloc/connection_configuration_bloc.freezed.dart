@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'home_bloc.dart';
+part of 'connection_configuration_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$HomeEvent {
+mixin _$ConnectionConfigurationEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Company company) companyHasChanged,
@@ -24,8 +24,8 @@ mixin _$HomeEvent {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,8 +37,8 @@ mixin _$HomeEvent {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) =>
       throw _privateConstructorUsedError;
@@ -50,8 +50,8 @@ mixin _$HomeEvent {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) =>
@@ -64,9 +64,8 @@ mixin _$HomeEvent {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) =>
       throw _privateConstructorUsedError;
@@ -78,8 +77,8 @@ mixin _$HomeEvent {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) =>
       throw _privateConstructorUsedError;
@@ -91,8 +90,8 @@ mixin _$HomeEvent {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) =>
@@ -100,15 +99,19 @@ mixin _$HomeEvent {
 }
 
 /// @nodoc
-abstract class $HomeEventCopyWith<$Res> {
-  factory $HomeEventCopyWith(HomeEvent value, $Res Function(HomeEvent) then) =
-      _$HomeEventCopyWithImpl<$Res, HomeEvent>;
+abstract class $ConnectionConfigurationEventCopyWith<$Res> {
+  factory $ConnectionConfigurationEventCopyWith(
+          ConnectionConfigurationEvent value,
+          $Res Function(ConnectionConfigurationEvent) then) =
+      _$ConnectionConfigurationEventCopyWithImpl<$Res,
+          ConnectionConfigurationEvent>;
 }
 
 /// @nodoc
-class _$HomeEventCopyWithImpl<$Res, $Val extends HomeEvent>
-    implements $HomeEventCopyWith<$Res> {
-  _$HomeEventCopyWithImpl(this._value, this._then);
+class _$ConnectionConfigurationEventCopyWithImpl<$Res,
+        $Val extends ConnectionConfigurationEvent>
+    implements $ConnectionConfigurationEventCopyWith<$Res> {
+  _$ConnectionConfigurationEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -127,8 +130,8 @@ abstract class _$$_CompanyHasChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_CompanyHasChangedCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_CompanyHasChanged>
-    implements _$$_CompanyHasChangedCopyWith<$Res> {
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res,
+        _$_CompanyHasChanged> implements _$$_CompanyHasChangedCopyWith<$Res> {
   __$$_CompanyHasChangedCopyWithImpl(
       _$_CompanyHasChanged _value, $Res Function(_$_CompanyHasChanged) _then)
       : super(_value, _then);
@@ -157,7 +160,7 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
 
   @override
   String toString() {
-    return 'HomeEvent.companyHasChanged(company: $company)';
+    return 'ConnectionConfigurationEvent.companyHasChanged(company: $company)';
   }
 
   @override
@@ -187,8 +190,8 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return companyHasChanged(company);
@@ -203,8 +206,8 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return companyHasChanged?.call(company);
@@ -219,8 +222,8 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -239,9 +242,8 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return companyHasChanged(this);
@@ -256,8 +258,8 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return companyHasChanged?.call(this);
@@ -272,8 +274,8 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -284,7 +286,7 @@ class _$_CompanyHasChanged implements _CompanyHasChanged {
   }
 }
 
-abstract class _CompanyHasChanged implements HomeEvent {
+abstract class _CompanyHasChanged implements ConnectionConfigurationEvent {
   const factory _CompanyHasChanged({required final Company company}) =
       _$_CompanyHasChanged;
 
@@ -305,8 +307,8 @@ abstract class _$$_UsernameHasChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_UsernameHasChangedCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_UsernameHasChanged>
-    implements _$$_UsernameHasChangedCopyWith<$Res> {
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res,
+        _$_UsernameHasChanged> implements _$$_UsernameHasChangedCopyWith<$Res> {
   __$$_UsernameHasChangedCopyWithImpl(
       _$_UsernameHasChanged _value, $Res Function(_$_UsernameHasChanged) _then)
       : super(_value, _then);
@@ -335,7 +337,7 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
 
   @override
   String toString() {
-    return 'HomeEvent.usernameHasChanged(username: $username)';
+    return 'ConnectionConfigurationEvent.usernameHasChanged(username: $username)';
   }
 
   @override
@@ -366,8 +368,8 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return usernameHasChanged(username);
@@ -382,8 +384,8 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return usernameHasChanged?.call(username);
@@ -398,8 +400,8 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -418,9 +420,8 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return usernameHasChanged(this);
@@ -435,8 +436,8 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return usernameHasChanged?.call(this);
@@ -451,8 +452,8 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -463,7 +464,7 @@ class _$_UsernameHasChanged implements _UsernameHasChanged {
   }
 }
 
-abstract class _UsernameHasChanged implements HomeEvent {
+abstract class _UsernameHasChanged implements ConnectionConfigurationEvent {
   const factory _UsernameHasChanged({required final String username}) =
       _$_UsernameHasChanged;
 
@@ -484,8 +485,8 @@ abstract class _$$_PasswordHasChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_PasswordHasChangedCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_PasswordHasChanged>
-    implements _$$_PasswordHasChangedCopyWith<$Res> {
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res,
+        _$_PasswordHasChanged> implements _$$_PasswordHasChangedCopyWith<$Res> {
   __$$_PasswordHasChangedCopyWithImpl(
       _$_PasswordHasChanged _value, $Res Function(_$_PasswordHasChanged) _then)
       : super(_value, _then);
@@ -514,7 +515,7 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
 
   @override
   String toString() {
-    return 'HomeEvent.passwordHasChanged(password: $password)';
+    return 'ConnectionConfigurationEvent.passwordHasChanged(password: $password)';
   }
 
   @override
@@ -545,8 +546,8 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return passwordHasChanged(password);
@@ -561,8 +562,8 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return passwordHasChanged?.call(password);
@@ -577,8 +578,8 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -597,9 +598,8 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return passwordHasChanged(this);
@@ -614,8 +614,8 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return passwordHasChanged?.call(this);
@@ -630,8 +630,8 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -642,7 +642,7 @@ class _$_PasswordHasChanged implements _PasswordHasChanged {
   }
 }
 
-abstract class _PasswordHasChanged implements HomeEvent {
+abstract class _PasswordHasChanged implements ConnectionConfigurationEvent {
   const factory _PasswordHasChanged({required final String password}) =
       _$_PasswordHasChanged;
 
@@ -663,7 +663,7 @@ abstract class _$$_HostHasChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_HostHasChangedCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_HostHasChanged>
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res, _$_HostHasChanged>
     implements _$$_HostHasChangedCopyWith<$Res> {
   __$$_HostHasChangedCopyWithImpl(
       _$_HostHasChanged _value, $Res Function(_$_HostHasChanged) _then)
@@ -693,7 +693,7 @@ class _$_HostHasChanged implements _HostHasChanged {
 
   @override
   String toString() {
-    return 'HomeEvent.hostHasChanged(host: $host)';
+    return 'ConnectionConfigurationEvent.hostHasChanged(host: $host)';
   }
 
   @override
@@ -722,8 +722,8 @@ class _$_HostHasChanged implements _HostHasChanged {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return hostHasChanged(host);
@@ -738,8 +738,8 @@ class _$_HostHasChanged implements _HostHasChanged {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return hostHasChanged?.call(host);
@@ -754,8 +754,8 @@ class _$_HostHasChanged implements _HostHasChanged {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -774,9 +774,8 @@ class _$_HostHasChanged implements _HostHasChanged {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return hostHasChanged(this);
@@ -791,8 +790,8 @@ class _$_HostHasChanged implements _HostHasChanged {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return hostHasChanged?.call(this);
@@ -807,8 +806,8 @@ class _$_HostHasChanged implements _HostHasChanged {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -819,7 +818,7 @@ class _$_HostHasChanged implements _HostHasChanged {
   }
 }
 
-abstract class _HostHasChanged implements HomeEvent {
+abstract class _HostHasChanged implements ConnectionConfigurationEvent {
   const factory _HostHasChanged({required final String host}) =
       _$_HostHasChanged;
 
@@ -840,7 +839,7 @@ abstract class _$$_PortHasChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_PortHasChangedCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_PortHasChanged>
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res, _$_PortHasChanged>
     implements _$$_PortHasChangedCopyWith<$Res> {
   __$$_PortHasChangedCopyWithImpl(
       _$_PortHasChanged _value, $Res Function(_$_PortHasChanged) _then)
@@ -870,7 +869,7 @@ class _$_PortHasChanged implements _PortHasChanged {
 
   @override
   String toString() {
-    return 'HomeEvent.portHasChanged(port: $port)';
+    return 'ConnectionConfigurationEvent.portHasChanged(port: $port)';
   }
 
   @override
@@ -899,8 +898,8 @@ class _$_PortHasChanged implements _PortHasChanged {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return portHasChanged(port);
@@ -915,8 +914,8 @@ class _$_PortHasChanged implements _PortHasChanged {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return portHasChanged?.call(port);
@@ -931,8 +930,8 @@ class _$_PortHasChanged implements _PortHasChanged {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -951,9 +950,8 @@ class _$_PortHasChanged implements _PortHasChanged {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return portHasChanged(this);
@@ -968,8 +966,8 @@ class _$_PortHasChanged implements _PortHasChanged {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return portHasChanged?.call(this);
@@ -984,8 +982,8 @@ class _$_PortHasChanged implements _PortHasChanged {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -996,7 +994,7 @@ class _$_PortHasChanged implements _PortHasChanged {
   }
 }
 
-abstract class _PortHasChanged implements HomeEvent {
+abstract class _PortHasChanged implements ConnectionConfigurationEvent {
   const factory _PortHasChanged({required final String port}) =
       _$_PortHasChanged;
 
@@ -1017,8 +1015,8 @@ abstract class _$$_DatabaseHasChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_DatabaseHasChangedCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_DatabaseHasChanged>
-    implements _$$_DatabaseHasChangedCopyWith<$Res> {
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res,
+        _$_DatabaseHasChanged> implements _$$_DatabaseHasChangedCopyWith<$Res> {
   __$$_DatabaseHasChangedCopyWithImpl(
       _$_DatabaseHasChanged _value, $Res Function(_$_DatabaseHasChanged) _then)
       : super(_value, _then);
@@ -1047,7 +1045,7 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
 
   @override
   String toString() {
-    return 'HomeEvent.databaseHasChanged(database: $database)';
+    return 'ConnectionConfigurationEvent.databaseHasChanged(database: $database)';
   }
 
   @override
@@ -1078,8 +1076,8 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return databaseHasChanged(database);
@@ -1094,8 +1092,8 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return databaseHasChanged?.call(database);
@@ -1110,8 +1108,8 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -1130,9 +1128,8 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return databaseHasChanged(this);
@@ -1147,8 +1144,8 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return databaseHasChanged?.call(this);
@@ -1163,8 +1160,8 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -1175,13 +1172,189 @@ class _$_DatabaseHasChanged implements _DatabaseHasChanged {
   }
 }
 
-abstract class _DatabaseHasChanged implements HomeEvent {
+abstract class _DatabaseHasChanged implements ConnectionConfigurationEvent {
   const factory _DatabaseHasChanged({required final String database}) =
       _$_DatabaseHasChanged;
 
   String get database;
   @JsonKey(ignore: true)
   _$$_DatabaseHasChangedCopyWith<_$_DatabaseHasChanged> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_ParamHasChangedCopyWith<$Res> {
+  factory _$$_ParamHasChangedCopyWith(
+          _$_ParamHasChanged value, $Res Function(_$_ParamHasChanged) then) =
+      __$$_ParamHasChangedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ConnectionParams params});
+}
+
+/// @nodoc
+class __$$_ParamHasChangedCopyWithImpl<$Res>
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res, _$_ParamHasChanged>
+    implements _$$_ParamHasChangedCopyWith<$Res> {
+  __$$_ParamHasChangedCopyWithImpl(
+      _$_ParamHasChanged _value, $Res Function(_$_ParamHasChanged) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? params = null,
+  }) {
+    return _then(_$_ParamHasChanged(
+      params: null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as ConnectionParams,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_ParamHasChanged implements _ParamHasChanged {
+  const _$_ParamHasChanged({required this.params});
+
+  @override
+  final ConnectionParams params;
+
+  @override
+  String toString() {
+    return 'ConnectionConfigurationEvent.paramHasChanged(params: $params)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_ParamHasChanged &&
+            (identical(other.params, params) || other.params == params));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, params);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ParamHasChangedCopyWith<_$_ParamHasChanged> get copyWith =>
+      __$$_ParamHasChangedCopyWithImpl<_$_ParamHasChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Company company) companyHasChanged,
+    required TResult Function(String username) usernameHasChanged,
+    required TResult Function(String password) passwordHasChanged,
+    required TResult Function(String host) hostHasChanged,
+    required TResult Function(String port) portHasChanged,
+    required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
+    required TResult Function() checkConnection,
+    required TResult Function() clearFailure,
+  }) {
+    return paramHasChanged(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Company company)? companyHasChanged,
+    TResult? Function(String username)? usernameHasChanged,
+    TResult? Function(String password)? passwordHasChanged,
+    TResult? Function(String host)? hostHasChanged,
+    TResult? Function(String port)? portHasChanged,
+    TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
+    TResult? Function()? checkConnection,
+    TResult? Function()? clearFailure,
+  }) {
+    return paramHasChanged?.call(params);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Company company)? companyHasChanged,
+    TResult Function(String username)? usernameHasChanged,
+    TResult Function(String password)? passwordHasChanged,
+    TResult Function(String host)? hostHasChanged,
+    TResult Function(String port)? portHasChanged,
+    TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
+    TResult Function()? checkConnection,
+    TResult Function()? clearFailure,
+    required TResult orElse(),
+  }) {
+    if (paramHasChanged != null) {
+      return paramHasChanged(params);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CompanyHasChanged value) companyHasChanged,
+    required TResult Function(_UsernameHasChanged value) usernameHasChanged,
+    required TResult Function(_PasswordHasChanged value) passwordHasChanged,
+    required TResult Function(_HostHasChanged value) hostHasChanged,
+    required TResult Function(_PortHasChanged value) portHasChanged,
+    required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
+    required TResult Function(_CheckConnection value) checkConnection,
+    required TResult Function(_ClearFailure value) clearFailure,
+  }) {
+    return paramHasChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CompanyHasChanged value)? companyHasChanged,
+    TResult? Function(_UsernameHasChanged value)? usernameHasChanged,
+    TResult? Function(_PasswordHasChanged value)? passwordHasChanged,
+    TResult? Function(_HostHasChanged value)? hostHasChanged,
+    TResult? Function(_PortHasChanged value)? portHasChanged,
+    TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
+    TResult? Function(_CheckConnection value)? checkConnection,
+    TResult? Function(_ClearFailure value)? clearFailure,
+  }) {
+    return paramHasChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CompanyHasChanged value)? companyHasChanged,
+    TResult Function(_UsernameHasChanged value)? usernameHasChanged,
+    TResult Function(_PasswordHasChanged value)? passwordHasChanged,
+    TResult Function(_HostHasChanged value)? hostHasChanged,
+    TResult Function(_PortHasChanged value)? portHasChanged,
+    TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
+    TResult Function(_CheckConnection value)? checkConnection,
+    TResult Function(_ClearFailure value)? clearFailure,
+    required TResult orElse(),
+  }) {
+    if (paramHasChanged != null) {
+      return paramHasChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ParamHasChanged implements ConnectionConfigurationEvent {
+  const factory _ParamHasChanged({required final ConnectionParams params}) =
+      _$_ParamHasChanged;
+
+  ConnectionParams get params;
+  @JsonKey(ignore: true)
+  _$$_ParamHasChangedCopyWith<_$_ParamHasChanged> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1194,7 +1367,7 @@ abstract class _$$_CheckConnectionCopyWith<$Res> {
 
 /// @nodoc
 class __$$_CheckConnectionCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_CheckConnection>
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res, _$_CheckConnection>
     implements _$$_CheckConnectionCopyWith<$Res> {
   __$$_CheckConnectionCopyWithImpl(
       _$_CheckConnection _value, $Res Function(_$_CheckConnection) _then)
@@ -1208,7 +1381,7 @@ class _$_CheckConnection implements _CheckConnection {
 
   @override
   String toString() {
-    return 'HomeEvent.checkConnection()';
+    return 'ConnectionConfigurationEvent.checkConnection()';
   }
 
   @override
@@ -1229,8 +1402,8 @@ class _$_CheckConnection implements _CheckConnection {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return checkConnection();
@@ -1245,8 +1418,8 @@ class _$_CheckConnection implements _CheckConnection {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return checkConnection?.call();
@@ -1261,8 +1434,8 @@ class _$_CheckConnection implements _CheckConnection {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -1281,9 +1454,8 @@ class _$_CheckConnection implements _CheckConnection {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return checkConnection(this);
@@ -1298,8 +1470,8 @@ class _$_CheckConnection implements _CheckConnection {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return checkConnection?.call(this);
@@ -1314,8 +1486,8 @@ class _$_CheckConnection implements _CheckConnection {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -1326,153 +1498,8 @@ class _$_CheckConnection implements _CheckConnection {
   }
 }
 
-abstract class _CheckConnection implements HomeEvent {
+abstract class _CheckConnection implements ConnectionConfigurationEvent {
   const factory _CheckConnection() = _$_CheckConnection;
-}
-
-/// @nodoc
-abstract class _$$_FetchCachedConnectionCopyWith<$Res> {
-  factory _$$_FetchCachedConnectionCopyWith(_$_FetchCachedConnection value,
-          $Res Function(_$_FetchCachedConnection) then) =
-      __$$_FetchCachedConnectionCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_FetchCachedConnectionCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_FetchCachedConnection>
-    implements _$$_FetchCachedConnectionCopyWith<$Res> {
-  __$$_FetchCachedConnectionCopyWithImpl(_$_FetchCachedConnection _value,
-      $Res Function(_$_FetchCachedConnection) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$_FetchCachedConnection implements _FetchCachedConnection {
-  const _$_FetchCachedConnection();
-
-  @override
-  String toString() {
-    return 'HomeEvent.fetchCachedConnection()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_FetchCachedConnection);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(Company company) companyHasChanged,
-    required TResult Function(String username) usernameHasChanged,
-    required TResult Function(String password) passwordHasChanged,
-    required TResult Function(String host) hostHasChanged,
-    required TResult Function(String port) portHasChanged,
-    required TResult Function(String database) databaseHasChanged,
-    required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
-    required TResult Function() clearFailure,
-  }) {
-    return fetchCachedConnection();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Company company)? companyHasChanged,
-    TResult? Function(String username)? usernameHasChanged,
-    TResult? Function(String password)? passwordHasChanged,
-    TResult? Function(String host)? hostHasChanged,
-    TResult? Function(String port)? portHasChanged,
-    TResult? Function(String database)? databaseHasChanged,
-    TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
-    TResult? Function()? clearFailure,
-  }) {
-    return fetchCachedConnection?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Company company)? companyHasChanged,
-    TResult Function(String username)? usernameHasChanged,
-    TResult Function(String password)? passwordHasChanged,
-    TResult Function(String host)? hostHasChanged,
-    TResult Function(String port)? portHasChanged,
-    TResult Function(String database)? databaseHasChanged,
-    TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
-    TResult Function()? clearFailure,
-    required TResult orElse(),
-  }) {
-    if (fetchCachedConnection != null) {
-      return fetchCachedConnection();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CompanyHasChanged value) companyHasChanged,
-    required TResult Function(_UsernameHasChanged value) usernameHasChanged,
-    required TResult Function(_PasswordHasChanged value) passwordHasChanged,
-    required TResult Function(_HostHasChanged value) hostHasChanged,
-    required TResult Function(_PortHasChanged value) portHasChanged,
-    required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
-    required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
-    required TResult Function(_ClearFailure value) clearFailure,
-  }) {
-    return fetchCachedConnection(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CompanyHasChanged value)? companyHasChanged,
-    TResult? Function(_UsernameHasChanged value)? usernameHasChanged,
-    TResult? Function(_PasswordHasChanged value)? passwordHasChanged,
-    TResult? Function(_HostHasChanged value)? hostHasChanged,
-    TResult? Function(_PortHasChanged value)? portHasChanged,
-    TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
-    TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
-    TResult? Function(_ClearFailure value)? clearFailure,
-  }) {
-    return fetchCachedConnection?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CompanyHasChanged value)? companyHasChanged,
-    TResult Function(_UsernameHasChanged value)? usernameHasChanged,
-    TResult Function(_PasswordHasChanged value)? passwordHasChanged,
-    TResult Function(_HostHasChanged value)? hostHasChanged,
-    TResult Function(_PortHasChanged value)? portHasChanged,
-    TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
-    TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
-    TResult Function(_ClearFailure value)? clearFailure,
-    required TResult orElse(),
-  }) {
-    if (fetchCachedConnection != null) {
-      return fetchCachedConnection(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _FetchCachedConnection implements HomeEvent {
-  const factory _FetchCachedConnection() = _$_FetchCachedConnection;
 }
 
 /// @nodoc
@@ -1484,7 +1511,7 @@ abstract class _$$_ClearFailureCopyWith<$Res> {
 
 /// @nodoc
 class __$$_ClearFailureCopyWithImpl<$Res>
-    extends _$HomeEventCopyWithImpl<$Res, _$_ClearFailure>
+    extends _$ConnectionConfigurationEventCopyWithImpl<$Res, _$_ClearFailure>
     implements _$$_ClearFailureCopyWith<$Res> {
   __$$_ClearFailureCopyWithImpl(
       _$_ClearFailure _value, $Res Function(_$_ClearFailure) _then)
@@ -1498,7 +1525,7 @@ class _$_ClearFailure implements _ClearFailure {
 
   @override
   String toString() {
-    return 'HomeEvent.clearFailure()';
+    return 'ConnectionConfigurationEvent.clearFailure()';
   }
 
   @override
@@ -1519,8 +1546,8 @@ class _$_ClearFailure implements _ClearFailure {
     required TResult Function(String host) hostHasChanged,
     required TResult Function(String port) portHasChanged,
     required TResult Function(String database) databaseHasChanged,
+    required TResult Function(ConnectionParams params) paramHasChanged,
     required TResult Function() checkConnection,
-    required TResult Function() fetchCachedConnection,
     required TResult Function() clearFailure,
   }) {
     return clearFailure();
@@ -1535,8 +1562,8 @@ class _$_ClearFailure implements _ClearFailure {
     TResult? Function(String host)? hostHasChanged,
     TResult? Function(String port)? portHasChanged,
     TResult? Function(String database)? databaseHasChanged,
+    TResult? Function(ConnectionParams params)? paramHasChanged,
     TResult? Function()? checkConnection,
-    TResult? Function()? fetchCachedConnection,
     TResult? Function()? clearFailure,
   }) {
     return clearFailure?.call();
@@ -1551,8 +1578,8 @@ class _$_ClearFailure implements _ClearFailure {
     TResult Function(String host)? hostHasChanged,
     TResult Function(String port)? portHasChanged,
     TResult Function(String database)? databaseHasChanged,
+    TResult Function(ConnectionParams params)? paramHasChanged,
     TResult Function()? checkConnection,
-    TResult Function()? fetchCachedConnection,
     TResult Function()? clearFailure,
     required TResult orElse(),
   }) {
@@ -1571,9 +1598,8 @@ class _$_ClearFailure implements _ClearFailure {
     required TResult Function(_HostHasChanged value) hostHasChanged,
     required TResult Function(_PortHasChanged value) portHasChanged,
     required TResult Function(_DatabaseHasChanged value) databaseHasChanged,
+    required TResult Function(_ParamHasChanged value) paramHasChanged,
     required TResult Function(_CheckConnection value) checkConnection,
-    required TResult Function(_FetchCachedConnection value)
-        fetchCachedConnection,
     required TResult Function(_ClearFailure value) clearFailure,
   }) {
     return clearFailure(this);
@@ -1588,8 +1614,8 @@ class _$_ClearFailure implements _ClearFailure {
     TResult? Function(_HostHasChanged value)? hostHasChanged,
     TResult? Function(_PortHasChanged value)? portHasChanged,
     TResult? Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult? Function(_ParamHasChanged value)? paramHasChanged,
     TResult? Function(_CheckConnection value)? checkConnection,
-    TResult? Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult? Function(_ClearFailure value)? clearFailure,
   }) {
     return clearFailure?.call(this);
@@ -1604,8 +1630,8 @@ class _$_ClearFailure implements _ClearFailure {
     TResult Function(_HostHasChanged value)? hostHasChanged,
     TResult Function(_PortHasChanged value)? portHasChanged,
     TResult Function(_DatabaseHasChanged value)? databaseHasChanged,
+    TResult Function(_ParamHasChanged value)? paramHasChanged,
     TResult Function(_CheckConnection value)? checkConnection,
-    TResult Function(_FetchCachedConnection value)? fetchCachedConnection,
     TResult Function(_ClearFailure value)? clearFailure,
     required TResult orElse(),
   }) {
@@ -1616,32 +1642,34 @@ class _$_ClearFailure implements _ClearFailure {
   }
 }
 
-abstract class _ClearFailure implements HomeEvent {
+abstract class _ClearFailure implements ConnectionConfigurationEvent {
   const factory _ClearFailure() = _$_ClearFailure;
 }
 
 /// @nodoc
-mixin _$HomeState {
+mixin _$ConnectionConfigurationState {
   Option<Company> get company => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get host => throw _privateConstructorUsedError;
   String get port => throw _privateConstructorUsedError;
   String get database => throw _privateConstructorUsedError;
-  bool get forceUpdate => throw _privateConstructorUsedError;
   Option<Failure> get failure => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get connectSuccessfully => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $HomeStateCopyWith<HomeState> get copyWith =>
-      throw _privateConstructorUsedError;
+  $ConnectionConfigurationStateCopyWith<ConnectionConfigurationState>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HomeStateCopyWith<$Res> {
-  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
-      _$HomeStateCopyWithImpl<$Res, HomeState>;
+abstract class $ConnectionConfigurationStateCopyWith<$Res> {
+  factory $ConnectionConfigurationStateCopyWith(
+          ConnectionConfigurationState value,
+          $Res Function(ConnectionConfigurationState) then) =
+      _$ConnectionConfigurationStateCopyWithImpl<$Res,
+          ConnectionConfigurationState>;
   @useResult
   $Res call(
       {Option<Company> company,
@@ -1650,16 +1678,16 @@ abstract class $HomeStateCopyWith<$Res> {
       String host,
       String port,
       String database,
-      bool forceUpdate,
       Option<Failure> failure,
       bool isLoading,
       bool connectSuccessfully});
 }
 
 /// @nodoc
-class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
-    implements $HomeStateCopyWith<$Res> {
-  _$HomeStateCopyWithImpl(this._value, this._then);
+class _$ConnectionConfigurationStateCopyWithImpl<$Res,
+        $Val extends ConnectionConfigurationState>
+    implements $ConnectionConfigurationStateCopyWith<$Res> {
+  _$ConnectionConfigurationStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1675,7 +1703,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? host = null,
     Object? port = null,
     Object? database = null,
-    Object? forceUpdate = null,
     Object? failure = null,
     Object? isLoading = null,
     Object? connectSuccessfully = null,
@@ -1705,10 +1732,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.database
           : database // ignore: cast_nullable_to_non_nullable
               as String,
-      forceUpdate: null == forceUpdate
-          ? _value.forceUpdate
-          : forceUpdate // ignore: cast_nullable_to_non_nullable
-              as bool,
       failure: null == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -1726,7 +1749,8 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
 }
 
 /// @nodoc
-abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
+abstract class _$$_HomeStateCopyWith<$Res>
+    implements $ConnectionConfigurationStateCopyWith<$Res> {
   factory _$$_HomeStateCopyWith(
           _$_HomeState value, $Res Function(_$_HomeState) then) =
       __$$_HomeStateCopyWithImpl<$Res>;
@@ -1739,7 +1763,6 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       String host,
       String port,
       String database,
-      bool forceUpdate,
       Option<Failure> failure,
       bool isLoading,
       bool connectSuccessfully});
@@ -1747,7 +1770,7 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
 
 /// @nodoc
 class __$$_HomeStateCopyWithImpl<$Res>
-    extends _$HomeStateCopyWithImpl<$Res, _$_HomeState>
+    extends _$ConnectionConfigurationStateCopyWithImpl<$Res, _$_HomeState>
     implements _$$_HomeStateCopyWith<$Res> {
   __$$_HomeStateCopyWithImpl(
       _$_HomeState _value, $Res Function(_$_HomeState) _then)
@@ -1762,7 +1785,6 @@ class __$$_HomeStateCopyWithImpl<$Res>
     Object? host = null,
     Object? port = null,
     Object? database = null,
-    Object? forceUpdate = null,
     Object? failure = null,
     Object? isLoading = null,
     Object? connectSuccessfully = null,
@@ -1792,10 +1814,6 @@ class __$$_HomeStateCopyWithImpl<$Res>
           ? _value.database
           : database // ignore: cast_nullable_to_non_nullable
               as String,
-      forceUpdate: null == forceUpdate
-          ? _value.forceUpdate
-          : forceUpdate // ignore: cast_nullable_to_non_nullable
-              as bool,
       failure: null == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -1822,7 +1840,6 @@ class _$_HomeState extends _HomeState {
       required this.host,
       required this.port,
       required this.database,
-      required this.forceUpdate,
       required this.failure,
       required this.isLoading,
       required this.connectSuccessfully})
@@ -1841,8 +1858,6 @@ class _$_HomeState extends _HomeState {
   @override
   final String database;
   @override
-  final bool forceUpdate;
-  @override
   final Option<Failure> failure;
   @override
   final bool isLoading;
@@ -1851,7 +1866,7 @@ class _$_HomeState extends _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(company: $company, username: $username, password: $password, host: $host, port: $port, database: $database, forceUpdate: $forceUpdate, failure: $failure, isLoading: $isLoading, connectSuccessfully: $connectSuccessfully)';
+    return 'ConnectionConfigurationState(company: $company, username: $username, password: $password, host: $host, port: $port, database: $database, failure: $failure, isLoading: $isLoading, connectSuccessfully: $connectSuccessfully)';
   }
 
   @override
@@ -1868,8 +1883,6 @@ class _$_HomeState extends _HomeState {
             (identical(other.port, port) || other.port == port) &&
             (identical(other.database, database) ||
                 other.database == database) &&
-            (identical(other.forceUpdate, forceUpdate) ||
-                other.forceUpdate == forceUpdate) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
@@ -1878,18 +1891,8 @@ class _$_HomeState extends _HomeState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      company,
-      username,
-      password,
-      host,
-      port,
-      database,
-      forceUpdate,
-      failure,
-      isLoading,
-      connectSuccessfully);
+  int get hashCode => Object.hash(runtimeType, company, username, password,
+      host, port, database, failure, isLoading, connectSuccessfully);
 
   @JsonKey(ignore: true)
   @override
@@ -1898,7 +1901,7 @@ class _$_HomeState extends _HomeState {
       __$$_HomeStateCopyWithImpl<_$_HomeState>(this, _$identity);
 }
 
-abstract class _HomeState extends HomeState {
+abstract class _HomeState extends ConnectionConfigurationState {
   const factory _HomeState(
       {required final Option<Company> company,
       required final String username,
@@ -1906,7 +1909,6 @@ abstract class _HomeState extends HomeState {
       required final String host,
       required final String port,
       required final String database,
-      required final bool forceUpdate,
       required final Option<Failure> failure,
       required final bool isLoading,
       required final bool connectSuccessfully}) = _$_HomeState;
@@ -1924,8 +1926,6 @@ abstract class _HomeState extends HomeState {
   String get port;
   @override
   String get database;
-  @override
-  bool get forceUpdate;
   @override
   Option<Failure> get failure;
   @override

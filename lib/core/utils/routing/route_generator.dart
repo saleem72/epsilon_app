@@ -24,7 +24,7 @@ class RouteGenerator {
         );
       case AppScreens.home:
         return MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => const ConnectionConfigurationScreen(),
         );
       case AppScreens.login:
         return MaterialPageRoute(

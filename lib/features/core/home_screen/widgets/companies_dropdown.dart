@@ -1,7 +1,7 @@
 //
 
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
-import 'package:epsilon_app/features/core/home_screen/bloc/home_bloc.dart';
+import 'package:epsilon_app/features/core/home_screen/connection_configuration_monitor_bloc/connection_configuration_monitor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +9,7 @@ import '../../../../core/helpers/database_communicator/domain/models/company.dar
 import '../../../../core/helpers/localization/language_constants.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/utils/styling/topology/topology.dart';
+import '../connection_configuration_bloc/connection_configuration_bloc.dart';
 
 class CompaniesDropDown extends StatefulWidget {
   const CompaniesDropDown({super.key});
@@ -22,16 +23,17 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
   final double itemHeight = 58;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
+    return BlocListener<ConnectionConfigurationMonitorBloc,
+        ConnectionConfigurationMonitorState>(
       listener: (context, state) {
-        if (state.forceUpdate) {
-          state.company.fold(
-            () {},
-            (company) => setState(() {
-              _value = company;
-            }),
-          );
-        }
+        state.maybeMap(
+          newParams: (state) {
+            setState(() {
+              _value = state.params.company;
+            });
+          },
+          orElse: () {},
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,9 +126,8 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
       onSelected: (item) {
         setState(() {
           _value = item;
-          context
-              .read<HomeBloc>()
-              .add(HomeEvent.companyHasChanged(company: item));
+          context.read<ConnectionConfigurationBloc>().add(
+              ConnectionConfigurationEvent.companyHasChanged(company: item));
         });
       }, // => _actionForMenuItem(context, item: item),
       itemBuilder: (context) => Company.values

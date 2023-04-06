@@ -1,30 +1,29 @@
-part of 'home_bloc.dart';
+part of 'connection_configuration_bloc.dart';
 
 @freezed
-class HomeState with _$HomeState {
-  const HomeState._();
+class ConnectionConfigurationState with _$ConnectionConfigurationState {
+  const ConnectionConfigurationState._();
 
-  const factory HomeState({
+  const factory ConnectionConfigurationState({
     required Option<Company> company,
     required String username,
     required String password,
     required String host,
     required String port,
     required String database,
-    required bool forceUpdate,
     required Option<Failure> failure,
     required bool isLoading,
     required bool connectSuccessfully,
   }) = _HomeState;
 
-  factory HomeState.initial() => const HomeState(
+  factory ConnectionConfigurationState.initial() =>
+      const ConnectionConfigurationState(
         company: None(),
         username: '',
         password: '',
         host: '',
         port: '',
         database: '',
-        forceUpdate: false,
         failure: None(),
         isLoading: false,
         connectSuccessfully: false,

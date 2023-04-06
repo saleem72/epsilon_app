@@ -6,32 +6,42 @@ import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_app/core/widgets/loading_view.dart';
 import 'package:epsilon_app/dependancy_injection.dart';
-import 'package:epsilon_app/features/core/home_screen/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/helpers/database_communicator/domain/models/connection_params.dart';
 import '../../../core/utils/styling/assets/app_icons.dart';
 import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/gradient_button.dart';
+import 'connection_configuration_bloc/connection_configuration_bloc.dart';
+import 'connection_configuration_monitor_bloc/connection_configuration_monitor_bloc.dart';
 import 'widgets/companies_dropdown.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ConnectionConfigurationScreen extends StatelessWidget {
+  const ConnectionConfigurationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          locator<HomeBloc>()..add(const HomeEvent.fetchCachedConnection()),
-      child: const HomeScreenContent(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => locator<ConnectionConfigurationBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => locator<ConnectionConfigurationMonitorBloc>()
+            ..add(const ConnectionConfigurationMonitorEvent
+                .fetchCachedConnection()),
+        ),
+      ],
+      child: const ConnectionConfigurationContent(),
     );
   }
 }
 
-class HomeScreenContent extends StatelessWidget {
-  const HomeScreenContent({super.key});
+class ConnectionConfigurationContent extends StatelessWidget {
+  const ConnectionConfigurationContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +65,10 @@ class HomeScreenContent extends StatelessWidget {
       children: [
         AppNavBar(title: Translator.translation(context).pick_company),
         Expanded(
-          child: BlocConsumer<HomeBloc, HomeState>(
+          child: BlocConsumer<ConnectionConfigurationBloc,
+              ConnectionConfigurationState>(
+            listenWhen: (previous, current) =>
+                previous.connectSuccessfully != current.connectSuccessfully,
             listener: (context, state) {
               if (state.connectSuccessfully) {
                 Navigator.of(context).pushNamed(AppScreens.operationsScreen);
@@ -76,9 +89,8 @@ class HomeScreenContent extends StatelessWidget {
                     (f) => ErrorView(
                       failure: f,
                       onAction: () {
-                        context
-                            .read<HomeBloc>()
-                            .add(const HomeEvent.clearFailure());
+                        context.read<ConnectionConfigurationBloc>().add(
+                            const ConnectionConfigurationEvent.clearFailure());
                       },
                     ),
                   ),
@@ -129,11 +141,23 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
+    return BlocListener<ConnectionConfigurationMonitorBloc,
+        ConnectionConfigurationMonitorState>(
+      listenWhen: (previous, current) => current.when(
+        initial: () => false,
+        newParams: (_) => true,
+      ),
       listener: (context, state) {
-        if (state.forceUpdate) {
-          _fillTextFields(state);
-        }
+        state.maybeMap(
+          newParams: (state) {
+            _fillTextFields(state.params);
+            context.read<ConnectionConfigurationBloc>().add(
+                  ConnectionConfigurationEvent.paramHasChanged(
+                      params: state.params),
+                );
+          },
+          orElse: () {},
+        );
       },
       child: SingleChildScrollView(
         child: Column(
@@ -154,19 +178,19 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
             const SizedBox(height: 30),
             _databaseName(context),
             const SizedBox(height: 30),
-            _loginButton(context, true),
+            _loginButton(context),
           ],
         ),
       ),
     );
   }
 
-  _fillTextFields(HomeState state) {
-    _host.text = state.host;
-    _port.text = state.port;
-    _database.text = state.database;
-    _username.text = state.username;
-    _password.text = state.password;
+  _fillTextFields(ConnectionParams params) {
+    _host.text = params.host;
+    _port.text = params.port;
+    _database.text = params.database;
+    _username.text = params.username;
+    _password.text = params.password;
   }
 
   Widget _passwordTextField(BuildContext context) {
@@ -178,9 +202,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).password_hint,
         icon: AppIcons.lock,
         isSecure: true,
-        onChange: (value) => context
-            .read<HomeBloc>()
-            .add(HomeEvent.passwordHasChanged(password: value)),
+        onChange: (value) => context.read<ConnectionConfigurationBloc>().add(
+            ConnectionConfigurationEvent.passwordHasChanged(password: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -195,9 +218,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         label: Translator.translation(context).user_name,
         hint: Translator.translation(context).user_name_hint,
         icon: AppIcons.user,
-        onChange: (value) => context
-            .read<HomeBloc>()
-            .add(HomeEvent.usernameHasChanged(username: value)),
+        onChange: (value) => context.read<ConnectionConfigurationBloc>().add(
+            ConnectionConfigurationEvent.usernameHasChanged(username: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -213,8 +235,9 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).database_port_hint,
         icon: AppIcons.database,
         iconSize: 26,
-        onChange: (value) =>
-            context.read<HomeBloc>().add(HomeEvent.portHasChanged(port: value)),
+        onChange: (value) => context
+            .read<ConnectionConfigurationBloc>()
+            .add(ConnectionConfigurationEvent.portHasChanged(port: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -230,9 +253,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).database_name_hint,
         icon: AppIcons.database,
         iconSize: 26,
-        onChange: (value) => context
-            .read<HomeBloc>()
-            .add(HomeEvent.databaseHasChanged(database: value)),
+        onChange: (value) => context.read<ConnectionConfigurationBloc>().add(
+            ConnectionConfigurationEvent.databaseHasChanged(database: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
@@ -248,21 +270,24 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
         hint: Translator.translation(context).database_url_hint,
         icon: AppIcons.database,
         iconSize: 26,
-        onChange: (value) =>
-            context.read<HomeBloc>().add(HomeEvent.hostHasChanged(host: value)),
+        onChange: (value) => context
+            .read<ConnectionConfigurationBloc>()
+            .add(ConnectionConfigurationEvent.hostHasChanged(host: value)),
         onHasFocus: () {},
         onLoseFocus: () {},
       ),
     );
   }
 
-  Widget _loginButton(BuildContext context, bool isEnabled) {
+  Widget _loginButton(BuildContext context) {
     return GradientButton(
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        context.read<HomeBloc>().add(const HomeEvent.checkConnection());
+        context
+            .read<ConnectionConfigurationBloc>()
+            .add(const ConnectionConfigurationEvent.checkConnection());
       },
-      isEnabled: context.watch<HomeBloc>().state.isValid(),
+      isEnabled: context.watch<ConnectionConfigurationBloc>().state.isValid(),
       label: Translator.translation(context).ok_button,
     );
   }

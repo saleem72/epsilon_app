@@ -2,6 +2,7 @@
 
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';
+import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/utils/text_field_formmaters/text_field_formmaters.dart';
@@ -44,9 +45,12 @@ class LoginScreenContent extends StatelessWidget {
           children: [
             AppNavBar(title: Translator.translation(context).login),
             BlocConsumer<LoginBloc, LoginState>(
+              listenWhen: (previous, current) =>
+                  previous.isValid != current.isValid,
               listener: (context, state) {
                 if (state.loginSuccessfully) {
                   context.read<AuthBloc>().add(const AuthEvent.authorized());
+                  Navigator.of(context).pushReplacementNamed(AppScreens.home);
                 }
               },
               builder: (context, state) {

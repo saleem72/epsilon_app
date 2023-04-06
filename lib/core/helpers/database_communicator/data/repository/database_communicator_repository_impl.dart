@@ -133,6 +133,17 @@ class DatabaseCommunicatorRepositoryImpl
   @override
   Future<Either<Failure, List<ConnectionParams>>>
       fetchCachedConnections() async {
+    /*
+    const params = ConnectionParams(
+      host: 'epsilondemo.dyndns.org',
+      port: '1433',
+      database: 'amndbtest1',
+      username: 'sa',
+      password: 'H123456789h',
+      company: Company.alameen,
+    );
+    return const Right([params]);
+    */
     try {
       final cachedConnection = await _getLastInUseConnection();
       return right([cachedConnection]);
