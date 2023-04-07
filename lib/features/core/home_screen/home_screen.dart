@@ -15,9 +15,9 @@ import '../../../core/widgets/app_nav_bar.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/gradient_button.dart';
-import 'connection_configuration_bloc/connection_configuration_bloc.dart';
-import 'connection_configuration_monitor_bloc/connection_configuration_monitor_bloc.dart';
-import 'widgets/companies_dropdown.dart';
+import 'presentation/connection_configuration_bloc/connection_configuration_bloc.dart';
+import 'presentation/connection_configuration_monitor_bloc/connection_configuration_monitor_bloc.dart';
+import 'presentation/widgets/companies_dropdown.dart';
 
 class ConnectionConfigurationScreen extends StatelessWidget {
   const ConnectionConfigurationScreen({super.key});

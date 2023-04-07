@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/models/company.dart';
-import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/helpers/database_communicator/domain/models/connection_params.dart';
-import '../../../../core/helpers/database_communicator/domain/models/failures/check_connection_failure.dart';
+import '../../../../../core/helpers/database_communicator/domain/models/connection_params.dart';
+import '../../../../../core/helpers/database_communicator/domain/models/failures/check_connection_failure.dart';
+import '../../domain/repository/i_connection_configuration_repository.dart';
 
 part 'connection_configuration_event.dart';
 part 'connection_configuration_state.dart';
@@ -13,9 +13,9 @@ part 'connection_configuration_bloc.freezed.dart';
 
 class ConnectionConfigurationBloc
     extends Bloc<ConnectionConfigurationEvent, ConnectionConfigurationState> {
-  final DatabaseCommunicatorRepository _repository;
+  final IConnectionConfigurationRepository _repository;
   ConnectionConfigurationBloc({
-    required DatabaseCommunicatorRepository repository,
+    required IConnectionConfigurationRepository repository,
   })  : _repository = repository,
         super(ConnectionConfigurationState.initial()) {
     on<_CompanyHasChanged>(_onCompanyHasChanged);

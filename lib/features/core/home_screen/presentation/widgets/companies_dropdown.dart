@@ -1,15 +1,15 @@
 //
 
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
-import 'package:epsilon_app/features/core/home_screen/connection_configuration_monitor_bloc/connection_configuration_monitor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/database_communicator/domain/models/company.dart';
-import '../../../../core/helpers/localization/language_constants.dart';
-import '../../../../core/utils/styling/colors/app_colors.dart';
-import '../../../../core/utils/styling/topology/topology.dart';
+import '../../../../../core/helpers/database_communicator/domain/models/company.dart';
+import '../../../../../core/helpers/localization/language_constants.dart';
+import '../../../../../core/utils/styling/colors/app_colors.dart';
+import '../../../../../core/utils/styling/topology/topology.dart';
 import '../connection_configuration_bloc/connection_configuration_bloc.dart';
+import '../connection_configuration_monitor_bloc/connection_configuration_monitor_bloc.dart';
 
 class CompaniesDropDown extends StatefulWidget {
   const CompaniesDropDown({super.key});

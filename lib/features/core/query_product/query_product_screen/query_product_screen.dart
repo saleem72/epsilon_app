@@ -3,7 +3,6 @@
 import 'dart:math';
 
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
-import 'package:epsilon_app/features/core/query_product/product_details_screen/models/barcode_or_serial.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/styling/assets/app_icons.dart';
@@ -11,6 +10,7 @@ import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/gradient_button.dart';
+import '../product_details_screen/domain/models/barcode_or_serial.dart';
 import '../product_details_screen/product_details_screen.dart';
 import 'presentation/widgets/scanner_view.dart';
 

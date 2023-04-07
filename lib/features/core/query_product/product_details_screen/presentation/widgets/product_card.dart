@@ -7,7 +7,7 @@ import '../../../../../../core/utils/styling/assets/app_icons.dart';
 import '../../../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../../../core/utils/styling/topology/topology.dart';
 import '../../../../../../core/widgets/labeled_text.dart';
-import '../../models/product_datails.dart';
+import '../../domain/models/product_datails.dart';
 import 'table_cell_content.dart';
 
 class ProductCard extends StatelessWidget {

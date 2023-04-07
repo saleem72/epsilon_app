@@ -1,11 +1,10 @@
-import 'package:epsilon_app/core/helpers/database_communicator/domain/models/failures/get_product_failure.dart';
+import 'package:epsilon_app/features/core/query_product/product_details_screen/domain/failures/get_product_failure.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../core/errors/failure/failure.dart';
-import '../../models/barcode_or_serial.dart';
-import '../../models/product_datails.dart';
+import '../../domain/models/barcode_or_serial.dart';
+import '../../domain/models/product_datails.dart';
+import '../../domain/repository/i_product_fetcher_repository.dart';
 
 part 'product_details_event.dart';
 part 'product_details_state.dart';
@@ -13,9 +12,9 @@ part 'product_details_bloc.freezed.dart';
 
 class ProductDetailsBloc
     extends Bloc<ProductDetailsEvent, ProductDetailsState> {
-  final DatabaseCommunicatorRepository _repository;
+  final IProductFetcherRepository _repository;
   ProductDetailsBloc({
-    required DatabaseCommunicatorRepository repository,
+    required IProductFetcherRepository repository,
   })  : _repository = repository,
         super(const ProductDetailsState.initial()) {
     on<_GetProduct>(_onGetProduct);

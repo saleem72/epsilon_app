@@ -1,6 +1,6 @@
 //
 
-import '../../../../../core/errors/exceptions/app_exceptions.dart';
+import '../../../../../../core/errors/exceptions/app_exceptions.dart';
 import '../models/product_datails.dart';
 
 class ProductDetailsMapper {

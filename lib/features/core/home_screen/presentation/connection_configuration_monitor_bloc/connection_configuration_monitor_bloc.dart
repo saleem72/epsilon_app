@@ -1,8 +1,8 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/helpers/database_communicator/domain/models/connection_params.dart';
-import '../../../../core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
+import '../../../../../core/helpers/database_communicator/domain/models/connection_params.dart';
+import '../../domain/repository/i_connection_configuration_repository.dart';
 
 part 'connection_configuration_monitor_event.dart';
 part 'connection_configuration_monitor_state.dart';
@@ -10,9 +10,9 @@ part 'connection_configuration_monitor_bloc.freezed.dart';
 
 class ConnectionConfigurationMonitorBloc extends Bloc<
     ConnectionConfigurationMonitorEvent, ConnectionConfigurationMonitorState> {
-  final DatabaseCommunicatorRepository _repository;
+  final IConnectionConfigurationRepository _repository;
   ConnectionConfigurationMonitorBloc({
-    required DatabaseCommunicatorRepository repository,
+    required IConnectionConfigurationRepository repository,
   })  : _repository = repository,
         super(const _Initial()) {
     on<_FetchCachedConnection>(_onFetchCachedConnection);
@@ -23,12 +23,8 @@ class ConnectionConfigurationMonitorBloc extends Bloc<
     final connectionsResponse = await _repository.fetchCachedConnections();
     connectionsResponse.fold(
       (failure) {},
-      (connections) {
-        if (connections.isNotEmpty) {
-          final lastInUse = connections.first;
-          emit(
-              ConnectionConfigurationMonitorState.newParams(params: lastInUse));
-        }
+      (connection) {
+        emit(ConnectionConfigurationMonitorState.newParams(params: connection));
       },
     );
   }

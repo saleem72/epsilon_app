@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../core/widgets/app_nav_bar.dart';
 import '../../../../core/widgets/loading_view.dart';
-import 'models/barcode_or_serial.dart';
-import 'models/product_datails.dart';
+import 'domain/models/barcode_or_serial.dart';
+import 'domain/models/product_datails.dart';
 import 'presentation/bloc/product_details_bloc.dart';
 import 'presentation/widgets/product_card.dart';
 
