@@ -1,4 +1,4 @@
-import 'package:epsilon_app/features/core/query_product/product_details_screen/domain/failures/get_product_failure.dart';
+import '../../domain/failures/get_product_failure.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

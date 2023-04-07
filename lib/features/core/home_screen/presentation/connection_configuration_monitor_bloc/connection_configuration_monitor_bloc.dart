@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../core/helpers/database_communicator/domain/models/connection_params.dart';
 import '../../domain/repository/i_connection_configuration_repository.dart';
 
+part 'connection_configuration_monitor_bloc.freezed.dart';
 part 'connection_configuration_monitor_event.dart';
 part 'connection_configuration_monitor_state.dart';
-part 'connection_configuration_monitor_bloc.freezed.dart';
 
 class ConnectionConfigurationMonitorBloc extends Bloc<
     ConnectionConfigurationMonitorEvent, ConnectionConfigurationMonitorState> {

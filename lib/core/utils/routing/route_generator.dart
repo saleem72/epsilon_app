@@ -9,7 +9,6 @@ import 'package:epsilon_app/features/core/operations_screen/operations_screen.da
 import 'package:epsilon_app/features/pre_launch/landing_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../features/core/query_product/product_details_screen/product_details_screen.dart';
 import '../../../features/core/query_product/query_product_screen/query_product_screen.dart';
 
 class RouteGenerator {

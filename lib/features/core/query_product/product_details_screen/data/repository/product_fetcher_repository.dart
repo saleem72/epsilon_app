@@ -1,11 +1,9 @@
 //
 
-import 'package:epsilon_app/core/helpers/database_communicator/data/usecases/cached_connection_getter.dart';
-import 'package:epsilon_app/features/core/query_product/product_details_screen/domain/models/product_datails.dart';
-
-import 'package:epsilon_app/features/core/query_product/product_details_screen/domain/failures/get_product_failure.dart';
-
 import 'package:dartz/dartz.dart';
+import 'package:epsilon_app/core/helpers/database_communicator/data/usecases/cached_connection_getter.dart';
+import 'package:epsilon_app/features/core/query_product/product_details_screen/domain/failures/get_product_failure.dart';
+import 'package:epsilon_app/features/core/query_product/product_details_screen/domain/models/product_datails.dart';
 
 import '../../../../../../core/helpers/database_communicator/data/connection_manager/connection_manager.dart';
 import '../../../../../../core/helpers/database_communicator/domain/sql_statements_provider/sql_statement_provider.dart';

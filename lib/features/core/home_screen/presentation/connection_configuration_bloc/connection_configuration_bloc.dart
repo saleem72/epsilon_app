@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:epsilon_app/core/helpers/database_communicator/domain/models/company.dart';
+import '../../../../../core/helpers/database_communicator/domain/models/company.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
