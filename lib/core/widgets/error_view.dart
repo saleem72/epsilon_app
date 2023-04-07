@@ -1,6 +1,5 @@
 //
 
-import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/utils/styling/topology/topology.dart';
@@ -13,7 +12,7 @@ class ErrorView extends StatelessWidget {
     this.failure,
     required this.onAction,
   });
-  final Failure? failure;
+  final String? failure;
   final Function onAction;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class ErrorView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            failure!.message(context),
+                            failure!,
                             style: Topology.largeTitle.copyWith(
                               color: AppColors.primaryDark,
                             ),

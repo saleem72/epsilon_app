@@ -6,7 +6,7 @@ class LoginState extends Equatable {
   final ValidationStatus? usernameStatus;
   final ValidationStatus? passwordStatus;
   final bool isValid;
-  final Failure? failure;
+  final LoginFailure? failure;
   final bool loginSuccessfully;
 
   const LoginState({
@@ -33,7 +33,7 @@ class LoginState extends Equatable {
     ValidationStatus? usernameStatus,
     ValidationStatus? passwordStatus,
     bool? isValid,
-    Failure? failure,
+    LoginFailure? failure,
     bool? loginSuccessfully,
   }) {
     return LoginState(

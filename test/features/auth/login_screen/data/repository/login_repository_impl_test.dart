@@ -4,9 +4,9 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
-import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/dtos/login_data_dto.dart';
 import 'package:epsilon_app/features/auth/login_screen/data/repository/login_repository_impl.dart';
+import 'package:epsilon_app/features/auth/login_screen/domain/failures/login_failure.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -58,7 +58,7 @@ void main() {
       final response =
           await repository.login(username: tUsername, password: tPassword);
       // assert
-      expect(response, equals(Left(InvalidUserNameOrPassword())));
+      expect(response, equals(Left(LoginFailure.invalidUsernameOrPassword())));
     });
 
     test(
@@ -73,7 +73,7 @@ void main() {
       final response =
           await repository.login(username: tUsername, password: tPassword);
       // assert
-      expect(response, equals(Left(NoInternetConnection())));
+      expect(response, equals(Left(LoginFailure.noInternet())));
       verifyZeroInteractions(loginService);
     });
   });

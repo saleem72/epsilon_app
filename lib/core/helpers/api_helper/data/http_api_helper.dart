@@ -78,10 +78,10 @@ class HttpApiHelper implements ApiHelper {
       throw const ConnectionException('No Internet connection');
     }
     if (error is FormatException) {
-      throw const BadResponseException('Fail to decode data');
+      throw const DecodingException('Fail to decode data');
     }
     if (error is TypeError) {
-      throw const DecodingException();
+      throw const DecodingException('Fail to decode data');
     }
     if (error is BadRequestException) {
       throw error;

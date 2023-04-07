@@ -3,14 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i7;
 
 import 'package:dartz/dartz.dart' as _i4;
-import 'package:epsilon_app/core/errors/failure/failure.dart' as _i7;
 import 'package:epsilon_app/core/helpers/network_info/network_info.dart' as _i2;
 import 'package:epsilon_app/features/auth/login_screen/data/data_source/login_service.dart'
     as _i3;
 import 'package:epsilon_app/features/auth/login_screen/data/repository/login_repository_impl.dart'
+    as _i6;
+import 'package:epsilon_app/features/auth/login_screen/domain/failures/login_failure.dart'
     as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -55,11 +56,21 @@ class _FakeEither_2<L, R> extends _i1.SmartFake implements _i4.Either<L, R> {
         );
 }
 
+class _FakeLoginFailure_3 extends _i1.SmartFake implements _i5.LoginFailure {
+  _FakeLoginFailure_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [LoginRepositoryImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLoginRepositoryImpl extends _i1.Mock
-    implements _i5.LoginRepositoryImpl {
+    implements _i6.LoginRepositoryImpl {
   MockLoginRepositoryImpl() {
     _i1.throwOnMissingStub(this);
   }
@@ -81,7 +92,7 @@ class MockLoginRepositoryImpl extends _i1.Mock
         ),
       ) as _i3.LoginService);
   @override
-  _i6.Future<_i4.Either<_i7.Failure, String>> login({
+  _i7.Future<_i4.Either<_i5.LoginFailure, String>> login({
     required String? username,
     required String? password,
   }) =>
@@ -94,8 +105,8 @@ class MockLoginRepositoryImpl extends _i1.Mock
             #password: password,
           },
         ),
-        returnValue: _i6.Future<_i4.Either<_i7.Failure, String>>.value(
-            _FakeEither_2<_i7.Failure, String>(
+        returnValue: _i7.Future<_i4.Either<_i5.LoginFailure, String>>.value(
+            _FakeEither_2<_i5.LoginFailure, String>(
           this,
           Invocation.method(
             #login,
@@ -106,5 +117,19 @@ class MockLoginRepositoryImpl extends _i1.Mock
             },
           ),
         )),
-      ) as _i6.Future<_i4.Either<_i7.Failure, String>>);
+      ) as _i7.Future<_i4.Either<_i5.LoginFailure, String>>);
+  @override
+  _i5.LoginFailure mapError(Object? error) => (super.noSuchMethod(
+        Invocation.method(
+          #mapError,
+          [error],
+        ),
+        returnValue: _FakeLoginFailure_3(
+          this,
+          Invocation.method(
+            #mapError,
+            [error],
+          ),
+        ),
+      ) as _i5.LoginFailure);
 }

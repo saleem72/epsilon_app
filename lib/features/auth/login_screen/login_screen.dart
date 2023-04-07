@@ -67,11 +67,29 @@ class LoginScreenContent extends StatelessWidget {
                       ),
                       _textFields(context, state),
                       LoadingView(isLoading: state.isLoading),
-                      ErrorView(
-                        onAction: () =>
-                            context.read<LoginBloc>().add(LoginClearFailure()),
-                        failure: state.failure,
-                      ),
+                      state.failure != null
+                          ? GeneralErrorView(
+                              onAction: () => context
+                                  .read<LoginBloc>()
+                                  .add(LoginClearFailure()),
+                              failure: state.failure!.maybeMap(
+                                noInternet: (_) =>
+                                    Translator.translation(context)
+                                        .no_internet_connection,
+                                connectionFailure: (_) =>
+                                    Translator.translation(context)
+                                        .connection_failure,
+                                decodingError: (_) =>
+                                    Translator.translation(context)
+                                        .decoding_failure,
+                                invalidUsernameOrPassword: (_) =>
+                                    Translator.translation(context)
+                                        .invalid_username_or_password,
+                                orElse: () => Translator.translation(context)
+                                    .unexpected_failure,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 );
