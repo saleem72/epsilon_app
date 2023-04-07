@@ -4,14 +4,15 @@ import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/errors/failure/failure.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/data/connection_manager/connection_manager.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/models/connection_params.dart';
-import 'package:epsilon_app/core/helpers/database_communicator/domain/models/failures/connection_manager_failures.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/repository/database_communicator_repository.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/domain/sql_statements_provider/sql_statement_provider.dart';
 import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
 import 'package:epsilon_app/features/core/query_product/product_details_screen/models/product_datails.dart';
 import 'package:epsilon_app/features/core/query_product/product_details_screen/usecases/product_details_mapper.dart';
 
+import '../../../../errors/exceptions/sql_exception.dart';
 import '../../domain/models/company.dart';
+import '../../domain/models/failures/check_connection_failure.dart';
 import '../../domain/models/failures/get_product_failure.dart';
 import '../local_cache/database/app_database.dart';
 import '../models/connection_params_dto.dart';
@@ -45,7 +46,7 @@ class DatabaseCommunicatorRepositoryImpl
     }
 
     try {
-      final result = await _connectionManager.checkConnection(params: params);
+      final _ = await _connectionManager.checkConnection(params: params);
       final connectionEntity =
           ConnectionParamsDTO.fromDomain(params).toEntity();
       _db.connectionsDAO.updateConnection(connectionEntity);
@@ -61,18 +62,6 @@ class DatabaseCommunicatorRepositoryImpl
     } catch (e) {
       return Left(CheckConnectionFailure.unExpected(message: e.toString()));
     }
-    /*
-    final result = await _connectionManager.checkConnection(params: params);
-    return result.fold(
-      (failure) => Left(ConnectionManagerFailToConnect(error: failure.error)),
-      (r) {
-        final connectionEntity =
-            ConnectionParamsDTO.fromDomain(params).toEntity();
-        _db.connectionsDAO.updateConnection(connectionEntity);
-        return const Right(true);
-      },
-    );
-    */
   }
 
   Future<ConnectionParams> _getLastInUseConnection() async {
@@ -103,14 +92,15 @@ class DatabaseCommunicatorRepositoryImpl
 
       return result.fold(
         (failure) {
-          return const Left(GetProductFailure.connectionFailure());
+          return Left(
+              GetProductFailure.connectionFailure(message: failure.toString()));
         },
         (records) {
           return _mapToProductDetails(records);
         },
       );
-    } on InvalidConnectionParams catch (_) {
-      return const Left(GetProductFailure.connectionFailure());
+    } on InvalidConnectionParams catch (ex) {
+      return Left(GetProductFailure.connectionFailure(message: ex.toString()));
     }
   }
 
@@ -144,14 +134,15 @@ class DatabaseCommunicatorRepositoryImpl
           query: query, params: cachedConnection);
       return result.fold(
         (failure) {
-          return const Left(GetProductFailure.connectionFailure());
+          return Left(
+              GetProductFailure.connectionFailure(message: failure.toString()));
         },
         (records) {
           return _mapToProductDetails(records);
         },
       );
-    } on InvalidConnectionParams catch (_) {
-      return const Left(GetProductFailure.unexpected());
+    } on InvalidConnectionParams catch (ex) {
+      return Left(GetProductFailure.connectionFailure(message: ex.toString()));
     }
   }
 

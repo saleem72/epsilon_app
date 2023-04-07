@@ -19,7 +19,7 @@ mixin _$GetProductFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noInternet,
-    required TResult Function() connectionFailure,
+    required TResult Function(String message) connectionFailure,
     required TResult Function() productNotFound,
     required TResult Function() invalidResponse,
     required TResult Function() unexpected,
@@ -28,7 +28,7 @@ mixin _$GetProductFailure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noInternet,
-    TResult? Function()? connectionFailure,
+    TResult? Function(String message)? connectionFailure,
     TResult? Function()? productNotFound,
     TResult? Function()? invalidResponse,
     TResult? Function()? unexpected,
@@ -37,7 +37,7 @@ mixin _$GetProductFailure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noInternet,
-    TResult Function()? connectionFailure,
+    TResult Function(String message)? connectionFailure,
     TResult Function()? productNotFound,
     TResult Function()? invalidResponse,
     TResult Function()? unexpected,
@@ -131,7 +131,7 @@ class _$_NoInternt implements _NoInternt {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noInternet,
-    required TResult Function() connectionFailure,
+    required TResult Function(String message) connectionFailure,
     required TResult Function() productNotFound,
     required TResult Function() invalidResponse,
     required TResult Function() unexpected,
@@ -143,7 +143,7 @@ class _$_NoInternt implements _NoInternt {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noInternet,
-    TResult? Function()? connectionFailure,
+    TResult? Function(String message)? connectionFailure,
     TResult? Function()? productNotFound,
     TResult? Function()? invalidResponse,
     TResult? Function()? unexpected,
@@ -155,7 +155,7 @@ class _$_NoInternt implements _NoInternt {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noInternet,
-    TResult Function()? connectionFailure,
+    TResult Function(String message)? connectionFailure,
     TResult Function()? productNotFound,
     TResult Function()? invalidResponse,
     TResult Function()? unexpected,
@@ -217,6 +217,8 @@ abstract class _$$_ConnectionFailureCopyWith<$Res> {
   factory _$$_ConnectionFailureCopyWith(_$_ConnectionFailure value,
           $Res Function(_$_ConnectionFailure) then) =
       __$$_ConnectionFailureCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
@@ -226,63 +228,88 @@ class __$$_ConnectionFailureCopyWithImpl<$Res>
   __$$_ConnectionFailureCopyWithImpl(
       _$_ConnectionFailure _value, $Res Function(_$_ConnectionFailure) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$_ConnectionFailure(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_ConnectionFailure implements _ConnectionFailure {
-  const _$_ConnectionFailure();
+  const _$_ConnectionFailure({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'GetProductFailure.connectionFailure()';
+    return 'GetProductFailure.connectionFailure(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_ConnectionFailure);
+        (other.runtimeType == runtimeType &&
+            other is _$_ConnectionFailure &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ConnectionFailureCopyWith<_$_ConnectionFailure> get copyWith =>
+      __$$_ConnectionFailureCopyWithImpl<_$_ConnectionFailure>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noInternet,
-    required TResult Function() connectionFailure,
+    required TResult Function(String message) connectionFailure,
     required TResult Function() productNotFound,
     required TResult Function() invalidResponse,
     required TResult Function() unexpected,
   }) {
-    return connectionFailure();
+    return connectionFailure(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noInternet,
-    TResult? Function()? connectionFailure,
+    TResult? Function(String message)? connectionFailure,
     TResult? Function()? productNotFound,
     TResult? Function()? invalidResponse,
     TResult? Function()? unexpected,
   }) {
-    return connectionFailure?.call();
+    return connectionFailure?.call(message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noInternet,
-    TResult Function()? connectionFailure,
+    TResult Function(String message)? connectionFailure,
     TResult Function()? productNotFound,
     TResult Function()? invalidResponse,
     TResult Function()? unexpected,
     required TResult orElse(),
   }) {
     if (connectionFailure != null) {
-      return connectionFailure();
+      return connectionFailure(message);
     }
     return orElse();
   }
@@ -329,7 +356,13 @@ class _$_ConnectionFailure implements _ConnectionFailure {
 }
 
 abstract class _ConnectionFailure implements GetProductFailure {
-  const factory _ConnectionFailure() = _$_ConnectionFailure;
+  const factory _ConnectionFailure({required final String message}) =
+      _$_ConnectionFailure;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$_ConnectionFailureCopyWith<_$_ConnectionFailure> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -371,7 +404,7 @@ class _$_ProductNotFound implements _ProductNotFound {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noInternet,
-    required TResult Function() connectionFailure,
+    required TResult Function(String message) connectionFailure,
     required TResult Function() productNotFound,
     required TResult Function() invalidResponse,
     required TResult Function() unexpected,
@@ -383,7 +416,7 @@ class _$_ProductNotFound implements _ProductNotFound {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noInternet,
-    TResult? Function()? connectionFailure,
+    TResult? Function(String message)? connectionFailure,
     TResult? Function()? productNotFound,
     TResult? Function()? invalidResponse,
     TResult? Function()? unexpected,
@@ -395,7 +428,7 @@ class _$_ProductNotFound implements _ProductNotFound {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noInternet,
-    TResult Function()? connectionFailure,
+    TResult Function(String message)? connectionFailure,
     TResult Function()? productNotFound,
     TResult Function()? invalidResponse,
     TResult Function()? unexpected,
@@ -491,7 +524,7 @@ class _$_InvalidResponse implements _InvalidResponse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noInternet,
-    required TResult Function() connectionFailure,
+    required TResult Function(String message) connectionFailure,
     required TResult Function() productNotFound,
     required TResult Function() invalidResponse,
     required TResult Function() unexpected,
@@ -503,7 +536,7 @@ class _$_InvalidResponse implements _InvalidResponse {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noInternet,
-    TResult? Function()? connectionFailure,
+    TResult? Function(String message)? connectionFailure,
     TResult? Function()? productNotFound,
     TResult? Function()? invalidResponse,
     TResult? Function()? unexpected,
@@ -515,7 +548,7 @@ class _$_InvalidResponse implements _InvalidResponse {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noInternet,
-    TResult Function()? connectionFailure,
+    TResult Function(String message)? connectionFailure,
     TResult Function()? productNotFound,
     TResult Function()? invalidResponse,
     TResult Function()? unexpected,
@@ -611,7 +644,7 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noInternet,
-    required TResult Function() connectionFailure,
+    required TResult Function(String message) connectionFailure,
     required TResult Function() productNotFound,
     required TResult Function() invalidResponse,
     required TResult Function() unexpected,
@@ -623,7 +656,7 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noInternet,
-    TResult? Function()? connectionFailure,
+    TResult? Function(String message)? connectionFailure,
     TResult? Function()? productNotFound,
     TResult? Function()? invalidResponse,
     TResult? Function()? unexpected,
@@ -635,7 +668,7 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noInternet,
-    TResult Function()? connectionFailure,
+    TResult Function(String message)? connectionFailure,
     TResult Function()? productNotFound,
     TResult Function()? invalidResponse,
     TResult Function()? unexpected,

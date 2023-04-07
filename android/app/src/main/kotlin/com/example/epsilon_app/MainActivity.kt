@@ -36,6 +36,7 @@ class MainActivity: FlutterActivity() {
                         )
                         result.success(outcome)
                     } catch (ex: Exception) {
+                        ex.message?.let { Log.e("SQL Error", it) }
                         result.error("App error", ex.message, null)
                     }
 
@@ -55,6 +56,7 @@ class MainActivity: FlutterActivity() {
                         val outcome = sqlExecuter.checkConnection(host, port,database, username, password)
                         result.success(outcome)
                     } catch (ex: Exception) {
+                        ex.message?.let { Log.e("SQL Error", it) }
                         result.error("App error", ex.message, null)
                     }
                 }

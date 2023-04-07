@@ -2,13 +2,11 @@
 //
 
 import 'package:dartz/dartz.dart';
-import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
-import 'package:epsilon_app/core/errors/failure/failure.dart';
-import 'package:flutter/foundation.dart';
+import 'package:epsilon_app/core/extensions/platform_exception_extension.dart';
 import 'package:flutter/services.dart';
 
 import '../../domain/models/connection_params.dart';
-import '../../domain/models/failures/connection_manager_failures.dart';
+import '../../domain/models/failures/sql_execution_failure.dart';
 
 /// class create connection to remote sql server database
 ///
@@ -49,7 +47,7 @@ class ConnectionManager {
   ///
   /// when success it returns array of hash map as result
   /// when error it return failure
-  Future<Either<ConnectionFailureWithError, List<Map<String, String>>>>
+  Future<Either<SQLExecutionFailure, List<Map<String, String>>>>
       executeStatmet({
     required String query,
     required ConnectionParams params,
@@ -74,9 +72,7 @@ class ConnectionManager {
         return const Right([]);
       }
     } on PlatformException catch (e) {
-      return Left(ConnectionFailureWithError(error: e.message ?? ''));
-    } catch (error) {
-      return Left(ConnectionFailureWithError(error: error.toString()));
+      return left(e.toSQLExecutionFailure());
     }
   }
 
@@ -90,36 +86,5 @@ class ConnectionManager {
       return other;
     }
     return <Map<String, String>>[];
-  }
-}
-
-class InvalidConnectionHostException extends AppException {}
-
-class InvalidConnectionPortException extends AppException {}
-
-class InvalidConnectionDatabaseException extends AppException {}
-
-class InvalidConnectionUsernameOrPasswordException extends AppException {}
-
-class UnExpectedConnectionException extends AppException {
-  const UnExpectedConnectionException([message])
-      : super(message: message, prefix: "");
-}
-
-extension ConnectionExceptionStrings on PlatformException {
-  Exception toConnectionException() {
-    if ((message ?? '').startsWith('The syntax of the connection URL')) {
-      return InvalidConnectionPortException();
-    }
-    if ((message ?? '').startsWith('Unknown server host name')) {
-      return InvalidConnectionHostException();
-    }
-    if ((message ?? '').startsWith('Cannot open database')) {
-      return InvalidConnectionDatabaseException();
-    }
-    if ((message ?? '').startsWith('Login failed for user')) {
-      return InvalidConnectionUsernameOrPasswordException();
-    }
-    return UnExpectedConnectionException(message);
   }
 }
