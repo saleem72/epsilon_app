@@ -25,8 +25,7 @@ class LoginRepositoryImpl implements LoginRepository {
       return Left(LoginFailure.noInternet());
     }
     try {
-      final response =
-          await service.login(username: username, password: password);
+      final _ = await service.login(username: username, password: password);
       return const Right('it is ok');
     } on InvalidUsernameOrPasswordException {
       return Left(LoginFailure.invalidUsernameOrPassword());

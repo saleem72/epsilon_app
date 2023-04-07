@@ -2,7 +2,7 @@
 
 import 'dart:math' as math;
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/widgets/app_decoration_image.dart';
 import 'package:epsilon_app/core/widgets/app_nav_bar.dart';
@@ -23,10 +23,10 @@ class OperationsScreen extends StatelessWidget {
         Navigator.of(context).pushNamed(AppScreens.customerSearch);
         break;
       case Operations.voucher:
-        print(operation.toString());
+        debugPrint(operation.toString());
         break;
       case Operations.bill:
-        print(operation.toString());
+        debugPrint(operation.toString());
         break;
     }
   }
@@ -36,7 +36,7 @@ class OperationsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          AppNavBar(title: Translator.translation(context).operation_title),
+          AppNavBar(title: context.translate.operation_title),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

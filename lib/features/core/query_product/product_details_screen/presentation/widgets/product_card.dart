@@ -1,8 +1,8 @@
 //
 
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/helpers/localization/language_constants.dart';
 import '../../../../../../core/utils/styling/assets/app_icons.dart';
 import '../../../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../../../core/utils/styling/topology/topology.dart';
@@ -23,25 +23,25 @@ class ProductCard extends StatelessWidget {
         const SizedBox(height: 16),
         LabeledText(
           text: product?.code ?? '',
-          label: Translator.translation(context).subject_id,
+          label: context.translate.subject_id,
           icon: AppIcons.subjectId,
         ),
         const SizedBox(height: 16),
         LabeledText(
           text: product?.name ?? '',
-          label: Translator.translation(context).subject_name,
+          label: context.translate.subject_name,
           icon: AppIcons.subjectName,
         ),
         const SizedBox(height: 16),
         LabeledText(
           text: product?.barcode ?? '',
-          label: Translator.translation(context).serial_number,
+          label: context.translate.serial_number,
           icon: AppIcons.serialNumber,
         ),
         const SizedBox(height: 16),
         LabeledText(
           text: product?.matunit ?? '',
-          label: Translator.translation(context).subject_properties,
+          label: context.translate.subject_properties,
           icon: AppIcons.properties,
         ),
         const SizedBox(height: 16),
@@ -69,17 +69,16 @@ class ProductCard extends StatelessWidget {
               verticalAlignment: TableCellVerticalAlignment.middle,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: TableCellContent(
-                    text: Translator.translation(context).subject_price_one),
+                child:
+                    TableCellContent(text: context.translate.subject_price_one),
               ),
             ),
             TableCell(
-              child: TableCellContent(
-                  text: Translator.translation(context).subject_price_tow),
+              child:
+                  TableCellContent(text: context.translate.subject_price_tow),
             ),
             TableCell(
-              child: TableCellContent(
-                  text: Translator.translation(context).subject_store),
+              child: TableCellContent(text: context.translate.subject_store),
             ),
           ],
         ),

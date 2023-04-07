@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/widgets/error_view.dart';
 import 'package:epsilon_app/dependancy_injection.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +39,7 @@ class ProductDetailsScreenContent extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          AppNavBar(
-              title: Translator.translation(context).query_subject_screen),
+          AppNavBar(title: context.translate.query_subject_screen),
           const SizedBox(height: 16),
           Container(
             height: 100,
@@ -83,20 +82,15 @@ class ProductDetailsScreenContent extends StatelessWidget {
                                         const ProductDetailsEvent.clearError()),
                                 failure: state.failure.map(
                                   noInternet: (_) =>
-                                      Translator.translation(context)
-                                          .no_internet_connection,
+                                      context.translate.no_internet_connection,
                                   connectionFailure: (_) =>
-                                      Translator.translation(context)
-                                          .connection_failure,
+                                      context.translate.connection_failure,
                                   productNotFound: (_) =>
-                                      Translator.translation(context)
-                                          .product_not_found,
+                                      context.translate.product_not_found,
                                   invalidResponse: (_) =>
-                                      Translator.translation(context)
-                                          .decoding_failure,
+                                      context.translate.decoding_failure,
                                   unexpected: (_) =>
-                                      Translator.translation(context)
-                                          .unexpected_failure,
+                                      context.translate.unexpected_failure,
                                 ),
                               )
                             : const SizedBox.shrink(),

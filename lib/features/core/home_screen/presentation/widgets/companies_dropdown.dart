@@ -1,11 +1,11 @@
 //
 
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/database_communicator/domain/models/company.dart';
-import '../../../../../core/helpers/localization/language_constants.dart';
 import '../../../../../core/utils/styling/colors/app_colors.dart';
 import '../../../../../core/utils/styling/topology/topology.dart';
 import '../connection_configuration_bloc/connection_configuration_bloc.dart';
@@ -39,7 +39,7 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Translator.translation(context).company,
+            context.translate.company,
             style: Topology.subTitle,
           ),
           const SizedBox(height: 10),
@@ -79,7 +79,7 @@ class _CompaniesDropDownState extends State<CompaniesDropDown> {
                     child: Row(
                       children: [
                         Text(
-                          Translator.translation(context).company_hint,
+                          context.translate.company_hint,
                           style: Topology.subTitle.copyWith(
                             color: AppColors.secondary,
                           ),

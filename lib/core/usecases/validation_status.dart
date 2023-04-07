@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 enum ValidationStatus {
@@ -15,13 +15,13 @@ enum ValidationStatus {
       case ValidationStatus.valid:
         return '';
       case ValidationStatus.emptyUsername:
-        return Translator.translation(context).empty_username;
+        return context.translate.empty_username;
       case ValidationStatus.shortUsername:
-        return Translator.translation(context).short_username;
+        return context.translate.short_username;
       case ValidationStatus.emptyPassword:
-        return Translator.translation(context).empty_password;
+        return context.translate.empty_password;
       case ValidationStatus.shortPassword:
-        return Translator.translation(context).short_password;
+        return context.translate.short_password;
     }
   }
 }

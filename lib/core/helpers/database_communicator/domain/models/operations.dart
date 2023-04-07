@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -13,13 +13,13 @@ enum Operations {
   String title(BuildContext context) {
     switch (this) {
       case Operations.subject:
-        return Translator.translation(context).operation_subject;
+        return context.translate.operation_subject;
       case Operations.customer:
-        return Translator.translation(context).operation_customer;
+        return context.translate.operation_customer;
       case Operations.voucher:
-        return Translator.translation(context).operation_voucher;
+        return context.translate.operation_voucher;
       case Operations.bill:
-        return Translator.translation(context).operation_bill;
+        return context.translate.operation_bill;
     }
   }
 

@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/widgets/app_decoration_image.dart';
@@ -63,7 +63,7 @@ class ConnectionConfigurationContent extends StatelessWidget {
   Widget _content(BuildContext context) {
     return Column(
       children: [
-        AppNavBar(title: Translator.translation(context).pick_company),
+        AppNavBar(title: context.translate.pick_company),
         Expanded(
           child: BlocConsumer<ConnectionConfigurationBloc,
               ConnectionConfigurationState>(
@@ -88,19 +88,17 @@ class ConnectionConfigurationContent extends StatelessWidget {
                     () => const SizedBox.shrink(),
                     (f) => GeneralErrorView(
                       failure: f.map(
-                        noInternt: (_) => Translator.translation(context)
-                            .no_internet_connection,
-                        portFailure: (_) => Translator.translation(context)
-                            .fail_to_connect_db_port,
-                        hostFailure: (_) => Translator.translation(context)
-                            .fail_to_connect_db_host,
-                        databaseFailure: (_) => Translator.translation(context)
-                            .fail_to_connect_db_db,
+                        noInternt: (_) =>
+                            context.translate.no_internet_connection,
+                        portFailure: (_) =>
+                            context.translate.fail_to_connect_db_port,
+                        hostFailure: (_) =>
+                            context.translate.fail_to_connect_db_host,
+                        databaseFailure: (_) =>
+                            context.translate.fail_to_connect_db_db,
                         usernameOrPasswordFailure: (_) =>
-                            Translator.translation(context)
-                                .fail_to_connect_db_username,
-                        unExpected: (_) =>
-                            Translator.translation(context).fail_to_connect_db,
+                            context.translate.fail_to_connect_db_username,
+                        unExpected: (_) => context.translate.fail_to_connect_db,
                       ),
                       onAction: () {
                         context.read<ConnectionConfigurationBloc>().add(
@@ -212,8 +210,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
         controller: _password,
-        label: Translator.translation(context).password,
-        hint: Translator.translation(context).password_hint,
+        label: context.translate.password,
+        hint: context.translate.password_hint,
         icon: AppIcons.lock,
         isSecure: true,
         onChange: (value) => context.read<ConnectionConfigurationBloc>().add(
@@ -229,8 +227,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
         controller: _username,
-        label: Translator.translation(context).user_name,
-        hint: Translator.translation(context).user_name_hint,
+        label: context.translate.user_name,
+        hint: context.translate.user_name_hint,
         icon: AppIcons.user,
         onChange: (value) => context.read<ConnectionConfigurationBloc>().add(
             ConnectionConfigurationEvent.usernameHasChanged(username: value)),
@@ -245,8 +243,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
         controller: _port,
-        label: Translator.translation(context).database_port,
-        hint: Translator.translation(context).database_port_hint,
+        label: context.translate.database_port,
+        hint: context.translate.database_port_hint,
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
@@ -263,8 +261,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
         controller: _database,
-        label: Translator.translation(context).database_name,
-        hint: Translator.translation(context).database_name_hint,
+        label: context.translate.database_name,
+        hint: context.translate.database_name_hint,
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context.read<ConnectionConfigurationBloc>().add(
@@ -280,8 +278,8 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
         controller: _host,
-        label: Translator.translation(context).database_url,
-        hint: Translator.translation(context).database_url_hint,
+        label: context.translate.database_url,
+        hint: context.translate.database_url_hint,
         icon: AppIcons.database,
         iconSize: 26,
         onChange: (value) => context
@@ -302,7 +300,7 @@ class _HomeScreenTextFIeldsState extends State<HomeScreenTextFIelds> {
             .add(const ConnectionConfigurationEvent.checkConnection());
       },
       isEnabled: context.watch<ConnectionConfigurationBloc>().state.isValid(),
-      label: Translator.translation(context).ok_button,
+      label: context.translate.ok_button,
     );
   }
 }

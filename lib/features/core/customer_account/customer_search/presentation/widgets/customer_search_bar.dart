@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/utils/styling/assets/app_icons.dart';
@@ -39,7 +39,7 @@ class CustomerSearchBar extends StatelessWidget {
                 color: AppColors.primaryDark,
               ),
               decoration: InputDecoration(
-                  hintText: Translator.translation(context).search,
+                  hintText: context.translate.search,
                   hintStyle: Topology.smallTitle.copyWith(
                     color: AppColors.secondary,
                   ),

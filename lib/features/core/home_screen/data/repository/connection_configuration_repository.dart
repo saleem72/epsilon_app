@@ -1,14 +1,11 @@
 //
 
+import 'package:dartz/dartz.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/data/connection_manager/connection_manager.dart';
 import 'package:epsilon_app/core/helpers/database_communicator/data/local_cache/database/app_database.dart';
-import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
-
-import 'package:epsilon_app/core/helpers/database_communicator/domain/models/failures/check_connection_failure.dart';
-
 import 'package:epsilon_app/core/helpers/database_communicator/domain/models/connection_params.dart';
-
-import 'package:dartz/dartz.dart';
+import 'package:epsilon_app/core/helpers/database_communicator/domain/models/failures/check_connection_failure.dart';
+import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
 
 import '../../../../../core/errors/exceptions/sql_exception.dart';
 import '../../../../../core/helpers/database_communicator/data/models/connection_params_dto.dart';

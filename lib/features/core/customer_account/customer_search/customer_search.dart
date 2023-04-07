@@ -1,7 +1,7 @@
 //
 
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/extensions/num_extension.dart';
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/utils/styling/topology/topology.dart';
@@ -21,7 +21,7 @@ class CustomerSearch extends StatelessWidget {
       body: Column(
         children: [
           AppNavBar(
-            title: Translator.translation(context).customer_account_statement,
+            title: context.translate.customer_account_statement,
           ),
           const Padding(
             padding: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 20),
@@ -60,11 +60,11 @@ class CustomerSearch extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              Translator.translation(context).old_research,
+              context.translate.old_research,
             ),
             TextButton(
               onPressed: () {},
-              child: Text(Translator.translation(context).clear_all),
+              child: Text(context.translate.clear_all),
             ),
           ],
         ),

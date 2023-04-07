@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';
 import 'package:epsilon_app/core/utils/routing/app_screens.dart';
 import 'package:epsilon_app/core/utils/styling/assets/app_icons.dart';
@@ -43,7 +43,7 @@ class LoginScreenContent extends StatelessWidget {
         color: AppColors.neutral95,
         child: Column(
           children: [
-            AppNavBar(title: Translator.translation(context).login),
+            AppNavBar(title: context.translate.login),
             BlocConsumer<LoginBloc, LoginState>(
               listenWhen: (previous, current) =>
                   previous.loginSuccessfully != current.loginSuccessfully,
@@ -74,19 +74,15 @@ class LoginScreenContent extends StatelessWidget {
                                   .add(LoginClearFailure()),
                               failure: state.failure!.maybeMap(
                                 noInternet: (_) =>
-                                    Translator.translation(context)
-                                        .no_internet_connection,
+                                    context.translate.no_internet_connection,
                                 connectionFailure: (_) =>
-                                    Translator.translation(context)
-                                        .connection_failure,
+                                    context.translate.connection_failure,
                                 decodingError: (_) =>
-                                    Translator.translation(context)
-                                        .decoding_failure,
-                                invalidUsernameOrPassword: (_) =>
-                                    Translator.translation(context)
-                                        .invalid_username_or_password,
-                                orElse: () => Translator.translation(context)
-                                    .unexpected_failure,
+                                    context.translate.decoding_failure,
+                                invalidUsernameOrPassword: (_) => context
+                                    .translate.invalid_username_or_password,
+                                orElse: () =>
+                                    context.translate.unexpected_failure,
                               ),
                             )
                           : const SizedBox.shrink(),
@@ -127,7 +123,7 @@ class LoginScreenContent extends StatelessWidget {
         context.read<LoginBloc>().add(LoginExecute());
       },
       isEnabled: isEnabled,
-      label: Translator.translation(context).ok_button,
+      label: context.translate.ok_button,
     );
   }
 
@@ -136,8 +132,8 @@ class LoginScreenContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
-        label: Translator.translation(context).password,
-        hint: Translator.translation(context).password_hint,
+        label: context.translate.password,
+        hint: context.translate.password_hint,
         icon: AppIcons.lock,
         keyboard: TextInputType.visiblePassword,
         errorMessage: valid?.message(context),
@@ -154,8 +150,8 @@ class LoginScreenContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LabledValidateTextFIeld(
-        label: Translator.translation(context).user_name,
-        hint: Translator.translation(context).user_name_hint,
+        label: context.translate.user_name,
+        hint: context.translate.user_name_hint,
         errorMessage: valid?.message(context),
         icon: AppIcons.user,
         keyboard: TextInputType.emailAddress,

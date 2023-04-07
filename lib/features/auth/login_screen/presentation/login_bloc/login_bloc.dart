@@ -1,10 +1,11 @@
-import '../../domain/failures/login_failure.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../../core/usecases/validate_password.dart';
 import '../../../../../core/usecases/validate_username.dart';
 import '../../../../../core/usecases/validation_status.dart';
+import '../../domain/failures/login_failure.dart';
 import '../../domain/repository/login_repository.dart';
-import 'package:equatable/equatable.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

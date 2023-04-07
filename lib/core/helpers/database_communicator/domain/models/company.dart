@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 enum Company {
@@ -11,11 +11,11 @@ enum Company {
   String title(BuildContext context) {
     switch (this) {
       case Company.epsilon:
-        return Translator.translation(context).epsilon;
+        return context.translate.epsilon;
       case Company.alameen:
-        return Translator.translation(context).alameen;
+        return context.translate.alameen;
       case Company.almanarah:
-        return Translator.translation(context).almanarah;
+        return context.translate.almanarah;
     }
   }
 

@@ -3,7 +3,6 @@
 import 'package:epsilon_app/core/usecases/validate_username.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
 void main() {
   late ValidateUsername validator;

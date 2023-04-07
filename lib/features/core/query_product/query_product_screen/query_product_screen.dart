@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/styling/assets/app_icons.dart';
@@ -35,8 +35,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
     return Scaffold(
       body: Column(
         children: [
-          AppNavBar(
-              title: Translator.translation(context).query_subject_screen),
+          AppNavBar(title: context.translate.query_subject_screen),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -124,7 +123,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
 
   Widget _executeButton(BuildContext context) {
     return GradientButton(
-      label: Translator.translation(context).ok_button,
+      label: context.translate.ok_button,
       isEnabled: _serial.text.isNotEmpty,
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -144,8 +143,8 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
   Widget _serialTextFIeld(BuildContext context) {
     return LabledValidateTextFIeld(
       controller: _serial,
-      label: Translator.translation(context).serial_number,
-      hint: Translator.translation(context).serial_number_hint,
+      label: context.translate.serial_number,
+      hint: context.translate.serial_number_hint,
       icon: AppIcons.serialNumber,
       onChange: (_) {},
     );
@@ -162,7 +161,7 @@ class _QueryProductScreenState extends State<QueryProductScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Text(Translator.translation(context).or_label),
+          child: Text(context.translate.or_label),
         ),
         Expanded(
           child: Container(

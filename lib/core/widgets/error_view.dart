@@ -1,6 +1,6 @@
 //
 
-import 'package:epsilon_app/core/helpers/localization/language_constants.dart';
+import 'package:epsilon_app/core/extensions/build_context_extension.dart';
 import 'package:epsilon_app/core/utils/styling/colors/app_colors.dart';
 import 'package:epsilon_app/core/utils/styling/topology/topology.dart';
 import 'package:epsilon_app/core/widgets/gradient_button.dart';
@@ -46,7 +46,7 @@ class ErrorView extends StatelessWidget {
                     ),
                     const SizedBox(height: 18),
                     GradientButton(
-                      label: Translator.translation(context).try_again,
+                      label: context.translate.try_again,
                       onPressed: () => onAction(),
                     ),
                   ],
@@ -98,7 +98,7 @@ class GeneralErrorView extends StatelessWidget {
                     ),
                     const SizedBox(height: 18),
                     GradientButton(
-                      label: Translator.translation(context).try_again,
+                      label: context.translate.try_again,
                       onPressed: () => onAction(),
                     ),
                   ],
