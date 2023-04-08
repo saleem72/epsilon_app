@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  collection: ^1.17.1
+  collection: any
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
   drift: ^2.5.0
