@@ -1,13 +1,9 @@
 //
 
-import 'dart:math';
-
 import 'package:bloc_test/bloc_test.dart';
-import 'package:epsilon_app/core/helpers/network_info/network_info.dart';
 import 'package:epsilon_app/core/usecases/validate_password.dart';
 import 'package:epsilon_app/core/usecases/validate_username.dart';
 import 'package:epsilon_app/core/usecases/validation_status.dart';
-import 'package:epsilon_app/features/auth/login_screen/data/repository/login_repository_impl.dart';
 import 'package:epsilon_app/features/auth/login_screen/presentation/login_bloc/login_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

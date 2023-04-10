@@ -24,7 +24,9 @@
 
 import 'dart:convert';
 
-class ProductDetails {
+import 'package:epsilon_app/core/errors/exceptions/app_exceptions.dart';
+
+class ProductItem {
   final String code;
   final String name;
   final String enduser;
@@ -34,8 +36,9 @@ class ProductDetails {
   final String barcode;
   final String matunit;
   final String storeName;
-  // final String image;
-  ProductDetails({
+  final String perStoreQty;
+
+  ProductItem({
     required this.code,
     required this.name,
     required this.enduser,
@@ -45,6 +48,8 @@ class ProductDetails {
     required this.barcode,
     required this.matunit,
     required this.storeName,
+    required this.perStoreQty,
+
     // required this.image,
   });
 
@@ -58,12 +63,12 @@ class ProductDetails {
       'enduser2': enduser2,
       'barcode': barcode,
       'matunit': matunit,
-      'stName': storeName,
+      'store': storeName,
       // 'bmName': image,
     };
   }
 
-  factory ProductDetails.fromMap(Map<String, String> map) {
+  factory ProductItem.fromMap(Map<String, String> map) {
     /*
       mm.code as code,
   mm.Name as name ,
@@ -77,27 +82,127 @@ class ProductDetails {
   st.name as st_name ,
   bm.name as bm_name 
     */
-    return ProductDetails(
-      code: map['code'] ?? '',
-      name: map['name'] ?? '',
-      enduser: map['a'] ?? '',
-      unity: map['unit1'] ?? '',
-      unit2: map['unit2'] ?? '',
-      enduser2: map['enduser2'] ?? '',
-      barcode: map['barcode'] ?? '',
-      matunit: map['matunit'] ?? '',
-      storeName: map['st_name'] ?? '',
-      // image: map['bm_name'] ?? '',
-    );
+    return ProductItem(
+        code: map['code'] ?? '',
+        name: map['name'] ?? '',
+        enduser: map['a'] ?? '',
+        unity: map['unit1'] ?? '',
+        unit2: map['unit2'] ?? '',
+        enduser2: map['enduser2'] ?? '',
+        barcode: map['barcode'] ?? '',
+        matunit: map['matunit'] ?? '',
+        storeName: map['store'] ?? '',
+        perStoreQty: map['perStoreQty'] ?? ''
+        // image: map['bm_name'] ?? '',
+        );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ProductDetails.fromJson(String source) =>
-      ProductDetails.fromMap(json.decode(source) as Map<String, String>);
+  factory ProductItem.fromJson(String source) =>
+      ProductItem.fromMap(json.decode(source) as Map<String, String>);
 
   @override
   String toString() {
     return 'MaterialDetails(code: $code, name: $name, enduser: $enduser, unity: $unity, unit2: $unit2, enduser2: $enduser2, stName: $storeName)';
   }
+
+  ProductDetails toDetails() {
+    return ProductDetails(
+      code: code,
+      name: name,
+      enduser: enduser,
+      unity: unity,
+      unit2: unit2,
+      enduser2: enduser2,
+      barcode: barcode,
+      matunit: matunit,
+      stores: [StoreQuntity(store: storeName, quantity: perStoreQty)],
+    );
+  }
+}
+
+class ProductDetails {
+  final String code;
+  final String name;
+  final String enduser;
+  final String unity;
+  final String unit2;
+  final String enduser2;
+  final String barcode;
+  final String matunit;
+  final List<StoreQuntity> stores;
+  // final String image;
+  ProductDetails({
+    required this.code,
+    required this.name,
+    required this.enduser,
+    required this.unity,
+    required this.unit2,
+    required this.enduser2,
+    required this.barcode,
+    required this.matunit,
+    required this.stores,
+    // required this.image,
+  });
+
+  factory ProductDetails.itemsList(List<ProductItem> items) {
+    final stores = items
+        .map((e) => e.storeName)
+        .toList()
+        .where((element) => element.isNotEmpty)
+        .toList();
+    final perStore = items
+        .map((e) => e.perStoreQty)
+        .toList()
+        .where((element) => element.isNotEmpty)
+        .toList();
+
+    final stuff = items
+        .map((e) => StoreQuntity(store: e.storeName, quantity: e.perStoreQty))
+        .toList()
+        .where((element) =>
+            element.store.isNotEmpty && element.quantity.isNotEmpty)
+        .toList();
+    if (items.isNotEmpty) {
+      final result = items.first.toDetails();
+      return result.copyWith(stores: stuff);
+    }
+
+    throw const BadRequestException();
+  }
+
+  ProductDetails copyWith({
+    String? code,
+    String? name,
+    String? enduser,
+    String? unity,
+    String? unit2,
+    String? enduser2,
+    String? barcode,
+    String? matunit,
+    List<StoreQuntity>? stores,
+  }) {
+    return ProductDetails(
+      code: code ?? this.code,
+      name: name ?? this.name,
+      enduser: enduser ?? this.enduser,
+      unity: unity ?? this.unity,
+      unit2: unit2 ?? this.unit2,
+      enduser2: enduser2 ?? this.enduser2,
+      barcode: barcode ?? this.barcode,
+      matunit: matunit ?? this.matunit,
+      stores: stores ?? this.stores,
+    );
+  }
+}
+
+class StoreQuntity {
+  final String store;
+  final String quantity;
+
+  StoreQuntity({
+    required this.store,
+    required this.quantity,
+  });
 }

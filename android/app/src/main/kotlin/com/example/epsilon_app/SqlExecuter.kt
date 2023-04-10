@@ -1,6 +1,8 @@
 package com.example.epsilon_app
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
@@ -36,6 +38,9 @@ class SqlExecuter {
                             val row = HashMap<String, String>(columns)
                             for (i in 1..columns) {
                                 row[md.getColumnName(i)] = resultSet.getString(i)
+                                if (resultSet.wasNull()) {
+                                    row[md.getColumnName(i)] = ""
+                                }
                             }
                             records.add(row)
                         }
@@ -136,11 +141,20 @@ class SqlExecuter {
             if (resultSet != null) {
                 val md: ResultSetMetaData = resultSet.metaData
                 val columns: Int = md.columnCount
-                print("columnCount: $columns")
                 while (resultSet.next()) {
                     val row = HashMap<String, String>(columns)
                     for (i in 1..columns) {
-                        row[md.getColumnName(i)] = resultSet.getString(i)
+                        if (resultSet.getString(i) != null) {
+                            row[md.getColumnName(i)] = resultSet.getString(i)
+                        } else {
+                            row[md.getColumnName(i)] = ""
+                        }
+
+//                        row[md.getColumnName(i)] = (resultSet.getString(i) ?: "")
+//                        if (resultSet.wasNull()) {
+//                            row[md.getColumnName(i)] = ""
+//                        }
+
                     }
 
                     records.add(row)

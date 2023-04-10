@@ -35,9 +35,10 @@
     "subject_id": "رمز المادة",
     "subject_name": "اسم المادة",
     "subject_properties": "المواصفات",
-    "subject_price_one": "سعر الوحدة 1",
-    "subject_price_tow": "سعر الوحدة 2",
+    "subject_price_one": "سعر 1",
+    "subject_price_tow": "سعر 2",
     "subject_store": "المستودع",
+    "subject_quntity": "الكمية",
 
     "customer_account_statement": "كشف حساب الزبون",
     "search": "بحث",

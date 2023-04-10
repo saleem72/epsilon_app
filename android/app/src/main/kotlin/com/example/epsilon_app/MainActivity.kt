@@ -19,7 +19,7 @@ class MainActivity: FlutterActivity() {
     private fun initMethod() {
         methodChannel = MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, channel_name);
         methodChannel.setMethodCallHandler { call, result ->
-            Log.d("Hello", call.method)
+            Log.d("SQL Channel", call.method)
             if (call.method == "executeSQLStatement") {
                 val arguments = call.arguments<Map<String, String>>()
                 if (arguments != null) {

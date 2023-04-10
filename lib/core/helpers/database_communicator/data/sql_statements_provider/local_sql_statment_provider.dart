@@ -5,76 +5,27 @@ import '../../domain/sql_statements_provider/sql_statement_provider.dart';
 class LocalSqlStamentProvider implements SqlStatmentProvider {
   @override
   Future<String> statementForBarcode(String barcode) async => """select 
-      mm.code as code,
-  mm.Name as name ,
-  mm.enduser a,
-  mm.unity as unit1 , 
-  mm.unit2 as unit2 , 
-  mm.enduser2 as enduser2, 
-
-  bb.barcode as barcode , 
-  bb.matunit as unit 
+  mm.code as code,mm.Name as name ,mm.enduser price,mm.unity as unit1 , mm.unit2 as unit2 , mm.enduser2 as enduser2,
+  bb.barcode as barcode , bb.matunit as unit , 
+  st.name as store, ms.Qty as perStoreQty
   from mt000 mm 
   inner join MatExBarcode000 bb on mm.guid=bb.Matguid 
+  left join ms000 ms on ms.matguid=mm.guid 
+  left join st000 st on st.guid=ms.StoreGUID
       where bb.BarCode='$barcode'
       """;
 
   @override
-  Future<String> statementForSerial(String serial) async => """select 
-  mm.code as code,
-  mm.Name as name ,
-  mm.enduser a,
-  mm.unity as unit1 , 
-  mm.unit2 as unit2 , 
-  mm.enduser2 as enduser2, 
-
-  bb.barcode as barcode , 
-  bb.matunit as unit 
+  Future<String> statementForSerial(String serial) async {
+    return """select 
+  mm.code as code,mm.Name as name ,mm.enduser price,mm.unity as unit1 , mm.unit2 as unit2 , mm.enduser2 as enduser2,
+  bb.barcode as barcode , bb.matunit as unit , 
+  st.name as store, ms.Qty as perStoreQty
   from mt000 mm 
   inner join MatExBarcode000 bb on mm.guid=bb.Matguid 
+  left join ms000 ms on ms.matguid=mm.guid 
+  left join st000 st on st.guid=ms.StoreGUID
   where mm.code='$serial'
   """;
-}
-
-class OldSQLStatements {
-  OldSQLStatements._();
-
-  static const String barcodeExample =
-      "select mm.code as code,mm.Name as name ,mm.enduser a,mm.unity as unit1 , mm.unit2 as unit2 , mm.enduser2 as enduser2, bb.barcode as barcode , bb.matunit as unit , st.name as st_name ,bm.name as bm_name from mt000 mm inner join MatExBarcode000 bb on mm.guid=bb.Matguid inner join ms000 ms on ms.matguid=mm.guid inner join st000 st on st.guid=ms.StoreGUID left join bm000 bm on bm.guid=mm.PictureGUID where bb.BarCode='1002002'";
-
-  static String statementForBarcodeOld(String barcode) =>
-      "select mm.code as code,mm.Name as name ,mm.enduser a,mm.unity as unit1 , mm.unit2 as unit2 , mm.enduser2 as enduser2, bb.barcode as barcode , bb.matunit as unit , st.name as st_name ,bm.name as bm_name from mt000 mm inner join MatExBarcode000 bb on mm.guid=bb.Matguid inner join ms000 ms on ms.matguid=mm.guid inner join st000 st on st.guid=ms.StoreGUID left join bm000 bm on bm.guid=mm.PictureGUID where bb.BarCode='$barcode'";
-
-  static const String productsExample =
-      "select mm.code as code,mm.Name as name ,mm.enduser a,mm.unity as unit1 , mm.unit2 as unit2 , mm.enduser2 as enduser2, bb.barcode as barcode , bb.matunit as unit , st.name as st_name ,bm.name as bm_name from mt000 mm inner join MatExBarcode000 bb on mm.guid=bb.Matguid inner join ms000 ms on ms.matguid=mm.guid inner join st000 st on st.guid=ms.StoreGUID left join bm000 bm on bm.guid=mm.PictureGUID";
-
-  static String statementForSerial(String serial) => """select 
-  mm.code as code,
-  mm.Name as name ,
-  mm.enduser a,
-  mm.unity as unit1 , 
-  mm.unit2 as unit2 , 
-  mm.enduser2 as enduser2, 
-
-  bb.barcode as barcode , 
-  bb.matunit as unit 
-  from mt000 mm 
-  inner join MatExBarcode000 bb on mm.guid=bb.Matguid 
-  where mm.code='$serial'
-  """;
-
-  static String statementForBarcode(String barcode) => """select 
-      mm.code as code,
-  mm.Name as name ,
-  mm.enduser a,
-  mm.unity as unit1 , 
-  mm.unit2 as unit2 , 
-  mm.enduser2 as enduser2, 
-
-  bb.barcode as barcode , 
-  bb.matunit as unit 
-  from mt000 mm 
-  inner join MatExBarcode000 bb on mm.guid=bb.Matguid 
-      where bb.BarCode='$barcode'
-      """;
+  }
 }

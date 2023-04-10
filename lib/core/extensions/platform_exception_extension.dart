@@ -1,5 +1,7 @@
 //
 
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 
 import '../errors/exceptions/sql_exception.dart';
@@ -30,6 +32,7 @@ extension ConnectionExceptionStrings on PlatformException {
   }
 
   SQLExecutionFailure toSQLExecutionFailure() {
+    print(message);
     if ((message ?? '').startsWith('The syntax of the connection URL')) {
       return SQLExecutionFailure.connectionFailure();
     }

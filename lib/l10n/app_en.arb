@@ -38,6 +38,7 @@
     "subject_price_one": "Price 1",
     "subject_price_tow": "Price 2",
     "subject_store": "Store",
+    "subject_quntity": "Quantity",
 
     "customer_account_statement": "Customer account statement",
     "search": "Search",

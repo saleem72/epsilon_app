@@ -45,13 +45,14 @@ class ProductCard extends StatelessWidget {
           icon: AppIcons.properties,
         ),
         const SizedBox(height: 16),
-        _table(context),
+        _pricesTable(context),
         const SizedBox(height: 16),
+        _possibleQuntitiesTable(context),
       ],
     );
   }
 
-  Widget _table(BuildContext context) {
+  Widget _pricesTable(BuildContext context) {
     return Table(
       border: TableBorder.all(
         color: AppColors.primaryLight,
@@ -59,7 +60,6 @@ class ProductCard extends StatelessWidget {
       columnWidths: const <int, TableColumnWidth>{
         0: FlexColumnWidth(), //IntrinsicColumnWidth(),
         1: FlexColumnWidth(),
-        2: FlexColumnWidth(), //FixedColumnWidth(64),
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: <TableRow>[
@@ -76,9 +76,6 @@ class ProductCard extends StatelessWidget {
             TableCell(
               child:
                   TableCellContent(text: context.translate.subject_price_tow),
-            ),
-            TableCell(
-              child: TableCellContent(text: context.translate.subject_store),
             ),
           ],
         ),
@@ -107,14 +104,80 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _possibleQuntitiesTable(BuildContext context) {
+    if (product != null && product!.stores.isNotEmpty) {
+      return Column(
+        children: [
+          _quantitiesTable(context, product!.stores),
+          const SizedBox(height: 16),
+        ],
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget _quantitiesTable(BuildContext context, List<StoreQuntity> stores) {
+    return Table(
+      border: TableBorder.all(
+        color: AppColors.primaryLight,
+      ),
+      columnWidths: const <int, TableColumnWidth>{
+        0: FlexColumnWidth(), //IntrinsicColumnWidth(),
+        1: FlexColumnWidth(),
+      },
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: <TableRow>[
+        TableRow(
+          children: <Widget>[
             TableCell(
-              child: Text(
-                product?.storeName ?? '',
-                style: Topology.subTitle,
-                textAlign: TextAlign.center,
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: TableCellContent(text: context.translate.subject_store),
               ),
             ),
+            TableCell(
+              child: TableCellContent(text: context.translate.subject_quntity),
+            ),
           ],
+        ),
+        ...stores.map((e) => _tableRowForStore(e.quantity, e.store)),
+      ],
+    );
+  }
+
+  TableRow _tableRowForStore(String qny, String store) {
+    return TableRow(
+      // decoration: const BoxDecoration(
+      //   color: Colors.grey,
+      // ),
+      children: <Widget>[
+        TableCell(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              store,
+              style: Topology.subTitle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        TableCell(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              qny,
+              style: Topology.subTitle,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ],
     );
